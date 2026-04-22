@@ -23,6 +23,7 @@ import { startFolderSpacingAdjuster } from './folderSpacing/index';
 import { isForkFeatureEnabledValue } from './fork/featureFlag';
 import { startFork } from './fork/index';
 import { startGemsHider } from './gemsHider/index';
+import { startDisclaimerHider } from './hallucinationDisclaimerHider/index';
 import { startInputCollapse } from './inputCollapse/index';
 import { initKaTeXConfig } from './katexConfig';
 import { startMarkdownPatcher } from './markdownPatcher/index';
@@ -253,6 +254,10 @@ async function initializeFeatures(): Promise<void> {
 
       // Gems hider - hide/show toggle for Gems list section
       startGemsHider();
+      await delay(LIGHT_FEATURE_INIT_DELAY);
+
+      // Hallucination disclaimer hider - hides AI disclaimer
+      startDisclaimerHider();
       await delay(LIGHT_FEATURE_INIT_DELAY);
 
       // Markdown Patcher - fixes broken bold tags due to HTML injection

@@ -7343,3 +7343,17 @@ body.gv-rtl .gv-timestamp {
 .horizontal-scroll-wrapper:has(.table-block) {
   max-width: none !important;
 }
+
+/* ── Hallucination Disclaimer Hider ── */
+/* Hide the AI hallucination disclaimer text but keep spacing */
+hallucination-disclaimer.gv-disclaimer-hidden {
+  height: 8px !important;
+  min-height: 8px !important;
+  max-height: 8px !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+}
+
+hallucination-disclaimer.gv-disclaimer-hidden * {
+  display: none !important;
+}
