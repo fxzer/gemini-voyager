@@ -21,6 +21,7 @@
     <img src="https://img.shields.io/github/downloads/Nagi-ovo/gemini-voyager/total?style=flat-square&logo=github" alt="GitHub downloads">
     <img src="https://img.shields.io/chrome-web-store/users/iifacdnjakkhjjiengaffnegbndgingi?style=flat-square&logo=google-chrome" alt="Chrome Web Store users">
     <img src="https://img.shields.io/chrome-web-store/rating/iifacdnjakkhjjiengaffnegbndgingi?style=flat-square&logo=google-chrome" alt="Chrome Web Store rating">
+    <img src="https://img.shields.io/badge/edge%20users-50k%2B-0078D7?style=flat-square&logo=microsoftedge&logoColor=white" alt="Edge Add-ons users">
     <img src="https://img.shields.io/amo/users/gemini-voyager?style=flat-square&logo=firefox" alt="Firefox Add-ons users">
     <img src="https://img.shields.io/amo/rating/gemini-voyager?style=flat-square&logo=firefox" alt="Firefox Add-ons rating">
   </p>
@@ -195,9 +196,9 @@ If Voyager makes your life easier, consider buying me a coffee. It helps keep th
 
 ### 🎙️ Recommended Tool: Typeless
 
-I highly recommend **[Typeless (typeless.com)](https://www.typeless.com/?via=gemini-voyager)**, an AI voice-to-text tool that I used extensively during the development of Voyager. Integrating it into my daily workflow has saved me a tremendous amount of time and significantly boosted my productivity.
+I highly recommend **[Typeless (typeless.com)](https://www.typeless.com/refer?code=MZRYZP1)**, an AI voice-to-text tool that I used extensively during the development of Voyager. Integrating it into my daily workflow has saved me a tremendous amount of time and significantly boosted my productivity.
 
-> 🎁 **[Join via my referral link](https://www.typeless.com/?via=gemini-voyager)** (Code: _`gemini-voyager`_) to get **$5 free credits**. This also gives me credits to keep maintaining this project—a free way to support my work! ❤️
+> 🎁 **[Join via my referral link](https://www.typeless.com/refer?code=MZRYZP1)** (Code: _`MZRYZP1`_) to get **$5 free credits**. This also gives me credits to keep maintaining this project—a free way to support my work! ❤️
 
 ---
 

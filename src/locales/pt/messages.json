@@ -135,6 +135,10 @@
     "message": "Formato de arquivo inválido",
     "description": "Import invalid"
   },
+  "pm_import_empty": {
+    "message": "O arquivo importado não contém prompts",
+    "description": "Import file is valid but empty"
+  },
   "pm_import_success": {
     "message": "Importado(s) {count} prompt(s)",
     "description": "Import success"
@@ -214,6 +218,18 @@
   "pm_theme_light": {
     "message": "Mudar para modo claro",
     "description": "Theme toggle tooltip - switch to light"
+  },
+  "pm_view_compact": {
+    "message": "Mudar para lista compacta",
+    "description": "View-mode toggle tooltip - switch from comfortable cards to compact single-line rows"
+  },
+  "pm_view_comfortable": {
+    "message": "Mudar para visão confortável",
+    "description": "View-mode toggle tooltip - switch from compact rows to comfortable cards with markdown preview"
+  },
+  "pm_name_placeholder": {
+    "message": "Nome (opcional)",
+    "description": "Placeholder for the optional prompt name/label input used as the compact-mode headline"
   },
   "pm_theme_dark": {
     "message": "Mudar para modo escuro",
@@ -566,6 +582,26 @@
   "hideArchivedConversations": {
     "message": "Ocultar conversas arquivadas",
     "description": "Hide conversations that are in folders from the main list"
+  },
+  "hideArchivedNudgeTitle": {
+    "message": "Organize sua barra lateral",
+    "description": "Title of the first-archive onboarding nudge"
+  },
+  "hideArchivedNudgeBody": {
+    "message": "O Voyager pode ocultar da lista principal as conversas já arquivadas em pastas, para você ver apenas os chats ativos. Nada é excluído — elas continuam acessíveis dentro das pastas.",
+    "description": "Body text of the first-archive onboarding nudge"
+  },
+  "hideArchivedNudgeEnable": {
+    "message": "Ativar agora",
+    "description": "Primary button that turns on hide-archived"
+  },
+  "hideArchivedNudgeDismiss": {
+    "message": "Agora não",
+    "description": "Secondary button that dismisses the nudge"
+  },
+  "hideArchivedNudgeFootnote": {
+    "message": "Você pode alterar isso a qualquer momento no popup da extensão → Opções de pastas.",
+    "description": "Footnote explaining where to toggle the setting later"
   },
   "conversation_star": {
     "message": "Favoritar conversa",
@@ -1067,6 +1103,14 @@
     "message": "Recolher a area de entrada mesmo quando contem texto ou anexos",
     "description": "Hint text explaining the collapse when not empty feature"
   },
+  "inputVimMode": {
+    "message": "Modo Vim na entrada",
+    "description": "Toggle label for focusing and leaving the question input with Vim-style keys"
+  },
+  "inputVimModeHint": {
+    "message": "Use i/Escape para modo Inserir/Normal, v para selecionar e movimentos Vim dentro da pergunta",
+    "description": "Hint for input Vim mode shortcuts"
+  },
   "ctrlEnterSend": {
     "message": "{modifier}+Enter para enviar",
     "description": "Modifier+Enter to send toggle label. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
@@ -1074,6 +1118,14 @@
   "ctrlEnterSendHint": {
     "message": "Pressione {modifier}+Enter para enviar mensagens, Enter para nova linha",
     "description": "Modifier+Enter to send feature hint. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
+  },
+  "safariEnterFix": {
+    "message": "Corrigir tecla Enter no Safari",
+    "description": "Toggle label for Safari Enter key fix feature"
+  },
+  "safariEnterFixHint": {
+    "message": "Enviar mensagens com um único Enter (corrige o problema do duplo Enter no Safari)",
+    "description": "Hint text for Safari Enter key fix feature"
   },
   "draftAutoSave": {
     "message": "Salvamento automático de rascunho",
@@ -1215,6 +1267,14 @@
     "message": "Mostrar Gems",
     "description": "Dica para mostrar a seção da lista de Gems"
   },
+  "notebooksHide": {
+    "message": "Ocultar Notebooks",
+    "description": "Dica para ocultar a seção da lista de Notebooks"
+  },
+  "notebooksShow": {
+    "message": "Mostrar Notebooks",
+    "description": "Dica para mostrar a seção da lista de Notebooks"
+  },
   "setAsDefaultModel": {
     "message": "Set as default model",
     "description": "Tooltip for setting default model"
@@ -1315,6 +1375,22 @@
     "message": "A rápida raposa marrom salta sobre o cão preguiçoso.",
     "description": "Preview text for font size slider in export dialog"
   },
+  "export_image_width_label": {
+    "message": "Largura da imagem",
+    "description": "Label for image width selection in export dialog"
+  },
+  "export_image_width_narrow": {
+    "message": "Estreita (Móvel)",
+    "description": "Narrow width option (e.g. mobile)"
+  },
+  "export_image_width_medium": {
+    "message": "Média (Tablet)",
+    "description": "Medium width option (e.g. tablet)"
+  },
+  "export_image_width_wide": {
+    "message": "Larga (PC)",
+    "description": "Wide width option (e.g. desktop)"
+  },
   "export_error_generic": {
     "message": "Falha na exportação: {error}",
     "description": "Mensagem genérica de falha na exportação com detalhe"
@@ -1402,6 +1478,14 @@
   "changelog_rate_chrome_cta": {
     "message": "Avaliar",
     "description": "Chrome Web Store rating CTA button text"
+  },
+  "changelog_rate_edge": {
+    "message": "Gosta do Voyager? Uma avaliação na loja de complementos do Edge ajuda outros a descobri-lo!",
+    "description": "Edge Add-ons store rating prompt in changelog modal"
+  },
+  "changelog_rate_edge_cta": {
+    "message": "Avaliar",
+    "description": "Edge Add-ons store rating CTA button text"
   },
   "changelog_badge_mode": {
     "message": "Notificar com um selo NEW no botão flutuante em vez desta janela",
@@ -1546,5 +1630,57 @@
   "moveSectionDown": {
     "message": "Mover para baixo",
     "description": "Tooltip for moving a settings section down in popup"
+  },
+  "folderAsProject_enable": {
+    "message": "Habilitar Pasta como Projeto",
+    "description": "Toggle label for the Folder-as-Project feature"
+  },
+  "folderAsProject_description": {
+    "message": "Exibe um seletor de pastas em novos chats e atribui automaticamente a conversa à pasta selecionada no primeiro envio",
+    "description": "Hint for the Folder-as-Project feature toggle"
+  },
+  "folderAsProject_selectFolder": {
+    "message": "Selecionar pasta…",
+    "description": "Placeholder text for the folder picker chip when no folder is selected"
+  },
+  "folderAsProject_noFolder": {
+    "message": "Sem pasta",
+    "description": "Option in the folder picker dropdown to clear the selection"
+  },
+  "folderAsProject_setInstructions": {
+    "message": "Definir instruções",
+    "description": "Folder context menu item to open the instructions editor"
+  },
+  "folderAsProject_editInstructions": {
+    "message": "Editar instruções",
+    "description": "Folder context menu item to edit existing instructions"
+  },
+  "folderAsProject_expand": {
+    "message": "Expandir",
+    "description": "Aria-label for the expand button (screen readers)"
+  },
+  "folderAsProject_collapse": {
+    "message": "Recolher",
+    "description": "Aria-label for the collapse button (screen readers)"
+  },
+  "canvasExportCopyMarkdown": {
+    "message": "Copiar como Markdown",
+    "description": "Item do menu de compartilhamento do Canvas: copia o conteúdo como Markdown"
+  },
+  "canvasExportCopyMarkdownTooltip": {
+    "message": "Copiar o conteúdo do Canvas como Markdown",
+    "description": "Dica do item de menu Copiar como Markdown"
+  },
+  "canvasExportCopied": {
+    "message": "Canvas copiado como Markdown",
+    "description": "Notificação exibida após cópia bem-sucedida"
+  },
+  "canvasExportEmpty": {
+    "message": "O conteúdo do Canvas está vazio",
+    "description": "Notificação exibida quando o Canvas não tem conteúdo para copiar"
+  },
+  "canvasExportFailed": {
+    "message": "Falha ao copiar o conteúdo do Canvas",
+    "description": "Notificação exibida quando a cópia para a área de transferência falha"
   }
 }

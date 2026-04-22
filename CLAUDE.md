@@ -16,17 +16,14 @@ bun run docs:dev           # Docs dev server
 
 ## Core Rules
 
-1. **No `any` type.** Use `unknown` + narrowing. Use Branded Types for IDs.
-2. **No direct `chrome.storage` in UI components.** Use `StorageService`. Content scripts (`src/pages/content/`) are an exception — they use `chrome.storage` directly via ExtGlobal.
-3. **No `console.log` in production.** Use `LoggerService`.
-4. **No global variables** outside defined Services.
-5. **No magic strings.** Use constants/enums for Storage Keys and CSS Classes.
-6. **All CSS classes injected into Gemini DOM must be prefixed `gv-`.**
-7. **All translations must be updated in all 10 locales** (`en`, `ar`, `es`, `fr`, `ja`, `ko`, `pt`, `ru`, `zh`, `zh_TW`) when adding/modifying i18n keys.
-8. **Never modify `dist_*` folders directly.**
-9. **Never commit `.env` or secrets.**
-10. **When adding Material Symbol icons**, add the icon name to `icon_names=` in the Google Fonts URL in `src/pages/popup/index.html`.
-11. **For GitHub issue/PR/comment work, prefer `gh` as the source of truth** instead of browser scraping or unstable connectors.
+Path-scoped rules live in `.claude/rules/` and load automatically by glob: `typescript.md` (src/**/*.ts(x)), `content-scripts.md` (src/pages/content/**), `i18n.md` (src/locales/**), `high-complexity.md` (StorageService / DataBackupService / GoogleDriveSyncService / AccountIsolationService / features/folder / features/export).
+
+Project-wide rules (always in effect):
+
+1. **Never modify `dist_*` folders directly.**
+2. **Never commit `.env` or secrets.**
+3. **When adding Material Symbol icons**, add the icon name to `icon_names=` in the Google Fonts URL in `src/pages/popup/index.html`.
+4. **For GitHub issue/PR/comment work, prefer `gh` as the source of truth** instead of browser scraping or unstable connectors.
 
 ## Verification (run before declaring done)
 
@@ -34,7 +31,8 @@ bun run docs:dev           # Docs dev server
 2. `bun run lint` — before finishing
 3. `bun run test` — all tests pass
 4. `bun run build:chrome` — builds without error
-5. New features/fixes must include tests
+5. `bun run docs:dev` — after any `docs/**/*.md` change, start in background so user can preview in browser before committing
+6. New features/fixes must include tests
 
 ## Commit Format
 
@@ -45,16 +43,6 @@ Conventional Commits: `<type>(<scope>): <imperative summary>`
 - Summary: lowercase, imperative, no trailing period
 - If the commit relates to a GitHub issue or discussion, include `Closes #xxx` or `Fixes #xxx` in the commit **body**
 
-## Version Bump & Release
-
-```bash
-bun run bump    # auto-updates package.json, manifest.json, manifest.dev.json
-```
-
-**Changelog required:** after bumping, ensure `src/pages/content/changelog/notes/` has a `.md` file for the new version before pushing. Do not skip this step.
-
-Then: commit `chore: bump to v{VERSION}` → `git tag v{VERSION}` → `git push && git push --tags`
-
 ## Design Principles
 
 1. **KISS.** Implement the minimum interpretation of requirements. Never combine orthogonal features (e.g., "fade" and "thin") without explicit confirmation.
@@ -62,6 +50,7 @@ Then: commit `chore: bump to v{VERSION}` → `git tag v{VERSION}` → `git push 
 3. **Data structures first.** Eliminate special cases by redesigning data, not adding branches.
 4. **For visual/CSS changes:** describe expected rendering, verify alignment/centering/spacing in both light and dark themes, and check external resources (icon fonts, CDN links).
 5. **For ambiguous requirements:** implement the minimal version first. Ask before adding scope.
+6. **Grep for a sibling precedent before adding a new primitive.** Body-level popover, global listener, CSS overlay — there is almost always an existing `gv-pm-*` analogue (e.g., `.gv-pm-confirm` for body-appended popovers) already wired into close-outside handlers, teardown, and theme overrides. Copy its integration points; don't reinvent and miss one.
 
 ## Architecture
 

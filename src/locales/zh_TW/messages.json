@@ -135,6 +135,10 @@
     "message": "檔案格式不正確",
     "description": "匯入失敗"
   },
+  "pm_import_empty": {
+    "message": "匯入檔案中沒有 prompt",
+    "description": "匯入檔案有效但為空"
+  },
   "pm_import_success": {
     "message": "已匯入 {count} 條",
     "description": "匯入成功"
@@ -214,6 +218,18 @@
   "pm_theme_light": {
     "message": "切換至淺色模式",
     "description": "Theme toggle tooltip - switch to light"
+  },
+  "pm_view_compact": {
+    "message": "切換為緊湊列表",
+    "description": "View-mode toggle tooltip - switch from comfortable cards to compact single-line rows"
+  },
+  "pm_view_comfortable": {
+    "message": "切換為舒適檢視",
+    "description": "View-mode toggle tooltip - switch from compact rows to comfortable cards with markdown preview"
+  },
+  "pm_name_placeholder": {
+    "message": "備註名稱（選填）",
+    "description": "Placeholder for the optional prompt name/label input used as the compact-mode headline"
   },
   "pm_theme_dark": {
     "message": "切換至深色模式",
@@ -526,6 +542,26 @@
   "hideArchivedConversations": {
     "message": "隱藏已歸檔對話",
     "description": "從主清單隱藏已新增到資料夾的對話"
+  },
+  "hideArchivedNudgeTitle": {
+    "message": "整理你的側邊欄",
+    "description": "Title of the first-archive onboarding nudge"
+  },
+  "hideArchivedNudgeBody": {
+    "message": "Voyager 支援自動隱藏已歸入資料夾的對話，讓側邊欄只保留進行中的內容。對話不會被刪除，隨時可在資料夾中檢視。",
+    "description": "Body text of the first-archive onboarding nudge"
+  },
+  "hideArchivedNudgeEnable": {
+    "message": "立即開啟",
+    "description": "Primary button that turns on hide-archived"
+  },
+  "hideArchivedNudgeDismiss": {
+    "message": "暫不開啟",
+    "description": "Secondary button that dismisses the nudge"
+  },
+  "hideArchivedNudgeFootnote": {
+    "message": "可在擴充功能彈窗 → 資料夾選項中關閉此功能。",
+    "description": "Footnote explaining where to toggle the setting later"
   },
   "conversation_star": {
     "message": "星號標記對話",
@@ -1027,6 +1063,14 @@
     "message": "即使輸入框包含文字或附件也允許折疊",
     "description": "解釋非空折疊功能的提示文字"
   },
+  "inputVimMode": {
+    "message": "輸入 Vim Mode",
+    "description": "Toggle label for focusing and leaving the question input with Vim-style keys"
+  },
+  "inputVimModeHint": {
+    "message": "在提問框內用 i/Escape 切換插入/普通模式，用 v 選取，並支援 Vim 移動",
+    "description": "Hint for input Vim mode shortcuts"
+  },
   "ctrlEnterSend": {
     "message": "{modifier}+Enter 傳送",
     "description": "Modifier+Enter 傳送開關標籤。{modifier} 在 macOS 上替換為 ⌘，其他平台替換為 Ctrl"
@@ -1034,6 +1078,14 @@
   "ctrlEnterSendHint": {
     "message": "按 {modifier}+Enter 傳送訊息，Enter 鍵僅換行",
     "description": "Modifier+Enter 傳送功能提示。{modifier} 在 macOS 上替換為 ⌘，其他平台替換為 Ctrl"
+  },
+  "safariEnterFix": {
+    "message": "修復 Safari Enter 鍵",
+    "description": "Safari Enter 鍵修復功能的開關標籤"
+  },
+  "safariEnterFixHint": {
+    "message": "按一次 Enter 即可傳送訊息（修復 Safari 需按兩次 Enter 的問題）",
+    "description": "Safari Enter 鍵修復功能的提示文字"
   },
   "draftAutoSave": {
     "message": "草稿自動儲存",
@@ -1215,6 +1267,14 @@
     "message": "顯示 Gems",
     "description": "顯示 Gems 列表區域的提示"
   },
+  "notebooksHide": {
+    "message": "隱藏筆記本",
+    "description": "隱藏筆記本列表區域的提示"
+  },
+  "notebooksShow": {
+    "message": "顯示筆記本",
+    "description": "顯示筆記本列表區域的提示"
+  },
   "setAsDefaultModel": {
     "message": "設為新對話的預設模型",
     "description": "Tooltip for setting default model"
@@ -1315,6 +1375,22 @@
     "message": "天地玄黃，宇宙洪荒。日月盈昃，辰宿列張。",
     "description": "Preview text for font size slider in export dialog"
   },
+  "export_image_width_label": {
+    "message": "匯出圖片寬度",
+    "description": "Label for image width selection in export dialog"
+  },
+  "export_image_width_narrow": {
+    "message": "窄 (手機)",
+    "description": "Narrow width option (e.g. mobile)"
+  },
+  "export_image_width_medium": {
+    "message": "中 (平板)",
+    "description": "Medium width option (e.g. tablet)"
+  },
+  "export_image_width_wide": {
+    "message": "寬 (電腦)",
+    "description": "Wide width option (e.g. desktop)"
+  },
   "export_error_generic": {
     "message": "匯出失敗：{error}",
     "description": "附帶具體原因的匯出失敗提示"
@@ -1402,6 +1478,14 @@
   "changelog_rate_chrome_cta": {
     "message": "立即評分",
     "description": "Chrome Web Store rating CTA button text"
+  },
+  "changelog_rate_edge": {
+    "message": "覺得 Voyager 好用嗎？在 Edge 附加元件商店給個好評，幫助更多人發現它！",
+    "description": "Edge Add-ons store rating prompt in changelog modal"
+  },
+  "changelog_rate_edge_cta": {
+    "message": "立即評分",
+    "description": "Edge Add-ons store rating CTA button text"
   },
   "changelog_badge_mode": {
     "message": "透過懸浮球上的 NEW 標記提醒，而非彈出此視窗",
@@ -1499,7 +1583,10 @@
     "message": "AI 整理",
     "description": "複製資料夾結構和對話以供 AI 整理的按鈕"
   },
-  "aiOrgCopied": { "message": "已複製！", "description": "複製 AI 整理提示後的確認" },
+  "aiOrgCopied": {
+    "message": "已複製！",
+    "description": "複製 AI 整理提示後的確認"
+  },
   "aiOrgError": {
     "message": "失敗 — 請先開啟 Gemini",
     "description": "複製 AI 整理提示失敗時的錯誤"
@@ -1508,13 +1595,22 @@
     "message": "複製所有對話和資料夾結構作為提示詞。貼到 Gemini 中即可獲得可匯入的資料夾方案。",
     "description": "AI 整理複製按鈕下方的提示文字"
   },
-  "aiOrgCurrentFolders": { "message": "目前資料夾結構", "description": "AI 整理提示中的標題" },
+  "aiOrgCurrentFolders": {
+    "message": "目前資料夾結構",
+    "description": "AI 整理提示中的標題"
+  },
   "aiOrgUnfiledConversations": {
     "message": "未歸類的對話",
     "description": "不在任何資料夾中的對話標題"
   },
-  "aiOrgEmpty": { "message": "空", "description": "AI 整理提示中空資料夾的標籤" },
-  "aiOrgInstructions": { "message": "指示", "description": "AI 指示部分的標題" },
+  "aiOrgEmpty": {
+    "message": "空",
+    "description": "AI 整理提示中空資料夾的標籤"
+  },
+  "aiOrgInstructions": {
+    "message": "指示",
+    "description": "AI 指示部分的標題"
+  },
   "aiOrgInstructionsBody": {
     "message": "根據以上對話和資料夾結構，請將它們重新整理為合理的資料夾層級。輸出一個使用以下格式的 JSON 檔案，可以直接匯入到 Gemini Voyager 擴充功能中（使用「合併」匯入策略）。保留已有的合理資料夾，根據需要建立新資料夾，將未歸類的對話移入合適的資料夾。每個資料夾需要一個唯一 ID（使用短隨機字串），每個對話必須保留其原始的 conversationId 和 url。",
     "description": "AI 生成可匯入資料夾結構的指示正文"
@@ -1534,5 +1630,57 @@
   "moveSectionDown": {
     "message": "下移",
     "description": "Tooltip for moving a settings section down in popup"
+  },
+  "folderAsProject_enable": {
+    "message": "啟用資料夾作為專案",
+    "description": "Toggle label for the Folder-as-Project feature"
+  },
+  "folderAsProject_description": {
+    "message": "在新對話頁面顯示資料夾選擇器，首次傳送時自動將對話分配到所選資料夾",
+    "description": "Hint for the Folder-as-Project feature toggle"
+  },
+  "folderAsProject_selectFolder": {
+    "message": "選擇資料夾…",
+    "description": "Placeholder text for the folder picker chip when no folder is selected"
+  },
+  "folderAsProject_noFolder": {
+    "message": "不選擇資料夾",
+    "description": "Option in the folder picker dropdown to clear the selection"
+  },
+  "folderAsProject_setInstructions": {
+    "message": "設定指令",
+    "description": "Folder context menu item to open the instructions editor"
+  },
+  "folderAsProject_editInstructions": {
+    "message": "編輯指令",
+    "description": "Folder context menu item to edit existing instructions"
+  },
+  "folderAsProject_expand": {
+    "message": "展開",
+    "description": "Aria-label for the expand button (screen readers)"
+  },
+  "folderAsProject_collapse": {
+    "message": "收合",
+    "description": "Aria-label for the collapse button (screen readers)"
+  },
+  "canvasExportCopyMarkdown": {
+    "message": "複製為 Markdown",
+    "description": "Canvas 分享選單項目：將 Canvas 內容以 Markdown 複製到剪貼簿"
+  },
+  "canvasExportCopyMarkdownTooltip": {
+    "message": "將 Canvas 內容複製為 Markdown",
+    "description": "Canvas 複製為 Markdown 選單項目的提示"
+  },
+  "canvasExportCopied": {
+    "message": "已將 Canvas 複製為 Markdown",
+    "description": "複製成功後顯示的提示"
+  },
+  "canvasExportEmpty": {
+    "message": "Canvas 內容為空",
+    "description": "Canvas 無內容可複製時顯示的提示"
+  },
+  "canvasExportFailed": {
+    "message": "複製 Canvas 內容失敗",
+    "description": "剪貼簿複製 Markdown 失敗時顯示的提示"
   }
 }

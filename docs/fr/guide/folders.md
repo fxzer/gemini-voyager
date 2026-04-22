@@ -42,6 +42,14 @@ C'est tout simplement naturel.
 
 ### Exclusivité Gemini
 
+#### Masquer les discussions archivées
+
+Une fois une discussion classée dans un dossier, c'est "fait" — mais elle continue par défaut à occuper de la place dans la liste principale de la barre latérale. Activez **Masquer les discussions archivées** dans la popup de l'extension → **Options de dossiers**, et la liste principale n'affiche plus que les conversations en cours. Un vrai inbox zero pour vos chats IA.
+
+- La première fois que vous classez une discussion dans un dossier, Voyager affiche une petite carte dans la zone des dossiers permettant d'activer l'option en un clic. Si vous ne le souhaitez pas, cliquez sur « Plus tard » et nous ne vous dérangerons plus.
+- Les discussions archivées **ne sont jamais supprimées** — elles restent accessibles dans leurs dossiers.
+- Modifiable à tout moment depuis la popup.
+
 #### Couleurs personnalisées
 
 Cliquez sur l'icône du dossier pour personnaliser sa couleur. Choisissez parmi 7 couleurs par défaut ou utilisez le sélecteur de couleurs pour choisir n'importe quelle couleur.
@@ -85,6 +93,24 @@ Cliquez sur **Importer des dossiers** depuis le menu du panneau de dossiers, sé
 
 - **Fusion incrémentale** : Utilise la stratégie « Fusionner » par défaut — ajoute uniquement les nouveaux dossiers et assignations, sans jamais détruire votre organisation existante.
 - **Multilingue** : Le prompt utilise automatiquement votre langue configurée, et les noms de dossiers sont générés dans cette langue également.
+
+#### Dossier comme projet
+
+Vous voulez donner aux nouveaux chats un léger preset de projet ? Transformez n'importe quel dossier en projet.
+L'idée s'inspire de Claude Projects, mais Voyager l'implémente sous une forme plus légère : des instructions pour le premier message basées sur le dossier et un classement automatique, pas un espace de travail à contexte partagé.
+
+1. Activez `Activer Dossier comme Projet` dans la fenêtre de l'extension.
+2. Faites un clic droit sur un dossier puis choisissez `Définir les instructions` ou `Modifier les instructions`.
+3. Ouvrez un nouveau chat Gemini, utilisez le sélecteur de dossiers à côté de la zone de saisie et choisissez ce dossier.
+4. Envoyez votre premier message.
+
+Ce qui se passe ensuite :
+
+- La conversation est automatiquement rangée dans ce dossier après le premier envoi.
+- Si le dossier contient des instructions, Voyager les préfixe uniquement pour ce premier envoi.
+- Si le dossier n'a pas d'instructions, il reste utile comme raccourci de classement rapide.
+- Les chats d'un même dossier **ne** partagent **pas** automatiquement leur mémoire et ne lisent pas le contenu des autres.
+- L'auto-enregistrement des brouillons conserve uniquement votre texte ; les instructions cachées ne reviennent pas dans le champ de saisie.
 
 ### Exclusivité AI Studio
 

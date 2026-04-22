@@ -135,6 +135,10 @@
     "message": "تنسيق ملف غير صالح",
     "description": "Import invalid"
   },
+  "pm_import_empty": {
+    "message": "ملف الاستيراد لا يحتوي على أي مطالبات",
+    "description": "Import file is valid but empty"
+  },
   "pm_import_success": {
     "message": "تم استيراد {count} مطالبة",
     "description": "Import success"
@@ -214,6 +218,18 @@
   "pm_theme_light": {
     "message": "التبديل إلى الوضع الفاتح",
     "description": "Theme toggle tooltip - switch to light"
+  },
+  "pm_view_compact": {
+    "message": "التبديل إلى القائمة المدمجة",
+    "description": "View-mode toggle tooltip - switch from comfortable cards to compact single-line rows"
+  },
+  "pm_view_comfortable": {
+    "message": "التبديل إلى العرض المريح",
+    "description": "View-mode toggle tooltip - switch from compact rows to comfortable cards with markdown preview"
+  },
+  "pm_name_placeholder": {
+    "message": "الاسم (اختياري)",
+    "description": "Placeholder for the optional prompt name/label input used as the compact-mode headline"
   },
   "pm_theme_dark": {
     "message": "التبديل إلى الوضع الداكن",
@@ -566,6 +582,26 @@
   "hideArchivedConversations": {
     "message": "إخفاء المحادثات المؤرشفة",
     "description": "Hide conversations that are in folders from the main list"
+  },
+  "hideArchivedNudgeTitle": {
+    "message": "رتّب شريطك الجانبي",
+    "description": "Title of the first-archive onboarding nudge"
+  },
+  "hideArchivedNudgeBody": {
+    "message": "يمكن لـ Voyager إخفاء المحادثات المضافة إلى مجلدات من القائمة الرئيسية، لتظهر لك المحادثات الجارية فقط. لن تُحذف أي محادثة — تبقى متاحة داخل مجلداتها.",
+    "description": "Body text of the first-archive onboarding nudge"
+  },
+  "hideArchivedNudgeEnable": {
+    "message": "تفعيل الآن",
+    "description": "Primary button that turns on hide-archived"
+  },
+  "hideArchivedNudgeDismiss": {
+    "message": "ليس الآن",
+    "description": "Secondary button that dismisses the nudge"
+  },
+  "hideArchivedNudgeFootnote": {
+    "message": "يمكنك تغيير ذلك في أي وقت من نافذة الإضافة ← خيارات المجلدات.",
+    "description": "Footnote explaining where to toggle the setting later"
   },
   "conversation_star": {
     "message": "تمييز المحادثة بنجمة",
@@ -1067,6 +1103,14 @@
     "message": "طي منطقة الإدخال حتى عند احتوائها على نص أو مرفقات",
     "description": "Hint text explaining the collapse when not empty feature"
   },
+  "inputVimMode": {
+    "message": "وضع Vim للإدخال",
+    "description": "Toggle label for focusing and leaving the question input with Vim-style keys"
+  },
+  "inputVimModeHint": {
+    "message": "استخدم i/Escape لوضعي الإدخال/العادي، وv للتحديد، وحركات Vim داخل مربع السؤال",
+    "description": "Hint for input Vim mode shortcuts"
+  },
   "ctrlEnterSend": {
     "message": "{modifier}+Enter للإرسال",
     "description": "Modifier+Enter to send toggle label. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
@@ -1074,6 +1118,14 @@
   "ctrlEnterSendHint": {
     "message": "اضغط {modifier}+Enter لإرسال الرسائل، Enter لإضافة سطر جديد",
     "description": "Modifier+Enter to send feature hint. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
+  },
+  "safariEnterFix": {
+    "message": "إصلاح مفتاح Enter في Safari",
+    "description": "Toggle label for Safari Enter key fix feature"
+  },
+  "safariEnterFixHint": {
+    "message": "إرسال الرسائل بضغطة واحدة على Enter (إصلاح مشكلة الضغط المزدوج في Safari)",
+    "description": "Hint text for Safari Enter key fix feature"
   },
   "draftAutoSave": {
     "message": "حفظ المسودة تلقائيًا",
@@ -1215,6 +1267,14 @@
     "message": "إظهار Gems",
     "description": "تلميح لإظهار قسم قائمة Gems"
   },
+  "notebooksHide": {
+    "message": "إخفاء دفاتر الملاحظات",
+    "description": "تلميح لإخفاء قسم قائمة دفاتر الملاحظات"
+  },
+  "notebooksShow": {
+    "message": "إظهار دفاتر الملاحظات",
+    "description": "تلميح لإظهار قسم قائمة دفاتر الملاحظات"
+  },
   "setAsDefaultModel": {
     "message": "Set as default model",
     "description": "Tooltip for setting default model"
@@ -1315,6 +1375,22 @@
     "message": "نص عربي لمعاينة حجم الخط في التصدير.",
     "description": "Preview text for font size slider in export dialog"
   },
+  "export_image_width_label": {
+    "message": "عرض الصورة",
+    "description": "Label for image width selection in export dialog"
+  },
+  "export_image_width_narrow": {
+    "message": "ضيق (هاتف)",
+    "description": "Narrow width option (e.g. mobile)"
+  },
+  "export_image_width_medium": {
+    "message": "متوسط (تابلت)",
+    "description": "Medium width option (e.g. tablet)"
+  },
+  "export_image_width_wide": {
+    "message": "عريض (كمبيوتر)",
+    "description": "Wide width option (e.g. desktop)"
+  },
   "export_error_generic": {
     "message": "فشل التصدير: {error}",
     "description": "رسالة فشل تصدير عامة مع السبب التفصيلي"
@@ -1402,6 +1478,14 @@
   "changelog_rate_chrome_cta": {
     "message": "تقييم الآن",
     "description": "Chrome Web Store rating CTA button text"
+  },
+  "changelog_rate_edge": {
+    "message": "هل أعجبك Voyager؟ تقييمك على متجر إضافات Edge يساعد الآخرين على اكتشافه!",
+    "description": "Edge Add-ons store rating prompt in changelog modal"
+  },
+  "changelog_rate_edge_cta": {
+    "message": "تقييم الآن",
+    "description": "Edge Add-ons store rating CTA button text"
   },
   "changelog_badge_mode": {
     "message": "الإشعار عبر شارة NEW على الزر العائم بدلاً من هذه النافذة",
@@ -1499,7 +1583,10 @@
     "message": "تنظيم AI",
     "description": "زر لنسخ هيكل المجلدات والمحادثات لتنظيم AI"
   },
-  "aiOrgCopied": { "message": "تم النسخ!", "description": "تأكيد بعد نسخ موجه تنظيم AI" },
+  "aiOrgCopied": {
+    "message": "تم النسخ!",
+    "description": "تأكيد بعد نسخ موجه تنظيم AI"
+  },
   "aiOrgError": {
     "message": "فشل — افتح Gemini أولاً",
     "description": "خطأ عند فشل نسخ موجه تنظيم AI"
@@ -1516,8 +1603,14 @@
     "message": "محادثات غير مصنفة",
     "description": "عنوان للمحادثات غير الموجودة في أي مجلد"
   },
-  "aiOrgEmpty": { "message": "فارغ", "description": "تسمية للمجلدات الفارغة في موجه تنظيم AI" },
-  "aiOrgInstructions": { "message": "التعليمات", "description": "عنوان قسم تعليمات AI" },
+  "aiOrgEmpty": {
+    "message": "فارغ",
+    "description": "تسمية للمجلدات الفارغة في موجه تنظيم AI"
+  },
+  "aiOrgInstructions": {
+    "message": "التعليمات",
+    "description": "عنوان قسم تعليمات AI"
+  },
   "aiOrgInstructionsBody": {
     "message": "بناءً على المحادثات وهيكل المجلدات أعلاه، يرجى إعادة تنظيمها في تسلسل هرمي منطقي للمجلدات. أخرج ملف JSON باستخدام التنسيق أدناه يمكن استيراده مباشرة إلى إضافة Gemini Voyager (استخدم استراتيجية الاستيراد \"دمج\"). احتفظ بالمجلدات المنظمة جيداً الحالية، وأنشئ مجلدات جديدة حسب الحاجة، وانقل المحادثات غير المصنفة إلى مجلدات مناسبة. يحتاج كل مجلد إلى معرف فريد (استخدم سلسلة عشوائية قصيرة)، ويجب أن تحتفظ كل محادثة بـ conversationId و url الأصليين.",
     "description": "نص التعليمات لـ AI لإنشاء هيكل مجلدات قابل للاستيراد"
@@ -1537,5 +1630,57 @@
   "moveSectionDown": {
     "message": "تحريك لأسفل",
     "description": "Tooltip for moving a settings section down in popup"
+  },
+  "folderAsProject_enable": {
+    "message": "تمكين المجلد كمشروع",
+    "description": "Toggle label for the Folder-as-Project feature"
+  },
+  "folderAsProject_description": {
+    "message": "إظهار منتقي المجلدات في المحادثات الجديدة وتعيين المحادثة تلقائياً للمجلد المحدد عند الإرسال الأول",
+    "description": "Hint for the Folder-as-Project feature toggle"
+  },
+  "folderAsProject_selectFolder": {
+    "message": "اختر مجلداً…",
+    "description": "Placeholder text for the folder picker chip when no folder is selected"
+  },
+  "folderAsProject_noFolder": {
+    "message": "بدون مجلد",
+    "description": "Option in the folder picker dropdown to clear the selection"
+  },
+  "folderAsProject_setInstructions": {
+    "message": "تعيين التعليمات",
+    "description": "Folder context menu item to open the instructions editor"
+  },
+  "folderAsProject_editInstructions": {
+    "message": "تحرير التعليمات",
+    "description": "Folder context menu item to edit existing instructions"
+  },
+  "folderAsProject_expand": {
+    "message": "توسيع",
+    "description": "Aria-label for the expand button (screen readers)"
+  },
+  "folderAsProject_collapse": {
+    "message": "طي",
+    "description": "Aria-label for the collapse button (screen readers)"
+  },
+  "canvasExportCopyMarkdown": {
+    "message": "نسخ بصيغة Markdown",
+    "description": "عنصر قائمة مشاركة Canvas: نسخ محتوى Canvas بصيغة Markdown إلى الحافظة"
+  },
+  "canvasExportCopyMarkdownTooltip": {
+    "message": "نسخ محتوى Canvas بصيغة Markdown",
+    "description": "تلميح عنصر قائمة نسخ بصيغة Markdown"
+  },
+  "canvasExportCopied": {
+    "message": "تم نسخ Canvas بصيغة Markdown",
+    "description": "إشعار بعد النسخ الناجح"
+  },
+  "canvasExportEmpty": {
+    "message": "محتوى Canvas فارغ",
+    "description": "إشعار عندما لا يكون هناك محتوى للنسخ"
+  },
+  "canvasExportFailed": {
+    "message": "فشل نسخ محتوى Canvas",
+    "description": "إشعار عند فشل نسخ Markdown إلى الحافظة"
   }
 }

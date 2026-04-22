@@ -27,6 +27,11 @@ import type { TimelineHierarchyData } from '../timeline/hierarchyTypes';
 import { sortConversationsByPriority } from './conversationSort';
 import { FOLDER_COLORS, getFolderColor, isDarkMode } from './folderColors';
 import { DEFAULT_CONVERSATION_ICON, GEM_CONFIG, getGemIcon } from './gemConfig';
+import {
+  mountHideArchivedNudge,
+  shouldShowHideArchivedNudge,
+  unmountHideArchivedNudge,
+} from './hideArchivedNudge';
 import { createMoveToFolderMenuItem } from './moveToFolderMenuItem';
 import {
   type IFolderStorageAdapter,
@@ -42,6 +47,7 @@ const FOLDER_TREE_INDENT_MIN = -8;
 const FOLDER_TREE_INDENT_MAX = 32;
 const FOLDER_TREE_INDENT_DEFAULT = -8;
 const FOLDER_NAME_SINGLE_CLICK_DELAY_MS = 220;
+const FOLDER_NAVIGATION_CONFIRM_DELAY_MS = 300;
 
 // Export session backup keys for use by FolderImportExportService (deprecated, kept for compatibility)
 export const SESSION_BACKUP_KEY = 'gvFolderBackup';
@@ -115,7 +121,9 @@ export class FolderManager {
   private folderNameClickTimeout: number | null = null; // Distinguish single-click toggle from double-click rename
   private longPressThreshold: number = 500; // Long-press duration in ms
   private folderEnabled: boolean = true; // Whether folder feature is enabled
+  private folderProjectEnabled: boolean = false; // Whether Folder-as-Project feature is enabled
   private hideArchivedConversations: boolean = false; // Whether to hide conversations in folders
+  private hideArchivedNudgeShown: boolean = false; // Whether the first-archive nudge has been shown/dismissed
   private folderTreeIndent: number = FOLDER_TREE_INDENT_DEFAULT; // Tree indentation width (px)
   private filterCurrentUserOnly: boolean = false; // Whether to show only current user's conversations
   private accountIsolationEnabled: boolean = false; // Whether hard account isolation is enabled
@@ -132,6 +140,13 @@ export class FolderManager {
   private activeColorPicker: HTMLElement | null = null; // Currently open color picker dialog
   private activeColorPickerFolderId: string | null = null; // Folder ID of currently open color picker
   private activeColorPickerCloseHandler: ((e: MouseEvent) => void) | null = null; // Event handler for closing color picker
+
+  // Track active UI elements to prevent duplicate creation
+  private activeFolderInput: HTMLElement | null = null; // Currently open folder name input
+  private activeImportExportMenu: HTMLElement | null = null; // Currently open import/export menu
+  private activeImportDialog: HTMLElement | null = null; // Currently open import dialog
+  private activeImportExportMenuCloseHandler: ((e: MouseEvent) => void) | null = null;
+  private activeImportExportMenuListenerTimeout: number | null = null;
 
   // Cleanup references
   private routeChangeCleanup: (() => void) | null = null;
@@ -206,12 +221,17 @@ export class FolderManager {
       // Load folder enabled setting
       await this.loadFolderEnabledSetting();
 
+      // Load hide-archived onboarding nudge flag first, so loadHideArchivedSetting
+      // can mark it "shown" if the user already has the feature enabled.
+      await this.loadHideArchivedNudgeShownSetting();
+
       // Load hide archived setting
       await this.loadHideArchivedSetting();
 
       // Load filter user setting
       await this.loadFilterUserSetting();
       await this.loadFolderTreeIndentSetting();
+      await this.loadFolderProjectEnabledSetting();
 
       // Set up storage change listener (always needed to respond to setting changes)
       this.setupStorageListener();
@@ -330,6 +350,10 @@ export class FolderManager {
       this.activeColorPickerFolderId = null;
     }
 
+    this.closeActiveImportExportMenu();
+    this.closeActiveImportDialog();
+    this.clearActiveFolderInput();
+
     // Remove container
     if (this.containerElement) {
       this.containerElement.remove();
@@ -345,6 +369,38 @@ export class FolderManager {
 
   private addCleanupTask(task: () => void): void {
     this.cleanupTasks.push(task);
+  }
+
+  private clearActiveFolderInput(): void {
+    this.activeFolderInput = null;
+  }
+
+  private closeActiveImportDialog(): void {
+    if (this.activeImportDialog) {
+      this.activeImportDialog.remove();
+      this.activeImportDialog = null;
+    }
+  }
+
+  private removeActiveImportExportMenuCloseHandler(): void {
+    if (this.activeImportExportMenuListenerTimeout !== null) {
+      clearTimeout(this.activeImportExportMenuListenerTimeout);
+      this.activeImportExportMenuListenerTimeout = null;
+    }
+
+    if (this.activeImportExportMenuCloseHandler) {
+      document.removeEventListener('click', this.activeImportExportMenuCloseHandler);
+      this.activeImportExportMenuCloseHandler = null;
+    }
+  }
+
+  private closeActiveImportExportMenu(): void {
+    if (this.activeImportExportMenu) {
+      this.activeImportExportMenu.remove();
+      this.activeImportExportMenu = null;
+    }
+
+    this.removeActiveImportExportMenuCloseHandler();
   }
 
   private async initializeFolderUI(): Promise<void> {
@@ -1998,6 +2054,10 @@ export class FolderManager {
         }
       }
 
+      this.closeActiveImportExportMenu();
+      this.closeActiveImportDialog();
+      this.clearActiveFolderInput();
+
       // Clear existing references so initialization starts from a clean slate
       this.containerElement = null;
       this.sidebarContainer = null;
@@ -2014,6 +2074,22 @@ export class FolderManager {
   }
 
   private createFolder(parentId: string | null = null): void {
+    if (this.activeFolderInput && !this.activeFolderInput.isConnected) {
+      this.clearActiveFolderInput();
+    }
+
+    // Prevent creating multiple folder inputs simultaneously
+    if (this.activeFolderInput) {
+      // Focus existing input instead of creating a new one
+      const existingInput = this.activeFolderInput.querySelector('input') as HTMLInputElement;
+      if (existingInput) {
+        existingInput.focus();
+        return;
+      }
+
+      this.clearActiveFolderInput();
+    }
+
     // Create inline input for folder name
     const inputContainer = document.createElement('div');
     inputContainer.className = 'gv-folder-inline-input';
@@ -2044,6 +2120,7 @@ export class FolderManager {
       const name = input.value.trim();
       if (!name) {
         inputContainer.remove();
+        this.clearActiveFolderInput();
         return;
       }
 
@@ -2068,6 +2145,7 @@ export class FolderManager {
 
     const cancel = () => {
       inputContainer.remove();
+      this.clearActiveFolderInput();
     };
 
     saveBtn.addEventListener('click', save);
@@ -2098,6 +2176,9 @@ export class FolderManager {
       }
 
       input.focus();
+
+      // Track this input as the active one
+      this.activeFolderInput = inputContainer;
     }
   }
 
@@ -2755,12 +2836,14 @@ export class FolderManager {
       this.debug('Moving from folder:', dragData.sourceFolderId);
       this.removeConversationFromFolder(dragData.sourceFolderId, dragData.conversationId!);
       // Note: removeConversationFromFolder calls saveData() and refresh(), so we don't need to call them again
+      // Folder→folder move is not a "first archive"; skip the nudge.
       return;
     }
 
     // Save immediately before refresh to persist data
     this.saveData();
     this.refresh();
+    this.maybeShowHideArchivedNudge();
   }
 
   // Batch add conversations to folder (for multi-select support)
@@ -2829,6 +2912,12 @@ export class FolderManager {
     // Save immediately before refresh to persist data
     this.saveData();
     this.refresh();
+    // Trigger nudge only if at least one conversation was actually added from
+    // outside. If the whole batch came from another folder (sourceFolderId set),
+    // it's a folder→folder move and not a "first archive" event.
+    if (addedCount > 0 && !sourceFolderId) {
+      this.maybeShowHideArchivedNudge();
+    }
   }
 
   private addFolderToFolder(targetFolderId: string, dragData: DragData): void {
@@ -3885,7 +3974,7 @@ export class FolderManager {
     menu.style.left = `${event.clientX}px`;
     menu.style.top = `${event.clientY}px`;
 
-    const menuItems = [
+    const menuItems: Array<{ label: string; action: () => void }> = [
       {
         label: folder.pinned ? this.t('folder_unpin') : this.t('folder_pin'),
         action: () => this.togglePinFolder(folderId),
@@ -3893,8 +3982,19 @@ export class FolderManager {
       { label: this.t('folder_create_subfolder'), action: () => this.createFolder(folderId) },
       { label: this.t('folder_rename'), action: () => this.renameFolder(folderId) },
       { label: this.t('folder_change_color'), action: () => this.showColorPicker(folderId, event) },
-      { label: this.t('folder_delete'), action: () => this.deleteFolder(folderId) },
     ];
+
+    // Only show instructions editor when Folder-as-Project is enabled
+    if (this.folderProjectEnabled) {
+      menuItems.push({
+        label: folder.instructions
+          ? this.t('folderAsProject_editInstructions')
+          : this.t('folderAsProject_setInstructions'),
+        action: () => this.showInstructionsEditor(folderId),
+      });
+    }
+
+    menuItems.push({ label: this.t('folder_delete'), action: () => this.deleteFolder(folderId) });
 
     menuItems.forEach((item) => {
       const menuItem = document.createElement('button');
@@ -4206,7 +4306,7 @@ export class FolderManager {
     this.refresh();
   }
 
-  private addConversationToFolderFromNative(
+  public addConversationToFolderFromNative(
     folderId: string,
     conversationId: string,
     title: string,
@@ -4214,6 +4314,11 @@ export class FolderManager {
     isGem?: boolean,
     gemId?: string,
   ): void {
+    // Guard: ensure the target folder still exists (it may have been deleted
+    // from the sidebar or another tab between selection and message send)
+    const folderExists = this.data.folders.some((f) => f.id === folderId);
+    if (!folderExists) return;
+
     // Add to folder
     if (!this.data.folderContents[folderId]) {
       this.data.folderContents[folderId] = [];
@@ -4224,6 +4329,7 @@ export class FolderManager {
       (c) => c.conversationId === conversationId,
     );
 
+    let addedNewConversation = false;
     if (existingIndex === -1) {
       // Add new conversation
       this.data.folderContents[folderId].push({
@@ -4234,10 +4340,126 @@ export class FolderManager {
         isGem,
         gemId,
       });
+      addedNewConversation = true;
     }
 
     this.saveData();
     this.refresh();
+    if (addedNewConversation) {
+      this.maybeShowHideArchivedNudge();
+    }
+  }
+
+  /**
+   * Returns the current folder list (read-only snapshot for external callers).
+   */
+  public getFolders(): readonly Folder[] {
+    return this.data.folders;
+  }
+
+  /**
+   * Ensures folder data is loaded. Re-reads from storage if the folder list
+   * is empty, which can happen after extension context invalidation or async
+   * storage listener resets.
+   */
+  public async ensureDataLoaded(): Promise<void> {
+    if (this.data.folders.length === 0) {
+      await this.loadData();
+    }
+  }
+
+  /**
+   * Open a modal that lets the user write or edit text instructions for a
+   * folder. Instructions are saved to `folder.instructions` and persisted
+   * via `saveData()`.
+   *
+   * @param folderId - The folder to edit instructions for
+   */
+  private showInstructionsEditor(folderId: string): void {
+    const folder = this.data.folders.find((f) => f.id === folderId);
+    if (!folder) return;
+
+    const MAX_CHARS = 10000;
+
+    // ── Overlay ───────────────────────────────────────────────────────────
+
+    const overlay = document.createElement('div');
+    overlay.className = 'gv-fi-overlay';
+
+    const dialog = document.createElement('div');
+    dialog.className = 'gv-fi-dialog';
+    dialog.setAttribute('role', 'dialog');
+    dialog.setAttribute('aria-modal', 'true');
+    dialog.setAttribute('aria-labelledby', 'gv-fi-dialog-title');
+
+    // ── Title ─────────────────────────────────────────────────────────────
+
+    const titleEl = document.createElement('h2');
+    titleEl.className = 'gv-fi-title';
+    titleEl.id = 'gv-fi-dialog-title';
+    titleEl.textContent = folder.instructions
+      ? this.t('folderAsProject_editInstructions')
+      : this.t('folderAsProject_setInstructions');
+
+    // ── Instructions textarea ─────────────────────────────────────────────
+
+    const textarea = document.createElement('textarea');
+    textarea.className = 'gv-fi-textarea';
+    textarea.maxLength = MAX_CHARS;
+    textarea.rows = 7;
+    textarea.placeholder = this.t('folderAsProject_setInstructions');
+    textarea.value = folder.instructions ?? '';
+
+    const charCount = document.createElement('div');
+    charCount.className = 'gv-fi-char-count';
+    charCount.textContent = `${textarea.value.length} / ${MAX_CHARS}`;
+    textarea.addEventListener('input', () => {
+      charCount.textContent = `${textarea.value.length} / ${MAX_CHARS}`;
+    });
+
+    // ── Actions ──────────────────────────────────────────────────────────
+
+    const actions = document.createElement('div');
+    actions.className = 'gv-fi-actions';
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'gv-fi-btn gv-fi-btn-cancel';
+    cancelBtn.type = 'button';
+    cancelBtn.textContent = this.t('pm_cancel');
+    cancelBtn.addEventListener('click', () => overlay.remove());
+
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'gv-fi-btn gv-fi-btn-save';
+    saveBtn.type = 'button';
+    saveBtn.textContent = this.t('pm_save');
+    saveBtn.addEventListener('click', async () => {
+      const trimmed = textarea.value.trim();
+      folder.instructions = trimmed || undefined;
+      folder.updatedAt = Date.now();
+      await this.saveData();
+      overlay.remove();
+    });
+
+    actions.appendChild(cancelBtn);
+    actions.appendChild(saveBtn);
+
+    // ── Assembly ──────────────────────────────────────────────────────────
+
+    dialog.appendChild(titleEl);
+    dialog.appendChild(textarea);
+    dialog.appendChild(charCount);
+    dialog.appendChild(actions);
+    overlay.appendChild(dialog);
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) overlay.remove();
+    });
+    overlay.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') overlay.remove();
+    });
+
+    setTimeout(() => textarea.focus(), 50);
   }
 
   private setupNativeConversationMenuObserver(): void {
@@ -5091,6 +5313,9 @@ export class FolderManager {
   private refresh(): void {
     if (!this.containerElement) return;
 
+    // Clear active folder input reference since the DOM will be replaced
+    this.clearActiveFolderInput();
+
     // Find and update the folders list
     const oldList = this.containerElement.querySelector('.gv-folder-list');
     if (oldList) {
@@ -5631,6 +5856,72 @@ export class FolderManager {
       console.error('[FolderManager] Failed to load hide archived setting:', error);
       this.hideArchivedConversations = false;
     }
+    // If the user has (or ever had) hide-archived turned on, they already know
+    // the feature exists. Mark the nudge as shown so we never surface it again
+    // even if they later turn the feature off.
+    this.markNudgeShownIfUserKnowsFeature();
+  }
+
+  private markNudgeShownIfUserKnowsFeature(): void {
+    if (!this.hideArchivedConversations) return;
+    if (this.hideArchivedNudgeShown) return;
+    this.hideArchivedNudgeShown = true;
+    browser.storage.sync
+      .set({ [StorageKeys.FOLDER_HIDE_ARCHIVED_NUDGE_SHOWN]: true })
+      .catch((error) => {
+        console.error(
+          '[FolderManager] Failed to persist nudge-shown flag after observing hide-archived=true:',
+          error,
+        );
+      });
+  }
+
+  private async loadHideArchivedNudgeShownSetting(): Promise<void> {
+    try {
+      const result = await browser.storage.sync.get({
+        [StorageKeys.FOLDER_HIDE_ARCHIVED_NUDGE_SHOWN]: false,
+      });
+      this.hideArchivedNudgeShown = !!result[StorageKeys.FOLDER_HIDE_ARCHIVED_NUDGE_SHOWN];
+      this.debug('Loaded hide-archived nudge shown flag:', this.hideArchivedNudgeShown);
+    } catch (error) {
+      console.error('[FolderManager] Failed to load hide-archived nudge flag:', error);
+      this.hideArchivedNudgeShown = false;
+    }
+  }
+
+  private maybeShowHideArchivedNudge(): void {
+    if (
+      !shouldShowHideArchivedNudge({
+        nudgeShown: this.hideArchivedNudgeShown,
+        hideArchivedAlreadyOn: this.hideArchivedConversations,
+      })
+    ) {
+      return;
+    }
+    if (!this.containerElement || !document.body.contains(this.containerElement)) return;
+
+    mountHideArchivedNudge({
+      container: this.containerElement,
+      onEnable: () => {
+        this.hideArchivedNudgeShown = true;
+        browser.storage.sync
+          .set({
+            [StorageKeys.FOLDER_HIDE_ARCHIVED_CONVERSATIONS]: true,
+            [StorageKeys.FOLDER_HIDE_ARCHIVED_NUDGE_SHOWN]: true,
+          })
+          .catch((error) => {
+            console.error('[FolderManager] Failed to enable hide-archived from nudge:', error);
+          });
+      },
+      onDismiss: () => {
+        this.hideArchivedNudgeShown = true;
+        browser.storage.sync
+          .set({ [StorageKeys.FOLDER_HIDE_ARCHIVED_NUDGE_SHOWN]: true })
+          .catch((error) => {
+            console.error('[FolderManager] Failed to persist nudge-dismissed flag:', error);
+          });
+      },
+    });
   }
 
   private async loadFilterUserSetting(): Promise<void> {
@@ -5656,6 +5947,17 @@ export class FolderManager {
     } catch (error) {
       console.error('[FolderManager] Failed to load folder tree indent setting:', error);
       this.folderTreeIndent = FOLDER_TREE_INDENT_DEFAULT;
+    }
+  }
+
+  private async loadFolderProjectEnabledSetting(): Promise<void> {
+    try {
+      const result = await browser.storage.sync.get({
+        [StorageKeys.FOLDER_PROJECT_ENABLED]: false,
+      });
+      this.folderProjectEnabled = result[StorageKeys.FOLDER_PROJECT_ENABLED] === true;
+    } catch {
+      this.folderProjectEnabled = false;
     }
   }
 
@@ -5698,9 +6000,27 @@ export class FolderManager {
           this.debug('Hide archived setting changed:', this.hideArchivedConversations);
           // Apply the change to all conversations
           this.applyHideArchivedSetting();
+          // If user enabled hide-archived from the popup while the nudge is
+          // still visible, remove it — the nudge's purpose is already served.
+          if (this.hideArchivedConversations && this.containerElement) {
+            unmountHideArchivedNudge(this.containerElement);
+          }
+          // Persist that the user knows this feature, so turning it off later
+          // won't cause the nudge to reappear on the next archive.
+          this.markNudgeShownIfUserKnowsFeature();
+        }
+        if (changes[StorageKeys.FOLDER_HIDE_ARCHIVED_NUDGE_SHOWN]) {
+          this.hideArchivedNudgeShown =
+            !!changes[StorageKeys.FOLDER_HIDE_ARCHIVED_NUDGE_SHOWN].newValue;
+          if (this.hideArchivedNudgeShown && this.containerElement) {
+            unmountHideArchivedNudge(this.containerElement);
+          }
         }
         if (changes[StorageKeys.GV_FOLDER_TREE_INDENT]) {
           this.applyFolderTreeIndentSetting(changes[StorageKeys.GV_FOLDER_TREE_INDENT].newValue);
+        }
+        if (changes[StorageKeys.FOLDER_PROJECT_ENABLED]) {
+          this.folderProjectEnabled = changes[StorageKeys.FOLDER_PROJECT_ENABLED].newValue === true;
         }
         if (
           changes[StorageKeys.GV_ACCOUNT_ISOLATION_ENABLED] ||
@@ -5934,7 +6254,6 @@ export class FolderManager {
       gemId: conv.gemId,
     });
 
-    this.markConversationAsRecentlyOpened(conversationId);
     this.navigateToConversation(conv.url, conv);
   }
 
@@ -5978,20 +6297,84 @@ export class FolderManager {
     }
   }
 
+  private normalizeConversationId(value: string | null | undefined): string | null {
+    const normalized = String(value || '')
+      .trim()
+      .replace(/^c_/i, '');
+    return normalized || null;
+  }
+
+  private extractConversationIdFromHref(href: string | null | undefined): string | null {
+    if (!href) return null;
+
+    try {
+      const parsed = new URL(href, window.location.origin);
+      const appMatch = parsed.pathname.match(/\/app\/([^/?#]+)/);
+      if (appMatch?.[1]) {
+        return this.normalizeConversationId(appMatch[1]);
+      }
+
+      const gemMatch = parsed.pathname.match(/\/gem\/[^/]+\/([^/?#]+)/);
+      if (gemMatch?.[1]) {
+        return this.normalizeConversationId(gemMatch[1]);
+      }
+    } catch (error) {
+      this.debug('Failed to extract conversation id from href:', error);
+    }
+
+    return null;
+  }
+
+  private findNativeConversationLinkById(conversationId: string): HTMLAnchorElement | null {
+    const normalizedId = this.normalizeConversationId(conversationId);
+    if (!normalizedId) return null;
+
+    const byJslog = document.querySelector(
+      `[data-test-id="conversation"][jslog*="c_${normalizedId}"] a[href]`,
+    ) as HTMLAnchorElement | null;
+    if (byJslog) return byJslog;
+
+    const links = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>(
+        '[data-test-id="conversation"] a[href], a[data-test-id="conversation"][href]',
+      ),
+    );
+
+    for (const link of links) {
+      if (this.extractConversationIdFromHref(link.href) === normalizedId) {
+        return link;
+      }
+    }
+
+    return null;
+  }
+
+  private triggerNativeConversationClick(target: HTMLElement): void {
+    const options = { bubbles: true, cancelable: true };
+    target.dispatchEvent(new MouseEvent('pointerdown', options));
+    target.dispatchEvent(new MouseEvent('mousedown', options));
+    target.dispatchEvent(new MouseEvent('mouseup', options));
+    target.dispatchEvent(new MouseEvent('click', options));
+  }
+
+  private navigateWithFullReload(url: string): void {
+    window.location.assign(url);
+  }
+
   private navigateToConversation(url: string, conversation?: ConversationReference): void {
     // Use History API to navigate without page reload (SPA-style)
     // This mimics how Gemini's original conversation links work
     try {
-      // Try to find and click the original conversation element in the sidebar
-      // This is the most reliable way to trigger Gemini's navigation
       const targetUrl = new URL(url);
-      const pathParts = targetUrl.pathname.split('/');
-      const hexId = pathParts[pathParts.length - 1]; // Get the hex ID part
+      const hexId =
+        this.normalizeConversationId(conversation?.conversationId) ||
+        this.extractConversationIdFromHref(targetUrl.toString());
+      const currentConversationId = this.getCurrentConversationId();
 
       let effectivePath: string | null = null;
       let effectiveUrl: string | null = null;
 
-      if (this.accountIsolationEnabled) {
+      if (this.accountIsolationEnabled && hexId) {
         // In hard isolation mode, build a navigation URL that matches the
         // current account context:
         // - If the current path contains /u/{num}/, reuse that {num}
@@ -6008,20 +6391,37 @@ export class FolderManager {
         effectiveUrl = `${window.location.origin}${effectivePath}${targetUrl.search}`;
       }
 
-      const conversations = document.querySelectorAll('[data-test-id="conversation"]');
-      for (const conv of Array.from(conversations)) {
-        const jslog = conv.getAttribute('jslog');
-        if (jslog && jslog.includes(hexId)) {
-          // Found the matching conversation, click it
-          // This will trigger SPA navigation, even if there's a brief redirect for gems
-          (conv as HTMLElement).click();
-          this.debug('Navigated by clicking sidebar element');
-          setTimeout(() => this.highlightActiveConversationInFolders(), 0);
+      const navigationUrl = this.accountIsolationEnabled && effectiveUrl ? effectiveUrl : url;
+      const hardNavigate = () => {
+        if (hexId) {
+          this.markConversationAsRecentlyOpened(hexId);
+        }
+
+        this.navigateWithFullReload(navigationUrl);
+      };
+
+      if (hexId && currentConversationId === hexId) {
+        this.highlightActiveConversationInFolders();
+        return;
+      }
+
+      const sidebarLink = hexId ? this.findNativeConversationLinkById(hexId) : null;
+      if (!sidebarLink) {
+        this.debug('Sidebar link not found, falling back to location.assign');
+        hardNavigate();
+        return;
+      }
+
+      this.triggerNativeConversationClick(sidebarLink);
+      this.debug('Triggered native sidebar link click');
+
+      window.setTimeout(() => {
+        if (!hexId || this.getCurrentConversationId() === hexId) {
+          this.highlightActiveConversationInFolders();
 
           // After navigation, sync title and check for gem updates
           setTimeout(() => {
-            // Sync title from native conversation
-            if (conversation) {
+            if (conversation && hexId) {
               const syncedTitle = this.syncConversationTitleFromNative(hexId);
               if (syncedTitle && syncedTitle !== conversation.title) {
                 this.updateConversationTitle(hexId, syncedTitle);
@@ -6029,40 +6429,22 @@ export class FolderManager {
               }
             }
 
-            // Check if URL changed (Gemini auto-redirected to /gem/)
-            if (conversation && !conversation.gemId) {
+            if (conversation && hexId && !conversation.gemId) {
               this.checkAndUpdateGemId(hexId);
             } else if (conversation?.gemId) {
               this.debug('Known gem conversation:', conversation.gemId);
             }
           }, 300);
-
           return;
         }
-      }
 
-      // If we can't find the sidebar element, try pushState + popstate
-      const navigationUrl = this.accountIsolationEnabled && effectiveUrl ? effectiveUrl : url;
-      const navigationPath =
-        this.accountIsolationEnabled && effectivePath ? effectivePath : targetUrl.pathname;
-
-      this.debug('Sidebar element not found, trying pushState');
-      window.history.pushState({}, '', navigationUrl);
-      const popStateEvent = new PopStateEvent('popstate', { state: {} });
-      window.dispatchEvent(popStateEvent);
-      setTimeout(() => this.highlightActiveConversationInFolders(), 0);
-
-      // If that doesn't work, fall back to page reload
-      setTimeout(() => {
-        if (window.location.pathname !== navigationPath) {
-          this.debug('Falling back to page reload');
-          window.location.href = navigationUrl;
-        }
-      }, 200);
+        this.debug('Native sidebar click did not navigate, falling back to location.assign');
+        hardNavigate();
+      }, FOLDER_NAVIGATION_CONFIRM_DELAY_MS);
     } catch (error) {
       console.error('[FolderManager] Navigation error:', error);
       // Fallback to regular navigation
-      window.location.href = url;
+      this.navigateWithFullReload(url);
     }
   }
 
@@ -6475,6 +6857,13 @@ export class FolderManager {
   }
 
   private showImportDialog(): void {
+    if (this.activeImportDialog && !this.activeImportDialog.isConnected) {
+      this.activeImportDialog = null;
+    }
+
+    // Prevent creating multiple import dialogs simultaneously
+    if (this.activeImportDialog) return;
+
     // Create dialog overlay
     const overlay = document.createElement('div');
     overlay.className = 'gv-folder-dialog-overlay';
@@ -6580,13 +6969,15 @@ export class FolderManager {
       } else {
         await this.handleImport(fileInput, strategy);
       }
-      overlay.remove();
+      this.closeActiveImportDialog();
     });
 
     const cancelBtn = document.createElement('button');
     cancelBtn.className = 'gv-folder-dialog-btn gv-folder-dialog-btn-secondary';
     cancelBtn.textContent = this.t('pm_cancel');
-    cancelBtn.addEventListener('click', () => overlay.remove());
+    cancelBtn.addEventListener('click', () => {
+      this.closeActiveImportDialog();
+    });
 
     buttonsContainer.appendChild(cancelBtn);
     buttonsContainer.appendChild(importBtn);
@@ -6602,10 +6993,13 @@ export class FolderManager {
     // Add to body
     document.body.appendChild(overlay);
 
+    // Track this dialog as the active one
+    this.activeImportDialog = overlay;
+
     // Close on overlay click
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) {
-        overlay.remove();
+        this.closeActiveImportDialog();
       }
     });
   }
@@ -6949,6 +7343,17 @@ export class FolderManager {
   private showImportExportMenu(event: MouseEvent): void {
     event.stopPropagation();
 
+    if (this.activeImportExportMenu && !this.activeImportExportMenu.isConnected) {
+      this.activeImportExportMenu = null;
+      this.removeActiveImportExportMenuCloseHandler();
+    }
+
+    // Remove existing menu if already open (toggle behavior)
+    if (this.activeImportExportMenu) {
+      this.closeActiveImportExportMenu();
+      return;
+    }
+
     // Create context menu
     const menu = document.createElement('div');
     menu.className = 'gv-folder-menu';
@@ -6975,22 +7380,28 @@ export class FolderManager {
 
       menuItem.innerHTML = `<mat-icon role="img" class="mat-icon notranslate google-symbols mat-ligature-font mat-icon-no-color" aria-hidden="true" style="font-size: 18px; line-height: 1; margin-right: 8px;">${item.icon}</mat-icon>${item.label}`;
       menuItem.addEventListener('click', () => {
+        this.closeActiveImportExportMenu();
         item.action();
-        menu.remove();
       });
       menu.appendChild(menuItem);
     });
 
     document.body.appendChild(menu);
 
+    // Track this menu as the active one
+    this.activeImportExportMenu = menu;
+
     // Close menu on click outside
     const closeMenu = (e: MouseEvent) => {
       if (!menu.contains(e.target as Node)) {
-        menu.remove();
-        document.removeEventListener('click', closeMenu);
+        this.closeActiveImportExportMenu();
       }
     };
-    setTimeout(() => document.addEventListener('click', closeMenu), 0);
+    this.activeImportExportMenuCloseHandler = closeMenu;
+    this.activeImportExportMenuListenerTimeout = window.setTimeout(() => {
+      document.addEventListener('click', closeMenu);
+      this.activeImportExportMenuListenerTimeout = null;
+    }, 0);
   }
 
   /**

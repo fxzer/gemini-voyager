@@ -42,6 +42,14 @@ Simplemente se siente bien.
 
 ### Exclusivo de Gemini
 
+#### Ocultar conversaciones archivadas
+
+Una vez que una conversación está archivada en una carpeta, ya está "lista" — pero por defecto sigue ocupando espacio en la lista principal de la barra lateral. Activa **Ocultar conversaciones archivadas** en el popup de la extensión → **Opciones de carpetas**, y la lista principal mostrará solo lo que está activo. Inbox zero de verdad para tus chats de IA.
+
+- La primera vez que archivas una conversación en una carpeta, Voyager muestra una pequeña tarjeta en el área de carpetas para activarlo con un clic. Si no lo quieres, pulsa "Ahora no" y no te molestaremos más.
+- Las conversaciones archivadas **nunca se eliminan** — siguen accesibles dentro de sus carpetas.
+- Puedes alternar desde el popup en cualquier momento.
+
 #### Colores personalizados
 
 Haz clic en el icono de la carpeta para personalizar su color. Elige entre 7 colores predeterminados o usa el selector de colores para elegir cualquier color.
@@ -85,6 +93,24 @@ Haz clic en **Importar carpetas** desde el menú del panel de carpetas, seleccio
 
 - **Fusión incremental**: Usa la estrategia de "Fusionar" por defecto — solo agrega nuevas carpetas y asignaciones, nunca destruye tu organización existente.
 - **Multilingüe**: El prompt usa automáticamente tu idioma configurado, y los nombres de carpetas también se generan en ese idioma.
+
+#### Carpeta como Proyecto
+
+¿Quieres que los chats nuevos arranquen con un pequeño preset de proyecto? Convierte cualquier carpeta en uno.
+La idea está inspirada en Claude Projects, pero Voyager la implementa de forma más ligera: instrucciones para el primer mensaje basadas en carpetas y archivado automático, no un espacio de trabajo con contexto compartido.
+
+1. Activa `Habilitar Carpeta como Proyecto` en el popup de la extensión.
+2. Haz clic derecho sobre una carpeta y elige `Establecer instrucciones` o `Editar instrucciones`.
+3. Abre un chat nuevo de Gemini, usa el selector de carpetas junto al cuadro de escritura y elige esa carpeta.
+4. Envía tu primer mensaje.
+
+Qué ocurre después:
+
+- La conversación se guarda automáticamente en esa carpeta tras el primer envío.
+- Si la carpeta tiene instrucciones, Voyager las antepone solo en ese primer envío.
+- Si la carpeta no tiene instrucciones, igualmente sirve como atajo rápido de archivado.
+- Los chats de la misma carpeta **no** comparten memoria ni leen automáticamente el contenido de los otros.
+- El auto-guardado de borradores conserva solo el texto que escribiste; las instrucciones ocultas no vuelven al cuadro de entrada.
 
 ### Exclusivo de AI Studio
 

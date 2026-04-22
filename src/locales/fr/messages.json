@@ -135,6 +135,10 @@
     "message": "Format de fichier invalide",
     "description": "Import invalid"
   },
+  "pm_import_empty": {
+    "message": "Le fichier importé ne contient aucun prompt",
+    "description": "Import file is valid but empty"
+  },
   "pm_import_success": {
     "message": "{count} prompts importés",
     "description": "Import success"
@@ -214,6 +218,18 @@
   "pm_theme_light": {
     "message": "Passer en mode clair",
     "description": "Theme toggle tooltip - switch to light"
+  },
+  "pm_view_compact": {
+    "message": "Passer à la liste compacte",
+    "description": "View-mode toggle tooltip - switch from comfortable cards to compact single-line rows"
+  },
+  "pm_view_comfortable": {
+    "message": "Passer à la vue confortable",
+    "description": "View-mode toggle tooltip - switch from compact rows to comfortable cards with markdown preview"
+  },
+  "pm_name_placeholder": {
+    "message": "Nom (optionnel)",
+    "description": "Placeholder for the optional prompt name/label input used as the compact-mode headline"
   },
   "pm_theme_dark": {
     "message": "Passer en mode sombre",
@@ -566,6 +582,26 @@
   "hideArchivedConversations": {
     "message": "Masquer les discussions archivées",
     "description": "Hide conversations that are in folders from the main list"
+  },
+  "hideArchivedNudgeTitle": {
+    "message": "Rangez votre barre latérale",
+    "description": "Title of the first-archive onboarding nudge"
+  },
+  "hideArchivedNudgeBody": {
+    "message": "Voyager peut masquer de la liste principale les discussions déjà classées dans des dossiers, pour ne voir que les conversations en cours. Rien n'est supprimé : elles restent accessibles dans leurs dossiers.",
+    "description": "Body text of the first-archive onboarding nudge"
+  },
+  "hideArchivedNudgeEnable": {
+    "message": "Activer",
+    "description": "Primary button that turns on hide-archived"
+  },
+  "hideArchivedNudgeDismiss": {
+    "message": "Plus tard",
+    "description": "Secondary button that dismisses the nudge"
+  },
+  "hideArchivedNudgeFootnote": {
+    "message": "Modifiable à tout moment dans la popup de l'extension → Options de dossiers.",
+    "description": "Footnote explaining where to toggle the setting later"
   },
   "conversation_star": {
     "message": "Ajouter aux favoris",
@@ -1067,6 +1103,14 @@
     "message": "Replier la zone de saisie meme lorsqu'elle contient du texte ou des pieces jointes",
     "description": "Hint text explaining the collapse when not empty feature"
   },
+  "inputVimMode": {
+    "message": "Mode Vim pour la saisie",
+    "description": "Toggle label for focusing and leaving the question input with Vim-style keys"
+  },
+  "inputVimModeHint": {
+    "message": "Utilisez i/Escape pour les modes insertion/normal, v pour selectionner et les mouvements Vim dans la question",
+    "description": "Hint for input Vim mode shortcuts"
+  },
   "ctrlEnterSend": {
     "message": "{modifier}+Entrée pour envoyer",
     "description": "Modifier+Enter to send toggle label. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
@@ -1074,6 +1118,14 @@
   "ctrlEnterSendHint": {
     "message": "Appuyez sur {modifier}+Entrée pour envoyer, Entrée pour un saut de ligne",
     "description": "Modifier+Enter to send feature hint. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
+  },
+  "safariEnterFix": {
+    "message": "Corriger la touche Entrée sur Safari",
+    "description": "Toggle label for Safari Enter key fix feature"
+  },
+  "safariEnterFixHint": {
+    "message": "Envoyer les messages avec une seule pression sur Entrée (corrige le problème du double Entrée sur Safari)",
+    "description": "Hint text for Safari Enter key fix feature"
   },
   "draftAutoSave": {
     "message": "Sauvegarde automatique du brouillon",
@@ -1215,6 +1267,14 @@
     "message": "Afficher les Gems",
     "description": "Info-bulle pour afficher la section de la liste des Gems"
   },
+  "notebooksHide": {
+    "message": "Masquer Notebooks",
+    "description": "Infobulle pour masquer la section de liste Notebooks"
+  },
+  "notebooksShow": {
+    "message": "Afficher Notebooks",
+    "description": "Infobulle pour afficher la section de liste Notebooks"
+  },
   "setAsDefaultModel": {
     "message": "Set as default model",
     "description": "Tooltip for setting default model"
@@ -1315,6 +1375,22 @@
     "message": "Le vif renard brun saute par-dessus le chien paresseux.",
     "description": "Preview text for font size slider in export dialog"
   },
+  "export_image_width_label": {
+    "message": "Largeur de l'image",
+    "description": "Label for image width selection in export dialog"
+  },
+  "export_image_width_narrow": {
+    "message": "Étroite (Mobile)",
+    "description": "Narrow width option (e.g. mobile)"
+  },
+  "export_image_width_medium": {
+    "message": "Moyenne (Tablette)",
+    "description": "Medium width option (e.g. tablet)"
+  },
+  "export_image_width_wide": {
+    "message": "Large (Ordinateur)",
+    "description": "Wide width option (e.g. desktop)"
+  },
   "export_error_generic": {
     "message": "Échec de l'exportation : {error}",
     "description": "Message d'échec d'export avec raison détaillée"
@@ -1402,6 +1478,14 @@
   "changelog_rate_chrome_cta": {
     "message": "Évaluer",
     "description": "Chrome Web Store rating CTA button text"
+  },
+  "changelog_rate_edge": {
+    "message": "Vous aimez Voyager ? Une note sur le store de modules complémentaires Edge aide d'autres utilisateurs à le découvrir !",
+    "description": "Edge Add-ons store rating prompt in changelog modal"
+  },
+  "changelog_rate_edge_cta": {
+    "message": "Évaluer",
+    "description": "Edge Add-ons store rating CTA button text"
   },
   "changelog_badge_mode": {
     "message": "Notifier via un badge NEW sur le bouton flottant au lieu de cette fenêtre",
@@ -1546,5 +1630,57 @@
   "moveSectionDown": {
     "message": "Déplacer vers le bas",
     "description": "Tooltip for moving a settings section down in popup"
+  },
+  "folderAsProject_enable": {
+    "message": "Activer Dossier comme Projet",
+    "description": "Toggle label for the Folder-as-Project feature"
+  },
+  "folderAsProject_description": {
+    "message": "Affiche un sélecteur de dossier dans les nouveaux chats et attribue automatiquement la conversation au dossier sélectionné lors du premier envoi",
+    "description": "Hint for the Folder-as-Project feature toggle"
+  },
+  "folderAsProject_selectFolder": {
+    "message": "Sélectionner un dossier…",
+    "description": "Placeholder text for the folder picker chip when no folder is selected"
+  },
+  "folderAsProject_noFolder": {
+    "message": "Aucun dossier",
+    "description": "Option in the folder picker dropdown to clear the selection"
+  },
+  "folderAsProject_setInstructions": {
+    "message": "Définir les instructions",
+    "description": "Folder context menu item to open the instructions editor"
+  },
+  "folderAsProject_editInstructions": {
+    "message": "Modifier les instructions",
+    "description": "Folder context menu item to edit existing instructions"
+  },
+  "folderAsProject_expand": {
+    "message": "Développer",
+    "description": "Aria-label for the expand button (screen readers)"
+  },
+  "folderAsProject_collapse": {
+    "message": "Réduire",
+    "description": "Aria-label for the collapse button (screen readers)"
+  },
+  "canvasExportCopyMarkdown": {
+    "message": "Copier en Markdown",
+    "description": "Élément du menu de partage Canvas : copier le contenu Canvas au format Markdown"
+  },
+  "canvasExportCopyMarkdownTooltip": {
+    "message": "Copier le contenu du Canvas au format Markdown",
+    "description": "Infobulle de l’élément de menu Copier en Markdown"
+  },
+  "canvasExportCopied": {
+    "message": "Canvas copié en Markdown",
+    "description": "Toast affiché après copie"
+  },
+  "canvasExportEmpty": {
+    "message": "Le contenu du Canvas est vide",
+    "description": "Toast affiché quand le Canvas n’a aucun contenu à copier"
+  },
+  "canvasExportFailed": {
+    "message": "Impossible de copier le contenu du Canvas",
+    "description": "Toast affiché si la copie Markdown dans le presse-papiers échoue"
   }
 }

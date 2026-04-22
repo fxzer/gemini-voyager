@@ -326,10 +326,12 @@ interface SettingsUpdate {
   promptInsertOnClickEnabled?: boolean;
   inputCollapseEnabled?: boolean;
   inputCollapseWhenNotEmpty?: boolean;
+  inputVimModeEnabled?: boolean;
   tabTitleUpdateEnabled?: boolean;
   mermaidEnabled?: boolean;
   quoteReplyEnabled?: boolean;
   ctrlEnterSendEnabled?: boolean;
+  safariEnterFixEnabled?: boolean;
   draftAutoSaveEnabled?: boolean;
   sidebarAutoHideEnabled?: boolean;
   sidebarFullHideEnabled?: boolean;
@@ -340,6 +342,7 @@ interface SettingsUpdate {
   accountIsolationPlatform?: AccountPlatform;
   aiStudioEnabled?: boolean;
   showMessageTimestamps?: boolean;
+  folderProjectEnabled?: boolean;
 }
 
 function SectionReorderControls({
@@ -435,11 +438,14 @@ export default function Popup() {
   const [promptInsertOnClickEnabled, setPromptInsertOnClickEnabled] = useState<boolean>(false);
   const [inputCollapseEnabled, setInputCollapseEnabled] = useState<boolean>(false);
   const [inputCollapseWhenNotEmpty, setInputCollapseWhenNotEmpty] = useState<boolean>(false);
+  const [inputVimModeEnabled, setInputVimModeEnabled] = useState<boolean>(false);
   const [tabTitleUpdateEnabled, setTabTitleUpdateEnabled] = useState<boolean>(true);
   const [mermaidEnabled, setMermaidEnabled] = useState<boolean>(true);
   const [showMessageTimestamps, setShowMessageTimestamps] = useState<boolean>(false);
   const [quoteReplyEnabled, setQuoteReplyEnabled] = useState<boolean>(true);
+  const [folderProjectEnabled, setFolderProjectEnabled] = useState<boolean>(false);
   const [ctrlEnterSendEnabled, setCtrlEnterSendEnabled] = useState<boolean>(false);
+  const [safariEnterFixEnabled, setSafariEnterFixEnabled] = useState<boolean>(false);
   const [draftAutoSaveEnabled, setDraftAutoSaveEnabled] = useState<boolean>(false);
   const [sidebarAutoHideEnabled, setSidebarAutoHideEnabled] = useState<boolean>(false);
   const [sidebarFullHideEnabled, setSidebarFullHideEnabled] = useState<boolean>(false);
@@ -530,14 +536,20 @@ export default function Popup() {
         payload.gvInputCollapseEnabled = settings.inputCollapseEnabled;
       if (typeof settings.inputCollapseWhenNotEmpty === 'boolean')
         payload.gvInputCollapseWhenNotEmpty = settings.inputCollapseWhenNotEmpty;
+      if (typeof settings.inputVimModeEnabled === 'boolean')
+        payload[StorageKeys.INPUT_VIM_MODE] = settings.inputVimModeEnabled;
       if (typeof settings.tabTitleUpdateEnabled === 'boolean')
         payload.gvTabTitleUpdateEnabled = settings.tabTitleUpdateEnabled;
       if (typeof settings.mermaidEnabled === 'boolean')
         payload.gvMermaidEnabled = settings.mermaidEnabled;
       if (typeof settings.quoteReplyEnabled === 'boolean')
         payload.gvQuoteReplyEnabled = settings.quoteReplyEnabled;
+      if (typeof settings.folderProjectEnabled === 'boolean')
+        payload[StorageKeys.FOLDER_PROJECT_ENABLED] = settings.folderProjectEnabled;
       if (typeof settings.ctrlEnterSendEnabled === 'boolean')
         payload.gvCtrlEnterSend = settings.ctrlEnterSendEnabled;
+      if (typeof settings.safariEnterFixEnabled === 'boolean')
+        payload[StorageKeys.SAFARI_ENTER_FIX] = settings.safariEnterFixEnabled;
       if (typeof settings.draftAutoSaveEnabled === 'boolean')
         payload[StorageKeys.DRAFT_AUTO_SAVE] = settings.draftAutoSaveEnabled;
       if (typeof settings.sidebarAutoHideEnabled === 'boolean')
@@ -869,10 +881,13 @@ export default function Popup() {
           [StorageKeys.PROMPT_INSERT_ON_CLICK]: false,
           gvInputCollapseEnabled: false,
           gvInputCollapseWhenNotEmpty: false,
+          [StorageKeys.INPUT_VIM_MODE]: false,
           gvTabTitleUpdateEnabled: true,
           gvMermaidEnabled: true,
           gvQuoteReplyEnabled: true,
+          [StorageKeys.FOLDER_PROJECT_ENABLED]: false,
           gvCtrlEnterSend: false,
+          [StorageKeys.SAFARI_ENTER_FIX]: false,
           [StorageKeys.DRAFT_AUTO_SAVE]: false,
           gvSidebarAutoHide: false,
           gvSidebarFullHide: false,
@@ -924,10 +939,13 @@ export default function Popup() {
           setPromptInsertOnClickEnabled(res?.[StorageKeys.PROMPT_INSERT_ON_CLICK] === true);
           setInputCollapseEnabled(res?.gvInputCollapseEnabled !== false);
           setInputCollapseWhenNotEmpty(res?.gvInputCollapseWhenNotEmpty === true);
+          setInputVimModeEnabled(res?.[StorageKeys.INPUT_VIM_MODE] === true);
           setTabTitleUpdateEnabled(res?.gvTabTitleUpdateEnabled !== false);
           setMermaidEnabled(res?.gvMermaidEnabled !== false);
           setQuoteReplyEnabled(res?.gvQuoteReplyEnabled !== false);
+          setFolderProjectEnabled(res?.[StorageKeys.FOLDER_PROJECT_ENABLED] === true);
           setCtrlEnterSendEnabled(res?.gvCtrlEnterSend === true);
+          setSafariEnterFixEnabled(res?.[StorageKeys.SAFARI_ENTER_FIX] === true);
           setDraftAutoSaveEnabled(res?.[StorageKeys.DRAFT_AUTO_SAVE] === true);
           setSidebarAutoHideEnabled(res?.gvSidebarAutoHide === true);
           setSidebarFullHideEnabled(res?.gvSidebarFullHide === true);
@@ -1724,6 +1742,34 @@ export default function Popup() {
                   }}
                 />
               </div>
+              <div className="group flex items-center justify-between">
+                <div className="flex-1">
+                  <Label
+                    htmlFor="folder-project-enabled"
+                    className="group-hover:text-primary flex cursor-pointer items-center gap-1 text-sm font-medium transition-colors"
+                  >
+                    {t('folderAsProject_enable')}
+                    <span
+                      className="material-symbols-outlined cursor-help text-[16px] leading-none opacity-50 transition-opacity hover:opacity-100"
+                      title={t('experimentalLabel')}
+                      style={{ fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20" }}
+                    >
+                      experiment
+                    </span>
+                  </Label>
+                  <p className="text-muted-foreground mt-1 text-xs">
+                    {t('folderAsProject_description')}
+                  </p>
+                </div>
+                <Switch
+                  id="folder-project-enabled"
+                  checked={folderProjectEnabled}
+                  onChange={(e) => {
+                    setFolderProjectEnabled(e.target.checked);
+                    apply({ folderProjectEnabled: e.target.checked });
+                  }}
+                />
+              </div>
               {/* Copy folder structure for AI organization */}
               <div className="border-border/50 border-t pt-3">
                 <Button
@@ -2172,6 +2218,25 @@ export default function Popup() {
               <div className="group flex items-center justify-between">
                 <div className="flex-1">
                   <Label
+                    htmlFor="input-vim-mode"
+                    className="group-hover:text-primary cursor-pointer text-sm font-medium transition-colors"
+                  >
+                    {t('inputVimMode')}
+                  </Label>
+                  <p className="text-muted-foreground mt-1 text-xs">{t('inputVimModeHint')}</p>
+                </div>
+                <Switch
+                  id="input-vim-mode"
+                  checked={inputVimModeEnabled}
+                  onChange={(e) => {
+                    setInputVimModeEnabled(e.target.checked);
+                    apply({ inputVimModeEnabled: e.target.checked });
+                  }}
+                />
+              </div>
+              <div className="group flex items-center justify-between">
+                <div className="flex-1">
+                  <Label
                     htmlFor="ctrl-enter-send"
                     className="group-hover:text-primary cursor-pointer text-sm font-medium transition-colors"
                   >
@@ -2190,6 +2255,28 @@ export default function Popup() {
                   }}
                 />
               </div>
+              {/* Safari Enter Fix - only shown on Safari */}
+              {isSafariBrowser && (
+                <div className="group flex items-center justify-between">
+                  <div className="flex-1">
+                    <Label
+                      htmlFor="safari-enter-fix"
+                      className="group-hover:text-primary cursor-pointer text-sm font-medium transition-colors"
+                    >
+                      {t('safariEnterFix')}
+                    </Label>
+                    <p className="text-muted-foreground mt-1 text-xs">{t('safariEnterFixHint')}</p>
+                  </div>
+                  <Switch
+                    id="safari-enter-fix"
+                    checked={safariEnterFixEnabled}
+                    onChange={(e) => {
+                      setSafariEnterFixEnabled(e.target.checked);
+                      apply({ safariEnterFixEnabled: e.target.checked });
+                    }}
+                  />
+                </div>
+              )}
               {/* Draft Auto-Save */}
               <div className="group flex items-center justify-between">
                 <div className="flex-1">

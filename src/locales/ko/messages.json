@@ -135,6 +135,10 @@
     "message": "유효하지 않은 파일 형식",
     "description": "Import invalid"
   },
+  "pm_import_empty": {
+    "message": "가져올 파일에 프롬프트가 없습니다",
+    "description": "Import file is valid but empty"
+  },
   "pm_import_success": {
     "message": "{count}개의 프롬프트를 가져왔습니다",
     "description": "Import success"
@@ -214,6 +218,18 @@
   "pm_theme_light": {
     "message": "라이트 모드로 전환",
     "description": "Theme toggle tooltip - switch to light"
+  },
+  "pm_view_compact": {
+    "message": "간결한 목록으로 전환",
+    "description": "View-mode toggle tooltip - switch from comfortable cards to compact single-line rows"
+  },
+  "pm_view_comfortable": {
+    "message": "편안한 보기로 전환",
+    "description": "View-mode toggle tooltip - switch from compact rows to comfortable cards with markdown preview"
+  },
+  "pm_name_placeholder": {
+    "message": "이름 (선택 사항)",
+    "description": "Placeholder for the optional prompt name/label input used as the compact-mode headline"
   },
   "pm_theme_dark": {
     "message": "다크 모드로 전환",
@@ -566,6 +582,26 @@
   "hideArchivedConversations": {
     "message": "보관된 대화 숨기기",
     "description": "Hide conversations that are in folders from the main list"
+  },
+  "hideArchivedNudgeTitle": {
+    "message": "사이드바 정리하기",
+    "description": "Title of the first-archive onboarding nudge"
+  },
+  "hideArchivedNudgeBody": {
+    "message": "Voyager는 폴더에 보관된 대화를 메인 목록에서 숨길 수 있습니다. 대화는 삭제되지 않으며, 폴더에서 언제든 확인할 수 있습니다.",
+    "description": "Body text of the first-archive onboarding nudge"
+  },
+  "hideArchivedNudgeEnable": {
+    "message": "지금 활성화",
+    "description": "Primary button that turns on hide-archived"
+  },
+  "hideArchivedNudgeDismiss": {
+    "message": "나중에",
+    "description": "Secondary button that dismisses the nudge"
+  },
+  "hideArchivedNudgeFootnote": {
+    "message": "확장 프로그램 팝업 → 폴더 옵션에서 언제든 변경할 수 있습니다.",
+    "description": "Footnote explaining where to toggle the setting later"
   },
   "conversation_star": {
     "message": "대화 별표 표시",
@@ -1067,6 +1103,14 @@
     "message": "텍스트나 첨부 파일이 있어도 입력 영역을 접을 수 있습니다",
     "description": "Hint text explaining the collapse when not empty feature"
   },
+  "inputVimMode": {
+    "message": "입력 Vim 모드",
+    "description": "Toggle label for focusing and leaving the question input with Vim-style keys"
+  },
+  "inputVimModeHint": {
+    "message": "질문 입력창 안에서 i/Escape로 입력/일반 모드를 전환하고, v로 선택하며 Vim 이동을 사용합니다",
+    "description": "Hint for input Vim mode shortcuts"
+  },
   "ctrlEnterSend": {
     "message": "{modifier}+Enter 로 전송",
     "description": "Modifier+Enter to send toggle label. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
@@ -1074,6 +1118,14 @@
   "ctrlEnterSendHint": {
     "message": "{modifier}+Enter 를 눌러 메시지를 전송하고, Enter 로 줄바꿈을 합니다",
     "description": "Modifier+Enter to send feature hint. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
+  },
+  "safariEnterFix": {
+    "message": "Safari Enter 키 수정",
+    "description": "Safari Enter 키 수정 기능 토글 라벨"
+  },
+  "safariEnterFixHint": {
+    "message": "Enter 한 번으로 메시지 전송 (Safari의 Enter 두 번 눌러야 하는 문제 수정)",
+    "description": "Safari Enter 키 수정 기능 힌트 텍스트"
   },
   "draftAutoSave": {
     "message": "임시 저장 자동 저장",
@@ -1215,6 +1267,14 @@
     "message": "Gem 표시",
     "description": "Tooltip for showing Gems list section"
   },
+  "notebooksHide": {
+    "message": "노트북 숨기기",
+    "description": "노트북 목록 섹션을 숨기는 툴팁"
+  },
+  "notebooksShow": {
+    "message": "노트북 표시",
+    "description": "노트북 목록 섹션을 표시하는 툴팁"
+  },
   "setAsDefaultModel": {
     "message": "기본 모델로 설정",
     "description": "Tooltip for setting default model"
@@ -1315,6 +1375,22 @@
     "message": "다람쥐 헌 쳇바퀴에 타고파.",
     "description": "Preview text for font size slider in export dialog"
   },
+  "export_image_width_label": {
+    "message": "이미지 너비",
+    "description": "Label for image width selection in export dialog"
+  },
+  "export_image_width_narrow": {
+    "message": "좁게 (모바일)",
+    "description": "Narrow width option (e.g. mobile)"
+  },
+  "export_image_width_medium": {
+    "message": "중간 (태블릿)",
+    "description": "Medium width option (e.g. tablet)"
+  },
+  "export_image_width_wide": {
+    "message": "넓게 (PC)",
+    "description": "Wide width option (e.g. desktop)"
+  },
   "export_error_generic": {
     "message": "내보내기 실패: {error}",
     "description": "상세 원인을 포함한 일반 내보내기 실패 메시지"
@@ -1402,6 +1478,14 @@
   "changelog_rate_chrome_cta": {
     "message": "평점 주기",
     "description": "Chrome Web Store rating CTA button text"
+  },
+  "changelog_rate_edge": {
+    "message": "Voyager가 마음에 드시나요? Edge 부가 기능 스토어에 평점을 남겨 더 많은 분들이 발견할 수 있게 해주세요!",
+    "description": "Edge Add-ons store rating prompt in changelog modal"
+  },
+  "changelog_rate_edge_cta": {
+    "message": "평점 주기",
+    "description": "Edge Add-ons store rating CTA button text"
   },
   "changelog_badge_mode": {
     "message": "이 팝업 대신 플로팅 버튼의 NEW 배지로 알림",
@@ -1499,7 +1583,10 @@
     "message": "AI 정리",
     "description": "AI 정리를 위해 폴더 구조와 대화를 복사하는 버튼"
   },
-  "aiOrgCopied": { "message": "복사됨!", "description": "AI 정리 프롬프트 복사 후 확인" },
+  "aiOrgCopied": {
+    "message": "복사됨!",
+    "description": "AI 정리 프롬프트 복사 후 확인"
+  },
   "aiOrgError": {
     "message": "실패 — 먼저 Gemini를 열어주세요",
     "description": "AI 정리 프롬프트 복사 실패 시 에러"
@@ -1508,13 +1595,22 @@
     "message": "모든 대화와 폴더 구조를 프롬프트로 복사합니다. Gemini에 붙여넣어 가져올 수 있는 폴더 계획을 얻으세요.",
     "description": "AI 정리 복사 버튼 아래 힌트 텍스트"
   },
-  "aiOrgCurrentFolders": { "message": "현재 폴더 구조", "description": "AI 정리 프롬프트의 제목" },
+  "aiOrgCurrentFolders": {
+    "message": "현재 폴더 구조",
+    "description": "AI 정리 프롬프트의 제목"
+  },
   "aiOrgUnfiledConversations": {
     "message": "분류되지 않은 대화",
     "description": "폴더에 없는 대화 제목"
   },
-  "aiOrgEmpty": { "message": "비어 있음", "description": "AI 정리 프롬프트에서 빈 폴더 라벨" },
-  "aiOrgInstructions": { "message": "지시사항", "description": "AI 지시사항 섹션 제목" },
+  "aiOrgEmpty": {
+    "message": "비어 있음",
+    "description": "AI 정리 프롬프트에서 빈 폴더 라벨"
+  },
+  "aiOrgInstructions": {
+    "message": "지시사항",
+    "description": "AI 지시사항 섹션 제목"
+  },
   "aiOrgInstructionsBody": {
     "message": "위의 대화와 폴더 구조를 기반으로 논리적인 폴더 계층으로 재정리해주세요. 아래 형식의 JSON 파일을 출력하여 Gemini Voyager 확장 프로그램에 직접 가져올 수 있도록 하세요(\"병합\" 가져오기 전략 사용). 기존의 잘 정리된 폴더는 유지하고, 필요에 따라 새 폴더를 만들고, 분류되지 않은 대화를 적절한 폴더로 이동하세요. 각 폴더에는 고유한 ID(짧은 랜덤 문자열)가 필요하며, 각 대화는 원래의 conversationId와 url을 유지해야 합니다.",
     "description": "AI가 가져올 수 있는 폴더 구조를 생성하기 위한 지시사항 본문"
@@ -1534,5 +1630,57 @@
   "moveSectionDown": {
     "message": "아래로 이동",
     "description": "Tooltip for moving a settings section down in popup"
+  },
+  "folderAsProject_enable": {
+    "message": "폴더를 프로젝트로 사용 활성화",
+    "description": "Toggle label for the Folder-as-Project feature"
+  },
+  "folderAsProject_description": {
+    "message": "새 채팅 화면에서 폴더 선택기를 표시하고 첫 번째 메시지 전송 시 대화를 선택한 폴더에 자동으로 추가합니다",
+    "description": "Hint for the Folder-as-Project feature toggle"
+  },
+  "folderAsProject_selectFolder": {
+    "message": "폴더 선택…",
+    "description": "Placeholder text for the folder picker chip when no folder is selected"
+  },
+  "folderAsProject_noFolder": {
+    "message": "폴더 없음",
+    "description": "Option in the folder picker dropdown to clear the selection"
+  },
+  "folderAsProject_setInstructions": {
+    "message": "지침 설정",
+    "description": "Folder context menu item to open the instructions editor"
+  },
+  "folderAsProject_editInstructions": {
+    "message": "지침 편집",
+    "description": "Folder context menu item to edit existing instructions"
+  },
+  "folderAsProject_expand": {
+    "message": "펼치기",
+    "description": "Aria-label for the expand button (screen readers)"
+  },
+  "folderAsProject_collapse": {
+    "message": "접기",
+    "description": "Aria-label for the collapse button (screen readers)"
+  },
+  "canvasExportCopyMarkdown": {
+    "message": "Markdown으로 복사",
+    "description": "Canvas 공유 메뉴 항목: Canvas 콘텐츠를 Markdown으로 클립보드에 복사"
+  },
+  "canvasExportCopyMarkdownTooltip": {
+    "message": "Canvas 콘텐츠를 Markdown으로 복사",
+    "description": "Canvas Markdown 복사 메뉴 항목의 도구 설명"
+  },
+  "canvasExportCopied": {
+    "message": "Canvas를 Markdown으로 복사했습니다",
+    "description": "복사 성공 시 표시되는 토스트"
+  },
+  "canvasExportEmpty": {
+    "message": "Canvas 콘텐츠가 비어 있습니다",
+    "description": "Canvas에 복사할 내용이 없을 때 표시되는 토스트"
+  },
+  "canvasExportFailed": {
+    "message": "Canvas 콘텐츠를 복사하지 못했습니다",
+    "description": "Markdown 클립보드 복사가 실패했을 때의 토스트"
   }
 }

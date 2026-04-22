@@ -8,8 +8,10 @@ import { isGeminiEnterpriseEnvironment } from '@/core/utils/gemini';
 import { startFormulaCopy } from '@/features/formulaCopy';
 import { initI18n } from '@/utils/i18n';
 
+import { startCanvasExport } from './canvasExport/index';
 import { startChangelog } from './changelog/index';
 import { startChatFontSizeAdjuster } from './chatFontSize/index';
+import { startInputVimMode } from './chatInput/vimMode';
 import { startChatWidthAdjuster } from './chatWidth/index';
 import { startContextSync } from './contextSync';
 import { startDeepResearchExport } from './deepResearch/index';
@@ -19,6 +21,7 @@ import { startEditInputWidthAdjuster } from './editInputWidth/index';
 import { startExportButton } from './export/index';
 import { startAIStudioFolderManager } from './folder/aistudio';
 import { startFolderManager } from './folder/index';
+import { startFolderProject } from './folderProject/index';
 import { startFolderSpacingAdjuster } from './folderSpacing/index';
 import { isForkFeatureEnabledValue } from './fork/featureFlag';
 import { startFork } from './fork/index';
@@ -74,6 +77,7 @@ let folderManagerInstance: Awaited<ReturnType<typeof startFolderManager>> | null
 
 let promptManagerInstance: Awaited<ReturnType<typeof startPromptManager>> | null = null;
 let quoteReplyCleanup: (() => void) | null = null;
+let inputVimModeCleanup: (() => void) | null = null;
 let sendBehaviorCleanup: (() => void) | null = null;
 let draftSaveCleanup: (() => void) | null = null;
 let forkCleanup: (() => void) | null = null;
@@ -175,6 +179,7 @@ async function initializeFeatures(): Promise<void> {
       await delay(HEAVY_FEATURE_INIT_DELAY);
 
       folderManagerInstance = await startFolderManager();
+      if (folderManagerInstance) startFolderProject(folderManagerInstance);
       await delay(HEAVY_FEATURE_INIT_DELAY);
 
       startFolderSpacingAdjuster('gemini');
@@ -201,6 +206,9 @@ async function initializeFeatures(): Promise<void> {
       await delay(LIGHT_FEATURE_INIT_DELAY);
 
       startInputCollapse();
+      await delay(LIGHT_FEATURE_INIT_DELAY);
+
+      inputVimModeCleanup = await startInputVimMode();
       await delay(LIGHT_FEATURE_INIT_DELAY);
 
       startPreventAutoScroll();
@@ -269,6 +277,9 @@ async function initializeFeatures(): Promise<void> {
       await delay(LIGHT_FEATURE_INIT_DELAY);
 
       startExportButton();
+      await delay(LIGHT_FEATURE_INIT_DELAY);
+
+      void startCanvasExport();
       await delay(LIGHT_FEATURE_INIT_DELAY);
 
       if (await isForkFeatureEnabled()) {
@@ -488,6 +499,10 @@ function handleVisibilityChange(): void {
         if (quoteReplyCleanup) {
           quoteReplyCleanup();
           quoteReplyCleanup = null;
+        }
+        if (inputVimModeCleanup) {
+          inputVimModeCleanup();
+          inputVimModeCleanup = null;
         }
         if (sendBehaviorCleanup) {
           sendBehaviorCleanup();

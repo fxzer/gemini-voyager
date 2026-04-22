@@ -38,6 +38,7 @@ export const StorageKeys = {
   FOLDER_DATA_AISTUDIO: 'gvFolderDataAIStudio',
   FOLDER_ENABLED: 'geminiFolderEnabled',
   FOLDER_HIDE_ARCHIVED_CONVERSATIONS: 'geminiFolderHideArchivedConversations',
+  FOLDER_HIDE_ARCHIVED_NUDGE_SHOWN: 'geminiFolderHideArchivedNudgeShown',
 
   // Timeline
   TIMELINE_SCROLL_MODE: 'geminiTimelineScrollMode',
@@ -70,6 +71,7 @@ export const StorageKeys = {
   PROMPT_CUSTOM_WEBSITES: 'gvPromptCustomWebsites',
   PROMPT_THEME: 'gvPromptTheme',
   PROMPT_INSERT_ON_CLICK: 'gvPromptInsertOnClick',
+  PROMPT_VIEW_MODE: 'gvPromptViewMode',
 
   // Global settings
   LANGUAGE: 'language',
@@ -82,8 +84,10 @@ export const StorageKeys = {
 
   // Input behavior
   CTRL_ENTER_SEND: 'gvCtrlEnterSend',
+  SAFARI_ENTER_FIX: 'gvSafariEnterFix',
   INPUT_COLLAPSE_ENABLED: 'gvInputCollapseEnabled',
   INPUT_COLLAPSE_WHEN_NOT_EMPTY: 'gvInputCollapseWhenNotEmpty',
+  INPUT_VIM_MODE: 'gvInputVimMode',
   DRAFT_AUTO_SAVE: 'gvDraftAutoSave',
   PREVENT_AUTO_SCROLL_ENABLED: 'gvPreventAutoScrollEnabled',
 
@@ -100,6 +104,8 @@ export const StorageKeys = {
   // Sidebar behavior
   GV_SIDEBAR_AUTO_HIDE: 'gvSidebarAutoHide',
   GV_SIDEBAR_FULL_HIDE: 'gvSidebarFullHide',
+  GEMS_HIDDEN: 'gvGemsHidden',
+  NOTEBOOKS_HIDDEN: 'gvNotebooksHidden',
 
   // Folder spacing
   GV_FOLDER_SPACING: 'gvFolderSpacing',
@@ -120,6 +126,9 @@ export const StorageKeys = {
   FORK_NODES: 'gvForkNodes',
   FORK_ENABLED: 'gvForkEnabled',
 
+  // Export
+  EXPORT_IMAGE_WIDTH: 'gvExportImageWidth',
+
   // AI Studio master toggle
   GV_AISTUDIO_ENABLED: 'gvAIStudioEnabled',
 
@@ -133,6 +142,9 @@ export const StorageKeys = {
   // Context sync
   CONTEXT_SYNC_ENABLED: 'contextSyncEnabled',
   CONTEXT_SYNC_PORT: 'contextSyncPort',
+
+  // Folder as Project
+  FOLDER_PROJECT_ENABLED: 'gvFolderProjectEnabled',
 } as const;
 
 export type StorageKey = (typeof StorageKeys)[keyof typeof StorageKeys];

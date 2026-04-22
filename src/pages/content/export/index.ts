@@ -11,11 +11,18 @@ import { extractMessageDictionary } from '@/utils/localeMessages';
 import type { TranslationKey } from '@/utils/translations';
 
 import { ConversationExportService } from '../../../features/export/services/ConversationExportService';
+import {
+  getSavedImageExportWidth,
+  saveImageExportWidth,
+} from '../../../features/export/services/ImageExportPreferenceService';
 import { ImageExportService } from '../../../features/export/services/ImageExportService';
+import {
+  DEFAULT_IMAGE_EXPORT_WIDTH,
+  type ExportFormat,
+} from '../../../features/export/types/export';
 import type {
   ConversationMetadata,
   ChatTurn as ExportChatTurn,
-  ExportFormat,
 } from '../../../features/export/types/export';
 import { ExportDialog } from '../../../features/export/ui/ExportDialog';
 import { resolveExportErrorMessage } from '../../../features/export/ui/ExportErrorMessage';
@@ -57,6 +64,7 @@ let responseActionObserver: MutationObserver | null = null;
 interface PendingExportState {
   format: ExportFormat;
   fontSize?: number;
+  imageWidth?: number;
   initialSelectedMessageId?: string;
   attempt: number;
   url: string;
@@ -255,7 +263,9 @@ function dedupeByTextAndOffset(elements: HTMLElement[], firstTurnOffset: number)
 }
 
 function ensureTurnId(el: Element, index: number): string {
-  const asEl = el as HTMLElement & { dataset?: DOMStringMap & { turnId?: string } };
+  const asEl = el as HTMLElement & {
+    dataset?: DOMStringMap & { turnId?: string };
+  };
   let id = asEl.dataset?.turnId || '';
   if (!id) {
     const basis = normalizeText(asEl.textContent || '') || `user-${index}`;
@@ -946,9 +956,13 @@ async function getLanguage(): Promise<AppLanguage> {
         try {
           const win = window as Window & {
             chrome?: {
-              storage?: { sync?: { get: (key: string, cb: (r: unknown) => void) => void } };
+              storage?: {
+                sync?: { get: (key: string, cb: (r: unknown) => void) => void };
+              };
             };
-            browser?: { storage?: { sync?: { get: (key: string) => Promise<unknown> } } };
+            browser?: {
+              storage?: { sync?: { get: (key: string) => Promise<unknown> } };
+            };
           };
           if (win.chrome?.storage?.sync?.get) {
             win.chrome.storage.sync.get(StorageKeys.LANGUAGE, resolve);
@@ -1166,10 +1180,12 @@ async function executeExportSequence(
   paramState?: PendingExportState,
   fontSize?: number,
   initialSelectedMessageId?: string,
+  imageWidth?: number,
 ): Promise<void> {
   const state: PendingExportState = paramState || {
     format,
     fontSize,
+    imageWidth,
     initialSelectedMessageId,
     attempt: 0,
     url: location.href,
@@ -1205,7 +1221,14 @@ async function executeExportSequence(
   if (!topNode) {
     console.log('[Gemini Voyager] No top node found, proceeding to export directly.');
     sessionStorage.removeItem(SESSION_KEY_PENDING_EXPORT);
-    await performFinalExport(format, dict, lang, state.fontSize, state.initialSelectedMessageId);
+    await performFinalExport(
+      format,
+      dict,
+      lang,
+      state.fontSize,
+      state.initialSelectedMessageId,
+      state.imageWidth,
+    );
     return;
   }
 
@@ -1217,7 +1240,11 @@ async function executeExportSequence(
   // Update state before action to persist across potential reload
   sessionStorage.setItem(
     SESSION_KEY_PENDING_EXPORT,
-    JSON.stringify({ ...state, attempt: state.attempt + 1, timestamp: Date.now() }),
+    JSON.stringify({
+      ...state,
+      attempt: state.attempt + 1,
+      timestamp: Date.now(),
+    }),
   );
 
   // Dispatch click logic
@@ -1252,7 +1279,14 @@ async function executeExportSequence(
 
   console.log('[Gemini Voyager] No refresh or update detected. Exporting...');
   sessionStorage.removeItem(SESSION_KEY_PENDING_EXPORT);
-  await performFinalExport(format, dict, lang, state.fontSize, state.initialSelectedMessageId);
+  await performFinalExport(
+    format,
+    dict,
+    lang,
+    state.fontSize,
+    state.initialSelectedMessageId,
+    state.imageWidth,
+  );
 }
 
 async function executeExportSequenceWithProgress(
@@ -1262,11 +1296,20 @@ async function executeExportSequenceWithProgress(
   paramState?: PendingExportState,
   fontSize?: number,
   initialSelectedMessageId?: string,
+  imageWidth?: number,
 ): Promise<void> {
   const t = (key: TranslationKey) => dict[lang]?.[key] ?? dict.en?.[key] ?? key;
   const hideProgress = showExportProgressOverlay(t);
   try {
-    await executeExportSequence(format, dict, lang, paramState, fontSize, initialSelectedMessageId);
+    await executeExportSequence(
+      format,
+      dict,
+      lang,
+      paramState,
+      fontSize,
+      initialSelectedMessageId,
+      imageWidth,
+    );
   } finally {
     hideProgress();
   }
@@ -1281,6 +1324,7 @@ async function performFinalExport(
   lang: AppLanguage,
   fontSize?: number,
   initialSelectedMessageId?: string,
+  imageWidth?: number,
 ) {
   const t = (key: TranslationKey) => dict[lang]?.[key] ?? dict.en?.[key] ?? key;
 
@@ -1633,6 +1677,7 @@ async function performFinalExport(
         format,
         fontSize,
         includeImageSource,
+        imageWidth,
       });
       const minVisiblePromise = new Promise((resolve) => setTimeout(resolve, 420));
       const [result] = await Promise.all([resultPromise, minVisiblePromise]);
@@ -1640,7 +1685,9 @@ async function performFinalExport(
       if (!result.success) {
         alert(resolveExportErrorMessage(result.error, t));
       } else if (format === 'pdf' && isSafari()) {
-        showExportToast(t('export_toast_safari_pdf_ready'), { autoDismissMs: 5000 });
+        showExportToast(t('export_toast_safari_pdf_ready'), {
+          autoDismissMs: 5000,
+        });
       }
     } catch (err) {
       console.error('[Gemini Voyager] Export error:', err);
@@ -1740,6 +1787,7 @@ async function checkPendingExport() {
     const state: PendingExportState = {
       format: parsed.format,
       fontSize: typeof parsed.fontSize === 'number' ? parsed.fontSize : undefined,
+      imageWidth: typeof parsed.imageWidth === 'number' ? parsed.imageWidth : undefined,
       initialSelectedMessageId:
         typeof parsed.initialSelectedMessageId === 'string'
           ? parsed.initialSelectedMessageId
@@ -1765,7 +1813,15 @@ async function checkPendingExport() {
     const dict = await loadDictionaries();
     const lang = await getLanguage();
 
-    await executeExportSequenceWithProgress(state.format, dict, lang, state);
+    await executeExportSequenceWithProgress(
+      state.format,
+      dict,
+      lang,
+      state,
+      state.fontSize,
+      state.initialSelectedMessageId,
+      state.imageWidth,
+    );
   } catch (e) {
     console.error('[Gemini Voyager] Failed to resume pending export:', e);
     sessionStorage.removeItem(SESSION_KEY_PENDING_EXPORT);
@@ -1894,7 +1950,9 @@ async function handleResponseCopyImageClick(
       title: getConversationTitleForExport(),
     };
 
-    const blob = await ImageExportService.renderConversationBlob(turnsForExport, metadata, {});
+    const blob = await ImageExportService.renderConversationBlob(turnsForExport, metadata, {
+      imageWidth: DEFAULT_IMAGE_EXPORT_WIDTH,
+    });
     blobForFallback = blob;
     await copyImageBlobToClipboard(blob);
     showExportToast(texts.copied);
@@ -2301,14 +2359,18 @@ async function showExportDialog(
   },
 ): Promise<void> {
   const t = (key: TranslationKey) => dict[lang]?.[key] ?? dict.en?.[key] ?? key;
+  const initialImageWidth = await getSavedImageExportWidth();
 
   // We defer collection until after the export sequence (scrolling/refresh checks)
 
   const dialog = new ExportDialog();
 
   dialog.show({
-    onExport: async (format, fontSize) => {
+    onExport: async (format, fontSize, imageWidth) => {
       try {
+        if (format === 'image') {
+          await saveImageExportWidth(imageWidth);
+        }
         await executeExportSequenceWithProgress(
           format,
           dict,
@@ -2316,6 +2378,7 @@ async function showExportDialog(
           undefined,
           fontSize,
           options?.initialSelectedMessageId || undefined,
+          imageWidth,
         );
       } catch (err) {
         console.error('[Gemini Voyager] Export error:', err);
@@ -2325,6 +2388,7 @@ async function showExportDialog(
     onCancel: () => {
       // Dialog closed
     },
+    initialImageWidth,
     translations: {
       title: t('export_dialog_title'),
       selectFormat: t('export_dialog_select'),
@@ -2335,6 +2399,10 @@ async function showExportDialog(
       export: t('pm_export'),
       fontSizeLabel: t('export_fontsize_label'),
       fontSizePreview: t('export_fontsize_preview'),
+      imageWidthLabel: t('export_image_width_label'),
+      imageWidthNarrow: t('export_image_width_narrow'),
+      imageWidthMedium: t('export_image_width_medium'),
+      imageWidthWide: t('export_image_width_wide'),
       formatDescriptions: {
         json: t('export_format_json_description'),
         markdown: t('export_format_markdown_description'),

@@ -2,6 +2,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { StorageKeys } from '@/core/types/common';
 
+import { buildInstructionBlock } from '../../folderProject/instructionBlock';
+
 type StorageChangeListener = (
   changes: Record<string, chrome.storage.StorageChange>,
   area: string,
@@ -79,7 +81,14 @@ function createContentEditable(): HTMLElement {
   el.setAttribute('role', 'textbox');
   // Make it "visible" for getBoundingClientRect
   Object.defineProperty(el, 'getBoundingClientRect', {
-    value: () => ({ height: 100, width: 500, top: 0, left: 0, bottom: 100, right: 500 }),
+    value: () => ({
+      height: 100,
+      width: 500,
+      top: 0,
+      left: 0,
+      bottom: 100,
+      right: 500,
+    }),
   });
   document.body.appendChild(el);
   return el;
@@ -94,7 +103,10 @@ describe('draftSave', () => {
 
     // Mock window.location
     Object.defineProperty(window, 'location', {
-      value: { pathname: '/app/test-conversation-123', hostname: 'gemini.google.com' },
+      value: {
+        pathname: '/app/test-conversation-123',
+        hostname: 'gemini.google.com',
+      },
       writable: true,
       configurable: true,
     });
@@ -122,9 +134,32 @@ describe('draftSave', () => {
     // Check that a draft was saved to local storage
     const draftKey = 'gvDraft_/app/test-conversation-123';
     expect(localStore[draftKey]).toBeDefined();
-    const draft = localStore[draftKey] as { content: string; timestamp: number; path: string };
+    const draft = localStore[draftKey] as {
+      content: string;
+      timestamp: number;
+      path: string;
+    };
     expect(draft.content).toBe('Hello, this is my draft');
     expect(draft.path).toBe('/app/test-conversation-123');
+
+    cleanup();
+  });
+
+  it('strips folder project instructions before saving a draft', async () => {
+    setupMocks(true);
+    const input = createContentEditable();
+
+    const { startDraftSave } = await import('../index');
+    const cleanup = await startDraftSave();
+
+    input.textContent = `${buildInstructionBlock('Inbox', 'Always answer tersely.')}User draft`;
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    vi.advanceTimersByTime(1000);
+
+    const draft = localStore['gvDraft_/app/test-conversation-123'] as {
+      content: string;
+    };
+    expect(draft.content).toBe('User draft');
 
     cleanup();
   });
@@ -194,7 +229,9 @@ describe('draftSave', () => {
     input.dispatchEvent(new Event('input', { bubbles: true }));
     vi.advanceTimersByTime(1000);
 
-    const draft = localStore['gvDraft_/app/test-conversation-123'] as { content: string };
+    const draft = localStore['gvDraft_/app/test-conversation-123'] as {
+      content: string;
+    };
     expect(draft?.content).toBe('after enable');
 
     cleanup();
@@ -226,6 +263,29 @@ describe('draftSave', () => {
 
     // execCommand should have been called with the draft content
     expect(document.execCommand).toHaveBeenCalledWith('insertText', false, 'My saved draft');
+
+    cleanup();
+  });
+
+  it('strips folder project instructions from older polluted drafts during restore', async () => {
+    vi.useRealTimers();
+    setupMocks(true);
+
+    localStore['gvDraft_/app/test-conversation-123'] = {
+      content: `${buildInstructionBlock('Coding', 'Reply with tests first.')}Recovered user text`,
+      timestamp: Date.now(),
+      path: '/app/test-conversation-123',
+    };
+
+    createContentEditable();
+    document.execCommand = vi.fn().mockReturnValue(true);
+
+    const { startDraftSave } = await import('../index');
+    const cleanup = await startDraftSave();
+
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    expect(document.execCommand).toHaveBeenCalledWith('insertText', false, 'Recovered user text');
 
     cleanup();
   });

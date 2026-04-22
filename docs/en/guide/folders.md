@@ -42,6 +42,14 @@ It just feels right.
 
 ### Gemini Exclusive
 
+#### Hide Archived Conversations
+
+Once a chat is filed into a folder, it's "done" — but by default it still takes up space in the main sidebar list. Turn on **Hide archived conversations** in the extension popup → **Folder Options** and the main list shows only what's still active. A true inbox-zero for your AI chats.
+
+- The first time you file a conversation into a folder, Voyager pops up a small card right in the folder area offering one-click to enable this. Dismiss it and we won't bother you again.
+- Archived conversations are **never deleted** — they stay fully accessible inside their folders.
+- Toggle anytime from the popup.
+
 #### Custom Colors
 
 Click the folder icon to customize its color. Choose from 7 default colors or use the color picker to select any custom color.
@@ -85,6 +93,24 @@ Click **Import folders** from the folder panel menu, select **Or paste JSON dire
 
 - **Incremental Merge**: Uses the "Merge" strategy by default — only adds new folders and assignments, never destroys your existing organization.
 - **Multilingual**: The prompt automatically uses your configured language, and folder names are generated in that language too.
+
+#### Folder as Project
+
+Want new chats to start with a lightweight project preset? Turn any folder into one.
+This idea is inspired by Claude Projects, but Voyager implements it as a lighter model: folder-based first-message instructions plus auto-filing, not a shared context workspace.
+
+1. Enable `Folder as Project` in the extension popup.
+2. Right-click a folder and choose `Set Instructions` or `Edit Instructions`.
+3. Open a new Gemini chat, use the folder picker beside the composer, and select that folder.
+4. Send your first message.
+
+What happens next:
+
+- The conversation is automatically filed into that folder after the first send.
+- If the folder has instructions, Voyager prepends them only for that first send.
+- If the folder has no instructions, it still works as a quick filing shortcut.
+- Chats in the same folder do **not** share memory or read each other automatically.
+- Draft auto-save keeps only the text you typed; hidden instructions are not restored into the composer.
 
 ### AI Studio Exclusive
 

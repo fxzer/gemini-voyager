@@ -42,6 +42,14 @@ Simplesmente parece certo.
 
 ### Exclusivo para Gemini
 
+#### Ocultar conversas arquivadas
+
+Uma vez que uma conversa foi arquivada em uma pasta, ela está "concluída" — mas por padrão continua ocupando espaço na lista principal da barra lateral. Ative **Ocultar conversas arquivadas** no popup da extensão → **Opções de pastas**, e a lista principal mostrará apenas o que ainda está ativo. Inbox zero de verdade para seus chats de IA.
+
+- Na primeira vez que você arquiva uma conversa em uma pasta, o Voyager exibe um pequeno cartão na área de pastas para ativar com um clique. Se não quiser, clique em "Agora não" e não te incomodaremos mais.
+- Conversas arquivadas **nunca são excluídas** — continuam acessíveis dentro das pastas.
+- Alterne a qualquer momento no popup.
+
 #### Cores personalizadas
 
 Clique no ícone da pasta para personalizar sua cor. Escolha entre 7 cores padrão ou use o seletor de cores para escolher qualquer cor.
@@ -85,6 +93,24 @@ Clique em **Importar pastas** no menu do painel de pastas, selecione **Ou colar 
 
 - **Mesclagem incremental**: Usa a estratégia de "Mesclar" por padrão — apenas adiciona novas pastas e atribuições, nunca destrói sua organização existente.
 - **Multilíngue**: O prompt usa automaticamente o idioma configurado, e os nomes das pastas também são gerados nesse idioma.
+
+#### Pasta como Projeto
+
+Quer que novas conversas já comecem com um pequeno preset de projeto? Transforme qualquer pasta num projeto.
+A ideia é inspirada no Claude Projects, mas o Voyager implementa isso de forma mais leve: instruções baseadas em pasta para a primeira mensagem e arquivamento automático, não um workspace de contexto partilhado.
+
+1. Ative `Habilitar Pasta como Projeto` no popup da extensão.
+2. Clique com o botão direito numa pasta e escolha `Definir instruções` ou `Editar instruções`.
+3. Abra um novo chat do Gemini, use o seletor de pastas ao lado da caixa de escrita e escolha essa pasta.
+4. Envie a primeira mensagem.
+
+O que acontece a seguir:
+
+- A conversa é automaticamente colocada nessa pasta após o primeiro envio.
+- Se a pasta tiver instruções, o Voyager prefixa essas instruções apenas nesse primeiro envio.
+- Se a pasta não tiver instruções, continua a funcionar como atalho rápido de organização.
+- Os chats na mesma pasta **não** partilham memória nem leem automaticamente o conteúdo uns dos outros.
+- O auto-save de rascunhos guarda apenas o texto que escreveu; as instruções ocultas não voltam para a caixa de entrada.
 
 ### Exclusivo para AI Studio
 

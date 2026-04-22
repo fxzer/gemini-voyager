@@ -135,6 +135,10 @@
     "message": "無効なファイル形式です",
     "description": "Import invalid"
   },
+  "pm_import_empty": {
+    "message": "インポートファイルにプロンプトがありません",
+    "description": "Import file is valid but empty"
+  },
   "pm_import_success": {
     "message": "{count} 件のプロンプトをインポートしました",
     "description": "Import success"
@@ -214,6 +218,18 @@
   "pm_theme_light": {
     "message": "ライトモードに切替",
     "description": "Theme toggle tooltip - switch to light"
+  },
+  "pm_view_compact": {
+    "message": "コンパクト表示に切替",
+    "description": "View-mode toggle tooltip - switch from comfortable cards to compact single-line rows"
+  },
+  "pm_view_comfortable": {
+    "message": "快適表示に切替",
+    "description": "View-mode toggle tooltip - switch from compact rows to comfortable cards with markdown preview"
+  },
+  "pm_name_placeholder": {
+    "message": "名前（任意）",
+    "description": "Placeholder for the optional prompt name/label input used as the compact-mode headline"
   },
   "pm_theme_dark": {
     "message": "ダークモードに切替",
@@ -566,6 +582,26 @@
   "hideArchivedConversations": {
     "message": "フォルダに入れた会話をメインリストから隠す",
     "description": "Hide conversations that are in folders from the main list"
+  },
+  "hideArchivedNudgeTitle": {
+    "message": "サイドバーを整理",
+    "description": "Title of the first-archive onboarding nudge"
+  },
+  "hideArchivedNudgeBody": {
+    "message": "Voyager はフォルダに入れた会話をメインリストから自動で非表示にできます。会話は削除されず、フォルダ内からいつでも確認できます。",
+    "description": "Body text of the first-archive onboarding nudge"
+  },
+  "hideArchivedNudgeEnable": {
+    "message": "今すぐ有効化",
+    "description": "Primary button that turns on hide-archived"
+  },
+  "hideArchivedNudgeDismiss": {
+    "message": "後で",
+    "description": "Secondary button that dismisses the nudge"
+  },
+  "hideArchivedNudgeFootnote": {
+    "message": "拡張機能ポップアップ → フォルダ設定でいつでも切り替えできます。",
+    "description": "Footnote explaining where to toggle the setting later"
   },
   "conversation_star": {
     "message": "会話にスターを付ける",
@@ -1067,6 +1103,14 @@
     "message": "テキストや添付ファイルがある場合でも入力欄を折りたたみます",
     "description": "Hint text explaining the collapse when not empty feature"
   },
+  "inputVimMode": {
+    "message": "入力 Vim モード",
+    "description": "Toggle label for focusing and leaving the question input with Vim-style keys"
+  },
+  "inputVimModeHint": {
+    "message": "質問入力内で i/Escape で挿入/ノーマルを切り替え、v で選択し、Vim 移動を使えます",
+    "description": "Hint for input Vim mode shortcuts"
+  },
   "ctrlEnterSend": {
     "message": "{modifier}+Enter で送信",
     "description": "Modifier+Enter to send toggle label. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
@@ -1074,6 +1118,14 @@
   "ctrlEnterSendHint": {
     "message": "{modifier}+Enter でメッセージを送信、Enter で改行",
     "description": "Modifier+Enter to send feature hint. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
+  },
+  "safariEnterFix": {
+    "message": "Safari の Enter キーを修正",
+    "description": "Safari Enter キー修正機能のトグルラベル"
+  },
+  "safariEnterFixHint": {
+    "message": "Enter を1回押すだけでメッセージを送信（Safari の2回押し問題を修正）",
+    "description": "Safari Enter キー修正機能のヒントテキスト"
   },
   "draftAutoSave": {
     "message": "下書きの自動保存",
@@ -1215,6 +1267,14 @@
     "message": "Gems を表示",
     "description": "Gems リストセクションを表示するツールチップ"
   },
+  "notebooksHide": {
+    "message": "ノートブックを非表示",
+    "description": "ノートブック一覧セクションを隠すツールチップ"
+  },
+  "notebooksShow": {
+    "message": "ノートブックを表示",
+    "description": "ノートブック一覧セクションを表示するツールチップ"
+  },
   "setAsDefaultModel": {
     "message": "Set as default model",
     "description": "Tooltip for setting default model"
@@ -1315,6 +1375,22 @@
     "message": "吾輩は猫である。名前はまだない。",
     "description": "Preview text for font size slider in export dialog"
   },
+  "export_image_width_label": {
+    "message": "画像の幅",
+    "description": "Label for image width selection in export dialog"
+  },
+  "export_image_width_narrow": {
+    "message": "狭い (スマホ)",
+    "description": "Narrow width option (e.g. mobile)"
+  },
+  "export_image_width_medium": {
+    "message": "標準 (タブレット)",
+    "description": "Medium width option (e.g. tablet)"
+  },
+  "export_image_width_wide": {
+    "message": "広い (デスクトップ)",
+    "description": "Wide width option (e.g. desktop)"
+  },
   "export_error_generic": {
     "message": "エクスポートに失敗しました：{error}",
     "description": "詳細理由付きのエクスポート失敗メッセージ"
@@ -1402,6 +1478,14 @@
   "changelog_rate_chrome_cta": {
     "message": "評価する",
     "description": "Chrome Web Store rating CTA button text"
+  },
+  "changelog_rate_edge": {
+    "message": "Voyager を気に入っていただけましたか？Edge アドオンストアでの評価が大きな励みになります！",
+    "description": "Edge Add-ons store rating prompt in changelog modal"
+  },
+  "changelog_rate_edge_cta": {
+    "message": "評価する",
+    "description": "Edge Add-ons store rating CTA button text"
   },
   "changelog_badge_mode": {
     "message": "このポップアップの代わりに、フローティングボタンの NEW バッジで通知する",
@@ -1519,8 +1603,14 @@
     "message": "未分類の会話",
     "description": "フォルダに入っていない会話の見出し"
   },
-  "aiOrgEmpty": { "message": "空", "description": "AI整理プロンプトの空フォルダのラベル" },
-  "aiOrgInstructions": { "message": "指示", "description": "AI指示セクションの見出し" },
+  "aiOrgEmpty": {
+    "message": "空",
+    "description": "AI整理プロンプトの空フォルダのラベル"
+  },
+  "aiOrgInstructions": {
+    "message": "指示",
+    "description": "AI指示セクションの見出し"
+  },
   "aiOrgInstructionsBody": {
     "message": "上記の会話とフォルダ構造に基づいて、論理的なフォルダ階層に再整理してください。以下の形式の JSON ファイルを出力し、Gemini Voyager 拡張機能に直接インポートできるようにしてください（「マージ」インポート戦略を使用）。既存の整理済みフォルダはそのまま維持し、必要に応じて新しいフォルダを作成し、未分類の会話を適切なフォルダに移動してください。各フォルダには一意の ID（短いランダム文字列）が必要で、各会話は元の conversationId と url を保持する必要があります。",
     "description": "AI がインポート可能なフォルダ構造を生成するための指示本文"
@@ -1540,5 +1630,57 @@
   "moveSectionDown": {
     "message": "下に移動",
     "description": "Tooltip for moving a settings section down in popup"
+  },
+  "folderAsProject_enable": {
+    "message": "フォルダをプロジェクトとして有効化",
+    "description": "Toggle label for the Folder-as-Project feature"
+  },
+  "folderAsProject_description": {
+    "message": "新しいチャット画面でフォルダ選択ツールを表示し、最初のメッセージ送信時に会話を選択したフォルダに自動追加します",
+    "description": "Hint for the Folder-as-Project feature toggle"
+  },
+  "folderAsProject_selectFolder": {
+    "message": "フォルダを選択…",
+    "description": "Placeholder text for the folder picker chip when no folder is selected"
+  },
+  "folderAsProject_noFolder": {
+    "message": "フォルダなし",
+    "description": "Option in the folder picker dropdown to clear the selection"
+  },
+  "folderAsProject_setInstructions": {
+    "message": "指示を設定",
+    "description": "Folder context menu item to open the instructions editor"
+  },
+  "folderAsProject_editInstructions": {
+    "message": "指示を編集",
+    "description": "Folder context menu item to edit existing instructions"
+  },
+  "folderAsProject_expand": {
+    "message": "展開",
+    "description": "Aria-label for the expand button (screen readers)"
+  },
+  "folderAsProject_collapse": {
+    "message": "折りたたむ",
+    "description": "Aria-label for the collapse button (screen readers)"
+  },
+  "canvasExportCopyMarkdown": {
+    "message": "Markdown としてコピー",
+    "description": "Canvas 共有メニュー項目：Canvas の内容を Markdown としてクリップボードにコピー"
+  },
+  "canvasExportCopyMarkdownTooltip": {
+    "message": "Canvas の内容を Markdown としてコピー",
+    "description": "Canvas を Markdown としてコピーするメニュー項目のツールチップ"
+  },
+  "canvasExportCopied": {
+    "message": "Canvas を Markdown としてコピーしました",
+    "description": "コピー成功時のトースト"
+  },
+  "canvasExportEmpty": {
+    "message": "Canvas の内容が空です",
+    "description": "Canvas にコピーする内容がないときのトースト"
+  },
+  "canvasExportFailed": {
+    "message": "Canvas の内容をコピーできませんでした",
+    "description": "Markdown のクリップボードコピーが失敗したときのトースト"
   }
 }
