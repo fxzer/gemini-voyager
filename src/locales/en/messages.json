@@ -399,6 +399,18 @@
     "message": "Large",
     "description": "Large font size label"
   },
+  "chatLineHeight": {
+    "message": "Chat line spacing",
+    "description": "Chat message line spacing adjustment label"
+  },
+  "chatLineHeightTight": {
+    "message": "Tight",
+    "description": "Tight chat line spacing label"
+  },
+  "chatLineHeightLoose": {
+    "message": "Loose",
+    "description": "Loose chat line spacing label"
+  },
   "sidebarWidth": {
     "message": "Sidebar width",
     "description": "Sidebar width adjustment label"
@@ -462,6 +474,30 @@
   "folder_cloud_sync": {
     "message": "Sync from Cloud",
     "description": "Cloud sync button tooltip"
+  },
+  "folder_manage_in_library": {
+    "message": "Manage in Library",
+    "description": "Shortcut button shown in AI Studio sidebar to jump to /library for drag-and-drop conversation management"
+  },
+  "aistudio_hide_archived_nudge_title": {
+    "message": "Tidy up your AI Studio Library",
+    "description": "Onboarding nudge title inviting the user to hide archived conversations from the AI Studio library table"
+  },
+  "aistudio_hide_archived_nudge_body": {
+    "message": "Voyager can hide conversations already filed into folders from the Library table, leaving only uncategorized chats behind.",
+    "description": "Onboarding nudge body explaining the hide-archived feature in AI Studio"
+  },
+  "aistudio_hide_archived_nudge_enable": {
+    "message": "Enable",
+    "description": "Primary button on the AI Studio hide-archived nudge"
+  },
+  "aistudio_hide_archived_nudge_dismiss": {
+    "message": "Not now",
+    "description": "Dismiss button on the AI Studio hide-archived nudge"
+  },
+  "aistudio_hide_archived_nudge_footnote": {
+    "message": "Applies to AI Studio only — your Gemini preference is kept separately.",
+    "description": "Footnote on the AI Studio hide-archived nudge noting the setting is scoped per platform"
   },
   "folder_import": {
     "message": "Import folders",
@@ -579,6 +615,14 @@
     "message": "Enable folder feature",
     "description": "Enable or disable the folder feature"
   },
+  "enableFolderFloatingMode": {
+    "message": "Use floating folder panel",
+    "description": "Popup toggle that renders the folder feature as a floating window instead of injecting into Gemini's sidebar"
+  },
+  "enableFolderFloatingModeHint": {
+    "message": "Show folders in a draggable floating window instead of the sidebar.",
+    "description": "Helper text under the floating folder mode toggle"
+  },
   "hideArchivedConversations": {
     "message": "Hide archived conversations",
     "description": "Hide conversations that are in folders from the main list"
@@ -602,6 +646,42 @@
   "hideArchivedNudgeFootnote": {
     "message": "You can change this anytime in the extension popup → Folder options.",
     "description": "Footnote explaining where to toggle the setting later"
+  },
+  "floatingModeNudgeTitle": {
+    "message": "Sidebar unavailable — open folders in a floating window?",
+    "description": "Title of the floating-mode fallback nudge"
+  },
+  "floatingModeNudgeBody": {
+    "message": "Voyager couldn't find the Gemini sidebar, likely because the page layout changed. You can still browse your folders in a floating window.",
+    "description": "Body copy of the floating-mode fallback nudge"
+  },
+  "floatingModeNudgeEnable": {
+    "message": "Open floating window",
+    "description": "Primary button that opens the floating folder panel"
+  },
+  "floatingModeNudgeDismiss": {
+    "message": "Not now",
+    "description": "Secondary button that dismisses the floating-mode nudge"
+  },
+  "floatingPanelTitle": {
+    "message": "Folders",
+    "description": "Title shown in the floating folder panel header"
+  },
+  "floatingPanelClose": {
+    "message": "Close",
+    "description": "Aria label for the floating panel close button"
+  },
+  "floatingPanelEmpty": {
+    "message": "No folders yet.",
+    "description": "Empty state shown when the user has no folders"
+  },
+  "floatingPanelUntitled": {
+    "message": "Untitled",
+    "description": "Fallback label for conversations with no title"
+  },
+  "floatingFabLabel": {
+    "message": "Open floating folders",
+    "description": "Aria label and tooltip for the persistent floating-mode FAB"
   },
   "conversation_star": {
     "message": "Star conversation",
@@ -975,6 +1055,14 @@
     "message": "Download & Merge",
     "description": "Merge button label"
   },
+  "syncOverwrite": {
+    "message": "Overwrite",
+    "description": "Overwrite download button label"
+  },
+  "syncOverwriteConfirm": {
+    "message": "Overwrite local data with the cloud copy? Local changes that have not been uploaded will be lost.",
+    "description": "Confirmation before overwriting local sync data"
+  },
   "syncMode": {
     "message": "Sync Mode",
     "description": "Sync mode label"
@@ -1011,13 +1099,21 @@
     "message": "NanoBanana Options",
     "description": "NanoBanana options section label"
   },
-  "enableNanobananaWatermarkRemover": {
-    "message": "Remove NanoBanana watermark",
-    "description": "Enable automatic watermark removal for NanoBanana images"
+  "nanobananaDownloadLabel": {
+    "message": "Remove watermark on download",
+    "description": "Toggle: strip the Gemini watermark from images saved via the download button (lightweight, recommended)"
   },
-  "nanobananaWatermarkRemoverHint": {
-    "message": "Automatically removes visible Gemini watermarks from generated images",
-    "description": "Watermark remover feature hint"
+  "nanobananaDownloadHint": {
+    "message": "When you click the download button, the saved file has the watermark removed.",
+    "description": "Hint for the download-time watermark removal toggle"
+  },
+  "nanobananaPreviewLabel": {
+    "message": "Remove watermark in preview",
+    "description": "Toggle: also strip the watermark from images shown in the chat (heavier, may flash while processing)"
+  },
+  "nanobananaPreviewHint": {
+    "message": "Also process images shown on screen. Slower; the image may briefly flash while processing.",
+    "description": "Hint for the preview-time watermark removal toggle"
   },
   "nanobananaDownloadTooltip": {
     "message": "Download unwatermarked image (NanoBanana)",
@@ -1118,6 +1214,14 @@
   "ctrlEnterSendHint": {
     "message": "Press {modifier}+Enter to send messages, Enter to add a new line",
     "description": "Modifier+Enter to send feature hint. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
+  },
+  "aistudioEnterSend": {
+    "message": "Enter to send on AI Studio",
+    "description": "AI Studio Enter to send toggle label. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
+  },
+  "aistudioEnterSendHint": {
+    "message": "Press Enter to send messages, {modifier}+Enter to add a new line",
+    "description": "AI Studio Enter to send feature hint. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
   },
   "safariEnterFix": {
     "message": "Fix Enter key on Safari",
@@ -1304,7 +1408,7 @@
     "description": "Fully hide sidebar toggle label"
   },
   "sidebarFullHideHint": {
-    "message": "Completely hide the collapsed sidebar, hover left edge to reveal",
+    "message": "Completely hide the collapsed sidebar",
     "description": "Fully hide sidebar feature hint"
   },
   "folderSpacing": {
@@ -1462,10 +1566,6 @@
   "changelog_social_xiaohongshu": {
     "message": "Xiaohongshu",
     "description": "Xiaohongshu platform name for social links"
-  },
-  "changelog_social_zhihu": {
-    "message": "Zhihu",
-    "description": "Zhihu platform name for social links"
   },
   "changelog_docs_hint": {
     "message": "Details in docs",
@@ -1663,6 +1763,10 @@
     "message": "Collapse",
     "description": "Aria-label for the collapse button (screen readers)"
   },
+  "folder_new_chat_in_folder": {
+    "message": "New chat in this folder",
+    "description": "Folder context menu item to create a new chat and auto-assign it to this folder"
+  },
   "canvasExportCopyMarkdown": {
     "message": "Copy as Markdown",
     "description": "Canvas share menu item: copy canvas content as Markdown to clipboard"
@@ -1682,5 +1786,85 @@
   "canvasExportFailed": {
     "message": "Failed to copy Canvas content",
     "description": "Toast shown when clipboard copy of canvas markdown fails"
+  },
+  "floatingPanelCreateFolder": {
+    "message": "Create folder",
+    "description": "Floating folder panel create folder action"
+  },
+  "floatingPanelCreateSubfolder": {
+    "message": "Create subfolder",
+    "description": "Floating folder panel create subfolder action"
+  },
+  "floatingPanelFolderNamePlaceholder": {
+    "message": "Folder name",
+    "description": "Floating folder panel folder name input placeholder"
+  },
+  "floatingPanelRenameFolder": {
+    "message": "Rename",
+    "description": "Floating folder panel rename folder action"
+  },
+  "floatingPanelDeleteFolder": {
+    "message": "Delete",
+    "description": "Floating folder panel delete folder action"
+  },
+  "floatingPanelDeleteConfirm": {
+    "message": "Delete this folder and all its contents?",
+    "description": "Floating folder panel delete folder confirmation"
+  },
+  "floatingPanelCancel": {
+    "message": "Cancel",
+    "description": "Floating folder panel cancel action"
+  },
+  "floatingPanelSave": {
+    "message": "Save",
+    "description": "Floating folder panel save action"
+  },
+  "floatingPanelPinFolder": {
+    "message": "Pin",
+    "description": "Floating folder panel pin folder action"
+  },
+  "floatingPanelUnpinFolder": {
+    "message": "Unpin",
+    "description": "Floating folder panel unpin folder action"
+  },
+  "floatingPanelRemoveConversation": {
+    "message": "Remove from folder",
+    "description": "Floating folder panel remove conversation action"
+  },
+  "floatingPanelStarConversation": {
+    "message": "Star",
+    "description": "Floating folder panel star conversation action"
+  },
+  "floatingPanelUnstarConversation": {
+    "message": "Unstar",
+    "description": "Floating folder panel unstar conversation action"
+  },
+  "floatingPanelColor": {
+    "message": "Color",
+    "description": "Floating folder panel color section label"
+  },
+  "floatingPanelExpandFolder": {
+    "message": "Expand",
+    "description": "Floating folder panel expand folder aria label"
+  },
+  "floatingPanelCollapseFolder": {
+    "message": "Collapse",
+    "description": "Floating folder panel collapse folder aria label"
+  },
+  "floatingPanelCloudUpload": {
+    "message": "Upload to cloud",
+    "description": "Floating folder panel cloud upload button tooltip"
+  },
+  "floatingPanelCloudSync": {
+    "message": "Sync from cloud",
+    "description": "Floating folder panel cloud sync button tooltip"
+  },
+  "floatingPanelMoveHint": {
+    "message": "To add a conversation: open its ⋮ menu → \"Move to folder\".",
+    "description": "Floating folder panel hint explaining how to add conversations through the native conversation menu"
+  },
+  "floatingPanelGestureHint": {
+    "message": "Double-click to rename • Right-click for pin, color, delete.",
+    "description": "Floating folder panel hint explaining folder gestures and context menu actions"
   }
 }

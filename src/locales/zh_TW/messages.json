@@ -359,6 +359,18 @@
     "message": "大",
     "description": "大字體大小標籤"
   },
+  "chatLineHeight": {
+    "message": "對話行距",
+    "description": "對話訊息行距調整標籤"
+  },
+  "chatLineHeightTight": {
+    "message": "緊湊",
+    "description": "緊湊行距標籤"
+  },
+  "chatLineHeightLoose": {
+    "message": "寬鬆",
+    "description": "寬鬆行距標籤"
+  },
   "sidebarWidth": {
     "message": "側邊欄寬度",
     "description": "側邊欄寬度調節標籤"
@@ -422,6 +434,30 @@
   "folder_cloud_sync": {
     "message": "從雲端同步",
     "description": "雲端同步按鈕提示"
+  },
+  "folder_manage_in_library": {
+    "message": "到 Library 管理",
+    "description": "AI Studio 側欄按鈕，跳轉到 /library 以拖曳管理對話"
+  },
+  "aistudio_hide_archived_nudge_title": {
+    "message": "整理你的 AI Studio Library",
+    "description": "邀請使用者在 AI Studio 隱藏已歸檔對話的引導標題"
+  },
+  "aistudio_hide_archived_nudge_body": {
+    "message": "Voyager 可以把已經歸入資料夾的對話從 Library 表格中隱藏，只保留未分類的對話。",
+    "description": "引導卡說明 AI Studio 隱藏已歸檔功能"
+  },
+  "aistudio_hide_archived_nudge_enable": {
+    "message": "立即開啟",
+    "description": "AI Studio 隱藏已歸檔引導卡的主按鈕"
+  },
+  "aistudio_hide_archived_nudge_dismiss": {
+    "message": "暫不開啟",
+    "description": "AI Studio 隱藏已歸檔引導卡的次按鈕"
+  },
+  "aistudio_hide_archived_nudge_footnote": {
+    "message": "僅對 AI Studio 生效 —— Gemini 的偏好獨立保存。",
+    "description": "AI Studio 隱藏已歸檔引導卡的註腳，說明設定分平台保存"
   },
   "folder_import": {
     "message": "匯入資料夾",
@@ -539,6 +575,14 @@
     "message": "啟用資料夾功能",
     "description": "啟用或停用資料夾功能"
   },
+  "enableFolderFloatingMode": {
+    "message": "使用浮動資料夾面板",
+    "description": "Popup toggle that renders the folder feature as a floating window instead of injecting into Gemini's sidebar"
+  },
+  "enableFolderFloatingModeHint": {
+    "message": "以可拖曳的浮動視窗顯示資料夾，不再注入到側邊欄。",
+    "description": "Helper text under the floating folder mode toggle"
+  },
   "hideArchivedConversations": {
     "message": "隱藏已歸檔對話",
     "description": "從主清單隱藏已新增到資料夾的對話"
@@ -562,6 +606,42 @@
   "hideArchivedNudgeFootnote": {
     "message": "可在擴充功能彈窗 → 資料夾選項中關閉此功能。",
     "description": "Footnote explaining where to toggle the setting later"
+  },
+  "floatingModeNudgeTitle": {
+    "message": "側邊欄無法使用 — 在浮動視窗中開啟資料夾？",
+    "description": "Title of the floating-mode fallback nudge"
+  },
+  "floatingModeNudgeBody": {
+    "message": "Voyager 找不到 Gemini 側邊欄，可能是頁面版面已變更。你仍然可以在浮動視窗中瀏覽資料夾。",
+    "description": "Body copy of the floating-mode fallback nudge"
+  },
+  "floatingModeNudgeEnable": {
+    "message": "開啟浮動視窗",
+    "description": "Primary button that opens the floating folder panel"
+  },
+  "floatingModeNudgeDismiss": {
+    "message": "暫時不用",
+    "description": "Secondary button that dismisses the floating-mode nudge"
+  },
+  "floatingPanelTitle": {
+    "message": "資料夾",
+    "description": "Title shown in the floating folder panel header"
+  },
+  "floatingPanelClose": {
+    "message": "關閉",
+    "description": "Aria label for the floating panel close button"
+  },
+  "floatingPanelEmpty": {
+    "message": "尚無資料夾。",
+    "description": "Empty state shown when the user has no folders"
+  },
+  "floatingPanelUntitled": {
+    "message": "未命名",
+    "description": "Fallback label for conversations with no title"
+  },
+  "floatingFabLabel": {
+    "message": "開啟浮動資料夾",
+    "description": "Aria label and tooltip for the persistent floating-mode FAB"
   },
   "conversation_star": {
     "message": "星號標記對話",
@@ -935,6 +1015,14 @@
     "message": "從雲端下載合併",
     "description": "同步（合併）按鈕"
   },
+  "syncOverwrite": {
+    "message": "覆蓋下載",
+    "description": "覆蓋下載按鈕"
+  },
+  "syncOverwriteConfirm": {
+    "message": "確定要用雲端資料覆蓋本機資料嗎？尚未上傳的本機變更將會遺失。",
+    "description": "覆蓋本機同步資料前的確認"
+  },
   "syncMode": {
     "message": "同步模式",
     "description": "同步模式標籤"
@@ -971,13 +1059,21 @@
     "message": "NanoBanana 選項",
     "description": "NanoBanana options section label"
   },
-  "enableNanobananaWatermarkRemover": {
-    "message": "移除 NanoBanana 浮水印",
-    "description": "啟用自動移除生成圖片浮水印功能"
+  "nanobananaDownloadLabel": {
+    "message": "下載時移除浮水印",
+    "description": "下載圖片時自動移除浮水印（輕量，建議開啟）"
   },
-  "nanobananaWatermarkRemoverHint": {
-    "message": "自動移除 Gemini 生成圖片上的可見浮水印",
-    "description": "浮水印移除功能提示"
+  "nanobananaDownloadHint": {
+    "message": "按下下載按鈕時，儲存的檔案會自動移除浮水印。",
+    "description": "下載時移除浮水印開關說明"
+  },
+  "nanobananaPreviewLabel": {
+    "message": "預覽時移除浮水印",
+    "description": "對話中預覽圖也移除浮水印（開銷較大，處理時圖片可能會閃一下）"
+  },
+  "nanobananaPreviewHint": {
+    "message": "同時處理頁面上預覽的圖片。速度較慢，處理過程中圖片可能會短暫閃一下。",
+    "description": "預覽時移除浮水印開關說明"
   },
   "nanobananaDownloadTooltip": {
     "message": "下載無浮水印圖片 (NanoBanana)",
@@ -1078,6 +1174,14 @@
   "ctrlEnterSendHint": {
     "message": "按 {modifier}+Enter 傳送訊息，Enter 鍵僅換行",
     "description": "Modifier+Enter 傳送功能提示。{modifier} 在 macOS 上替換為 ⌘，其他平台替換為 Ctrl"
+  },
+  "aistudioEnterSend": {
+    "message": "AI Studio Enter 傳送",
+    "description": "AI Studio Enter 傳送開關標籤。{modifier} 在 macOS 上替換為 ⌘，其他平台替換為 Ctrl"
+  },
+  "aistudioEnterSendHint": {
+    "message": "在 AI Studio 中按 Enter 傳送訊息，{modifier}+Enter 換行",
+    "description": "AI Studio Enter 傳送功能提示。{modifier} 在 macOS 上替換為 ⌘，其他平台替換為 Ctrl"
   },
   "safariEnterFix": {
     "message": "修復 Safari Enter 鍵",
@@ -1304,7 +1408,7 @@
     "description": "完全隱藏側邊欄開關標籤"
   },
   "sidebarFullHideHint": {
-    "message": "收起時完全隱藏側邊欄，滑鼠移到左邊緣喚出",
+    "message": "收起時完全隱藏側邊欄",
     "description": "完全隱藏側邊欄功能提示"
   },
   "folderSpacing": {
@@ -1462,10 +1566,6 @@
   "changelog_social_xiaohongshu": {
     "message": "小紅書",
     "description": "Xiaohongshu platform name for social links"
-  },
-  "changelog_social_zhihu": {
-    "message": "知乎",
-    "description": "Zhihu platform name for social links"
   },
   "changelog_docs_hint": {
     "message": "詳細功能見文檔",
@@ -1682,5 +1782,89 @@
   "canvasExportFailed": {
     "message": "複製 Canvas 內容失敗",
     "description": "剪貼簿複製 Markdown 失敗時顯示的提示"
+  },
+  "floatingPanelCreateFolder": {
+    "message": "建立資料夾",
+    "description": "Floating folder panel create folder action"
+  },
+  "floatingPanelCreateSubfolder": {
+    "message": "建立子資料夾",
+    "description": "Floating folder panel create subfolder action"
+  },
+  "floatingPanelFolderNamePlaceholder": {
+    "message": "資料夾名稱",
+    "description": "Floating folder panel folder name input placeholder"
+  },
+  "floatingPanelRenameFolder": {
+    "message": "重新命名",
+    "description": "Floating folder panel rename folder action"
+  },
+  "floatingPanelDeleteFolder": {
+    "message": "刪除",
+    "description": "Floating folder panel delete folder action"
+  },
+  "floatingPanelDeleteConfirm": {
+    "message": "要刪除此資料夾及其所有內容嗎？",
+    "description": "Floating folder panel delete folder confirmation"
+  },
+  "floatingPanelCancel": {
+    "message": "取消",
+    "description": "Floating folder panel cancel action"
+  },
+  "floatingPanelSave": {
+    "message": "儲存",
+    "description": "Floating folder panel save action"
+  },
+  "floatingPanelPinFolder": {
+    "message": "釘選",
+    "description": "Floating folder panel pin folder action"
+  },
+  "floatingPanelUnpinFolder": {
+    "message": "取消釘選",
+    "description": "Floating folder panel unpin folder action"
+  },
+  "floatingPanelRemoveConversation": {
+    "message": "從資料夾移除",
+    "description": "Floating folder panel remove conversation action"
+  },
+  "floatingPanelStarConversation": {
+    "message": "加上星號",
+    "description": "Floating folder panel star conversation action"
+  },
+  "floatingPanelUnstarConversation": {
+    "message": "取消星號",
+    "description": "Floating folder panel unstar conversation action"
+  },
+  "floatingPanelColor": {
+    "message": "顏色",
+    "description": "Floating folder panel color section label"
+  },
+  "floatingPanelExpandFolder": {
+    "message": "展開",
+    "description": "Floating folder panel expand folder aria label"
+  },
+  "floatingPanelCollapseFolder": {
+    "message": "收合",
+    "description": "Floating folder panel collapse folder aria label"
+  },
+  "floatingPanelCloudUpload": {
+    "message": "上傳到雲端",
+    "description": "Floating folder panel cloud upload button tooltip"
+  },
+  "floatingPanelCloudSync": {
+    "message": "從雲端同步",
+    "description": "Floating folder panel cloud sync button tooltip"
+  },
+  "floatingPanelMoveHint": {
+    "message": "若要加入對話：打開對話的 ⋮ 選單 →「移動到資料夾」。",
+    "description": "Floating folder panel hint explaining how to add conversations through the native conversation menu"
+  },
+  "floatingPanelGestureHint": {
+    "message": "雙擊重新命名 · 右鍵可置頂 / 改色 / 刪除。",
+    "description": "Floating folder panel hint explaining folder gestures and context menu actions"
+  },
+  "folder_new_chat_in_folder": {
+    "message": "在此資料夾新增對話",
+    "description": "Folder context menu item to create a new chat and auto-assign it to this folder"
   }
 }

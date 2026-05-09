@@ -399,6 +399,18 @@
     "message": "大",
     "description": "Large font size label"
   },
+  "chatLineHeight": {
+    "message": "チャットの行間",
+    "description": "Chat message line spacing adjustment label"
+  },
+  "chatLineHeightTight": {
+    "message": "狭め",
+    "description": "Tight chat line spacing label"
+  },
+  "chatLineHeightLoose": {
+    "message": "広め",
+    "description": "Loose chat line spacing label"
+  },
   "sidebarWidth": {
     "message": "サイドバーの幅",
     "description": "Sidebar width adjustment label"
@@ -462,6 +474,30 @@
   "folder_cloud_sync": {
     "message": "クラウドから同期",
     "description": "Cloud sync button tooltip"
+  },
+  "folder_manage_in_library": {
+    "message": "ライブラリで管理",
+    "description": "Shortcut button shown in AI Studio sidebar to jump to /library for drag-and-drop conversation management"
+  },
+  "aistudio_hide_archived_nudge_title": {
+    "message": "AI Studio のライブラリを整理",
+    "description": "Onboarding nudge title inviting the user to hide archived conversations from the AI Studio library table"
+  },
+  "aistudio_hide_archived_nudge_body": {
+    "message": "Voyager はフォルダに振り分け済みの会話をライブラリの一覧から隠せます。未分類だけが残ります。",
+    "description": "Onboarding nudge body explaining the hide-archived feature in AI Studio"
+  },
+  "aistudio_hide_archived_nudge_enable": {
+    "message": "有効化",
+    "description": "Primary button on the AI Studio hide-archived nudge"
+  },
+  "aistudio_hide_archived_nudge_dismiss": {
+    "message": "あとで",
+    "description": "Dismiss button on the AI Studio hide-archived nudge"
+  },
+  "aistudio_hide_archived_nudge_footnote": {
+    "message": "AI Studio でのみ有効 — Gemini の設定とは別に保存されます。",
+    "description": "Footnote on the AI Studio hide-archived nudge noting the setting is scoped per platform"
   },
   "folder_import": {
     "message": "フォルダをインポート",
@@ -579,6 +615,14 @@
     "message": "フォルダ機能を有効化",
     "description": "Enable or disable the folder feature"
   },
+  "enableFolderFloatingMode": {
+    "message": "フローティングフォルダパネルを使用",
+    "description": "Popup toggle that renders the folder feature as a floating window instead of injecting into Gemini's sidebar"
+  },
+  "enableFolderFloatingModeHint": {
+    "message": "サイドバーではなく、ドラッグ可能なフローティングウィンドウでフォルダを表示します。",
+    "description": "Helper text under the floating folder mode toggle"
+  },
   "hideArchivedConversations": {
     "message": "フォルダに入れた会話をメインリストから隠す",
     "description": "Hide conversations that are in folders from the main list"
@@ -602,6 +646,42 @@
   "hideArchivedNudgeFootnote": {
     "message": "拡張機能ポップアップ → フォルダ設定でいつでも切り替えできます。",
     "description": "Footnote explaining where to toggle the setting later"
+  },
+  "floatingModeNudgeTitle": {
+    "message": "サイドバーが見つかりません — フォルダをフローティングウィンドウで開きますか？",
+    "description": "Title of the floating-mode fallback nudge"
+  },
+  "floatingModeNudgeBody": {
+    "message": "Voyager は Gemini のサイドバーを見つけられませんでした。レイアウトが変更された可能性があります。フローティングウィンドウでフォルダを引き続きご利用いただけます。",
+    "description": "Body copy of the floating-mode fallback nudge"
+  },
+  "floatingModeNudgeEnable": {
+    "message": "フローティングウィンドウを開く",
+    "description": "Primary button that opens the floating folder panel"
+  },
+  "floatingModeNudgeDismiss": {
+    "message": "あとで",
+    "description": "Secondary button that dismisses the floating-mode nudge"
+  },
+  "floatingPanelTitle": {
+    "message": "フォルダ",
+    "description": "Title shown in the floating folder panel header"
+  },
+  "floatingPanelClose": {
+    "message": "閉じる",
+    "description": "Aria label for the floating panel close button"
+  },
+  "floatingPanelEmpty": {
+    "message": "フォルダはまだありません。",
+    "description": "Empty state shown when the user has no folders"
+  },
+  "floatingPanelUntitled": {
+    "message": "タイトルなし",
+    "description": "Fallback label for conversations with no title"
+  },
+  "floatingFabLabel": {
+    "message": "フローティングフォルダを開く",
+    "description": "Aria label and tooltip for the persistent floating-mode FAB"
   },
   "conversation_star": {
     "message": "会話にスターを付ける",
@@ -975,6 +1055,14 @@
     "message": "ドライブからマージ",
     "description": "Merge button label"
   },
+  "syncOverwrite": {
+    "message": "上書き",
+    "description": "Overwrite download button label"
+  },
+  "syncOverwriteConfirm": {
+    "message": "クラウドのコピーでローカルデータを上書きしますか？アップロードしていないローカル変更は失われます。",
+    "description": "Confirmation before overwriting local sync data"
+  },
   "syncMode": {
     "message": "同期モード",
     "description": "Sync mode label"
@@ -1011,13 +1099,21 @@
     "message": "NanoBanana オプション",
     "description": "NanoBanana options section label"
   },
-  "enableNanobananaWatermarkRemover": {
-    "message": "NanoBanana 透かし除去",
-    "description": "Enable automatic watermark removal for NanoBanana images"
+  "nanobananaDownloadLabel": {
+    "message": "ダウンロード時に透かしを除去",
+    "description": "Toggle: strip the Gemini watermark from images saved via the download button (lightweight, recommended)"
   },
-  "nanobananaWatermarkRemoverHint": {
-    "message": "生成された画像から目に見える Gemini の透かしを自動的に除去します",
-    "description": "Watermark remover feature hint"
+  "nanobananaDownloadHint": {
+    "message": "ダウンロードボタンを押すと、保存されるファイルから透かしが除去されます。",
+    "description": "Hint for the download-time watermark removal toggle"
+  },
+  "nanobananaPreviewLabel": {
+    "message": "プレビュー時に透かしを除去",
+    "description": "Toggle: also strip the watermark from images shown in the chat (heavier, may flash while processing)"
+  },
+  "nanobananaPreviewHint": {
+    "message": "画面に表示される画像も処理します。動作はやや重く、処理中に画像が一瞬ちらつくことがあります。",
+    "description": "Hint for the preview-time watermark removal toggle"
   },
   "nanobananaDownloadTooltip": {
     "message": "透かしなし画像をダウンロード (NanoBanana)",
@@ -1118,6 +1214,14 @@
   "ctrlEnterSendHint": {
     "message": "{modifier}+Enter でメッセージを送信、Enter で改行",
     "description": "Modifier+Enter to send feature hint. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
+  },
+  "aistudioEnterSend": {
+    "message": "AI Studio で Enter 送信",
+    "description": "AI Studio Enter to send toggle label. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
+  },
+  "aistudioEnterSendHint": {
+    "message": "AI Studio では Enter で送信、{modifier}+Enter で改行",
+    "description": "AI Studio Enter to send feature hint. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
   },
   "safariEnterFix": {
     "message": "Safari の Enter キーを修正",
@@ -1304,7 +1408,7 @@
     "description": "サイドバー完全非表示の切り替えラベル"
   },
   "sidebarFullHideHint": {
-    "message": "折りたたみ時にサイドバーを完全に非表示にし、左端にマウスを移動して表示",
+    "message": "折りたたみ時にサイドバーを完全に非表示にする",
     "description": "サイドバー完全非表示機能のヒント"
   },
   "folderSpacing": {
@@ -1462,10 +1566,6 @@
   "changelog_social_xiaohongshu": {
     "message": "小紅書",
     "description": "Xiaohongshu platform name for social links"
-  },
-  "changelog_social_zhihu": {
-    "message": "知乎",
-    "description": "Zhihu platform name for social links"
   },
   "changelog_docs_hint": {
     "message": "詳細はドキュメントへ",
@@ -1682,5 +1782,89 @@
   "canvasExportFailed": {
     "message": "Canvas の内容をコピーできませんでした",
     "description": "Markdown のクリップボードコピーが失敗したときのトースト"
+  },
+  "floatingPanelCreateFolder": {
+    "message": "フォルダを作成",
+    "description": "Floating folder panel create folder action"
+  },
+  "floatingPanelCreateSubfolder": {
+    "message": "サブフォルダを作成",
+    "description": "Floating folder panel create subfolder action"
+  },
+  "floatingPanelFolderNamePlaceholder": {
+    "message": "フォルダ名",
+    "description": "Floating folder panel folder name input placeholder"
+  },
+  "floatingPanelRenameFolder": {
+    "message": "名前を変更",
+    "description": "Floating folder panel rename folder action"
+  },
+  "floatingPanelDeleteFolder": {
+    "message": "削除",
+    "description": "Floating folder panel delete folder action"
+  },
+  "floatingPanelDeleteConfirm": {
+    "message": "このフォルダとすべての内容を削除しますか？",
+    "description": "Floating folder panel delete folder confirmation"
+  },
+  "floatingPanelCancel": {
+    "message": "キャンセル",
+    "description": "Floating folder panel cancel action"
+  },
+  "floatingPanelSave": {
+    "message": "保存",
+    "description": "Floating folder panel save action"
+  },
+  "floatingPanelPinFolder": {
+    "message": "ピン留め",
+    "description": "Floating folder panel pin folder action"
+  },
+  "floatingPanelUnpinFolder": {
+    "message": "ピン留めを解除",
+    "description": "Floating folder panel unpin folder action"
+  },
+  "floatingPanelRemoveConversation": {
+    "message": "フォルダから削除",
+    "description": "Floating folder panel remove conversation action"
+  },
+  "floatingPanelStarConversation": {
+    "message": "スターを付ける",
+    "description": "Floating folder panel star conversation action"
+  },
+  "floatingPanelUnstarConversation": {
+    "message": "スターを外す",
+    "description": "Floating folder panel unstar conversation action"
+  },
+  "floatingPanelColor": {
+    "message": "色",
+    "description": "Floating folder panel color section label"
+  },
+  "floatingPanelExpandFolder": {
+    "message": "展開",
+    "description": "Floating folder panel expand folder aria label"
+  },
+  "floatingPanelCollapseFolder": {
+    "message": "折りたたむ",
+    "description": "Floating folder panel collapse folder aria label"
+  },
+  "floatingPanelCloudUpload": {
+    "message": "クラウドにアップロード",
+    "description": "Floating folder panel cloud upload button tooltip"
+  },
+  "floatingPanelCloudSync": {
+    "message": "クラウドから同期",
+    "description": "Floating folder panel cloud sync button tooltip"
+  },
+  "floatingPanelMoveHint": {
+    "message": "会話を追加するには、会話行の ⋮ メニュー →「フォルダへ移動」。",
+    "description": "Floating folder panel hint explaining how to add conversations through the native conversation menu"
+  },
+  "floatingPanelGestureHint": {
+    "message": "ダブルクリックで名前変更 · 右クリックで固定/色/削除。",
+    "description": "Floating folder panel hint explaining folder gestures and context menu actions"
+  },
+  "folder_new_chat_in_folder": {
+    "message": "このフォルダで新規チャット",
+    "description": "Folder context menu item to create a new chat and auto-assign it to this folder"
   }
 }

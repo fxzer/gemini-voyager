@@ -399,6 +399,18 @@
     "message": "Grande",
     "description": "Large font size label"
   },
+  "chatLineHeight": {
+    "message": "Espaçamento entre linhas do chat",
+    "description": "Chat message line spacing adjustment label"
+  },
+  "chatLineHeightTight": {
+    "message": "Compacto",
+    "description": "Tight chat line spacing label"
+  },
+  "chatLineHeightLoose": {
+    "message": "Espaçoso",
+    "description": "Loose chat line spacing label"
+  },
   "sidebarWidth": {
     "message": "Largura da barra lateral",
     "description": "Sidebar width adjustment label"
@@ -462,6 +474,30 @@
   "folder_cloud_sync": {
     "message": "Sincronizar da nuvem",
     "description": "Cloud sync button tooltip"
+  },
+  "folder_manage_in_library": {
+    "message": "Gerenciar na biblioteca",
+    "description": "Shortcut button shown in AI Studio sidebar to jump to /library for drag-and-drop conversation management"
+  },
+  "aistudio_hide_archived_nudge_title": {
+    "message": "Organize sua biblioteca do AI Studio",
+    "description": "Onboarding nudge title inviting the user to hide archived conversations from the AI Studio library table"
+  },
+  "aistudio_hide_archived_nudge_body": {
+    "message": "O Voyager pode ocultar as conversas já arquivadas em pastas da tabela da biblioteca, deixando só as não categorizadas.",
+    "description": "Onboarding nudge body explaining the hide-archived feature in AI Studio"
+  },
+  "aistudio_hide_archived_nudge_enable": {
+    "message": "Ativar",
+    "description": "Primary button on the AI Studio hide-archived nudge"
+  },
+  "aistudio_hide_archived_nudge_dismiss": {
+    "message": "Agora não",
+    "description": "Dismiss button on the AI Studio hide-archived nudge"
+  },
+  "aistudio_hide_archived_nudge_footnote": {
+    "message": "Válido só para AI Studio — sua preferência do Gemini fica guardada em separado.",
+    "description": "Footnote on the AI Studio hide-archived nudge noting the setting is scoped per platform"
   },
   "folder_import": {
     "message": "Importar pastas",
@@ -579,6 +615,14 @@
     "message": "Habilitar recurso de pasta",
     "description": "Enable or disable the folder feature"
   },
+  "enableFolderFloatingMode": {
+    "message": "Usar painel flutuante de pastas",
+    "description": "Popup toggle that renders the folder feature as a floating window instead of injecting into Gemini's sidebar"
+  },
+  "enableFolderFloatingModeHint": {
+    "message": "Mostra as pastas em uma janela flutuante arrastável em vez da barra lateral.",
+    "description": "Helper text under the floating folder mode toggle"
+  },
   "hideArchivedConversations": {
     "message": "Ocultar conversas arquivadas",
     "description": "Hide conversations that are in folders from the main list"
@@ -602,6 +646,42 @@
   "hideArchivedNudgeFootnote": {
     "message": "Você pode alterar isso a qualquer momento no popup da extensão → Opções de pastas.",
     "description": "Footnote explaining where to toggle the setting later"
+  },
+  "floatingModeNudgeTitle": {
+    "message": "Barra lateral indisponível — abrir as pastas em uma janela flutuante?",
+    "description": "Title of the floating-mode fallback nudge"
+  },
+  "floatingModeNudgeBody": {
+    "message": "O Voyager não encontrou a barra lateral do Gemini, provavelmente devido a uma mudança no layout da página. Você ainda pode navegar pelas pastas em uma janela flutuante.",
+    "description": "Body copy of the floating-mode fallback nudge"
+  },
+  "floatingModeNudgeEnable": {
+    "message": "Abrir janela flutuante",
+    "description": "Primary button that opens the floating folder panel"
+  },
+  "floatingModeNudgeDismiss": {
+    "message": "Agora não",
+    "description": "Secondary button that dismisses the floating-mode nudge"
+  },
+  "floatingPanelTitle": {
+    "message": "Pastas",
+    "description": "Title shown in the floating folder panel header"
+  },
+  "floatingPanelClose": {
+    "message": "Fechar",
+    "description": "Aria label for the floating panel close button"
+  },
+  "floatingPanelEmpty": {
+    "message": "Nenhuma pasta ainda.",
+    "description": "Empty state shown when the user has no folders"
+  },
+  "floatingPanelUntitled": {
+    "message": "Sem título",
+    "description": "Fallback label for conversations with no title"
+  },
+  "floatingFabLabel": {
+    "message": "Abrir pastas flutuantes",
+    "description": "Aria label and tooltip for the persistent floating-mode FAB"
   },
   "conversation_star": {
     "message": "Favoritar conversa",
@@ -975,6 +1055,14 @@
     "message": "Mesclar",
     "description": "Merge button label"
   },
+  "syncOverwrite": {
+    "message": "Sobrescrever",
+    "description": "Overwrite download button label"
+  },
+  "syncOverwriteConfirm": {
+    "message": "Sobrescrever os dados locais com a cópia da nuvem? Alterações locais que não foram enviadas serão perdidas.",
+    "description": "Confirmation before overwriting local sync data"
+  },
   "syncMode": {
     "message": "Modo Sincr.",
     "description": "Sync mode label"
@@ -1011,13 +1099,21 @@
     "message": "Opções NanoBanana",
     "description": "NanoBanana options section label"
   },
-  "enableNanobananaWatermarkRemover": {
-    "message": "Remover marca d'água NanoBanana",
-    "description": "Enable automatic watermark removal for NanoBanana images"
+  "nanobananaDownloadLabel": {
+    "message": "Remover marca d'água ao baixar",
+    "description": "Toggle: strip the Gemini watermark from images saved via the download button (lightweight, recommended)"
   },
-  "nanobananaWatermarkRemoverHint": {
-    "message": "Remove automaticamente marcas d'água do Gemini visíveis em imagens geradas",
-    "description": "Watermark remover feature hint"
+  "nanobananaDownloadHint": {
+    "message": "Ao clicar no botão de download, o arquivo salvo fica sem marca d'água.",
+    "description": "Hint for the download-time watermark removal toggle"
+  },
+  "nanobananaPreviewLabel": {
+    "message": "Remover marca d'água na pré-visualização",
+    "description": "Toggle: also strip the watermark from images shown in the chat (heavier, may flash while processing)"
+  },
+  "nanobananaPreviewHint": {
+    "message": "Também processa as imagens exibidas na tela. É mais lento e a imagem pode piscar brevemente durante o processamento.",
+    "description": "Hint for the preview-time watermark removal toggle"
   },
   "nanobananaDownloadTooltip": {
     "message": "Baixar imagem sem marca d'água (NanoBanana)",
@@ -1118,6 +1214,14 @@
   "ctrlEnterSendHint": {
     "message": "Pressione {modifier}+Enter para enviar mensagens, Enter para nova linha",
     "description": "Modifier+Enter to send feature hint. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
+  },
+  "aistudioEnterSend": {
+    "message": "Enter para enviar no AI Studio",
+    "description": "AI Studio Enter to send toggle label. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
+  },
+  "aistudioEnterSendHint": {
+    "message": "Pressione Enter para enviar mensagens, {modifier}+Enter para nova linha",
+    "description": "AI Studio Enter to send feature hint. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
   },
   "safariEnterFix": {
     "message": "Corrigir tecla Enter no Safari",
@@ -1304,7 +1408,7 @@
     "description": "Fully hide sidebar toggle label"
   },
   "sidebarFullHideHint": {
-    "message": "Ocultar completamente a barra lateral recolhida, passar o mouse na borda esquerda para mostrar",
+    "message": "Ocultar completamente a barra lateral recolhida",
     "description": "Fully hide sidebar feature hint"
   },
   "folderSpacing": {
@@ -1462,10 +1566,6 @@
   "changelog_social_xiaohongshu": {
     "message": "Xiaohongshu",
     "description": "Xiaohongshu platform name for social links"
-  },
-  "changelog_social_zhihu": {
-    "message": "Zhihu",
-    "description": "Zhihu platform name for social links"
   },
   "changelog_docs_hint": {
     "message": "Detalhes nos docs",
@@ -1682,5 +1782,89 @@
   "canvasExportFailed": {
     "message": "Falha ao copiar o conteúdo do Canvas",
     "description": "Notificação exibida quando a cópia para a área de transferência falha"
+  },
+  "floatingPanelCreateFolder": {
+    "message": "Criar pasta",
+    "description": "Floating folder panel create folder action"
+  },
+  "floatingPanelCreateSubfolder": {
+    "message": "Criar subpasta",
+    "description": "Floating folder panel create subfolder action"
+  },
+  "floatingPanelFolderNamePlaceholder": {
+    "message": "Nome da pasta",
+    "description": "Floating folder panel folder name input placeholder"
+  },
+  "floatingPanelRenameFolder": {
+    "message": "Renomear",
+    "description": "Floating folder panel rename folder action"
+  },
+  "floatingPanelDeleteFolder": {
+    "message": "Excluir",
+    "description": "Floating folder panel delete folder action"
+  },
+  "floatingPanelDeleteConfirm": {
+    "message": "Excluir esta pasta e todo o conteúdo?",
+    "description": "Floating folder panel delete folder confirmation"
+  },
+  "floatingPanelCancel": {
+    "message": "Cancelar",
+    "description": "Floating folder panel cancel action"
+  },
+  "floatingPanelSave": {
+    "message": "Salvar",
+    "description": "Floating folder panel save action"
+  },
+  "floatingPanelPinFolder": {
+    "message": "Fixar",
+    "description": "Floating folder panel pin folder action"
+  },
+  "floatingPanelUnpinFolder": {
+    "message": "Desafixar",
+    "description": "Floating folder panel unpin folder action"
+  },
+  "floatingPanelRemoveConversation": {
+    "message": "Remover da pasta",
+    "description": "Floating folder panel remove conversation action"
+  },
+  "floatingPanelStarConversation": {
+    "message": "Marcar com estrela",
+    "description": "Floating folder panel star conversation action"
+  },
+  "floatingPanelUnstarConversation": {
+    "message": "Remover estrela",
+    "description": "Floating folder panel unstar conversation action"
+  },
+  "floatingPanelColor": {
+    "message": "Cor",
+    "description": "Floating folder panel color section label"
+  },
+  "floatingPanelExpandFolder": {
+    "message": "Expandir",
+    "description": "Floating folder panel expand folder aria label"
+  },
+  "floatingPanelCollapseFolder": {
+    "message": "Recolher",
+    "description": "Floating folder panel collapse folder aria label"
+  },
+  "floatingPanelCloudUpload": {
+    "message": "Enviar para a nuvem",
+    "description": "Floating folder panel cloud upload button tooltip"
+  },
+  "floatingPanelCloudSync": {
+    "message": "Sincronizar da nuvem",
+    "description": "Floating folder panel cloud sync button tooltip"
+  },
+  "floatingPanelMoveHint": {
+    "message": "Para adicionar uma conversa: menu ⋮ da conversa → \"Mover para pasta\".",
+    "description": "Floating folder panel hint explaining how to add conversations through the native conversation menu"
+  },
+  "floatingPanelGestureHint": {
+    "message": "Duplo clique para renomear · Clique direito: fixar/cor/excluir.",
+    "description": "Floating folder panel hint explaining folder gestures and context menu actions"
+  },
+  "folder_new_chat_in_folder": {
+    "message": "Novo chat nesta pasta",
+    "description": "Folder context menu item to create a new chat and auto-assign it to this folder"
   }
 }

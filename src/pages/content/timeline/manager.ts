@@ -16,6 +16,7 @@ import { hashString } from '@/core/utils/hash';
 import { GV_RTL_CLASS, applyRTLClass } from '@/core/utils/rtl';
 
 import { getTranslationSync, initI18n } from '../../../utils/i18n';
+import { makeStableTurnId } from '../fork/turnId';
 import { TimestampService } from '../timestamp/TimestampService';
 import { eventBus } from './EventBus';
 import { StarredMessagesService } from './StarredMessagesService';
@@ -74,18 +75,20 @@ interface TimelineManagerOptions {
   previousUrl?: string | null;
 }
 
+interface TimelineMarker {
+  id: string;
+  element: HTMLElement;
+  summary: string;
+  n: number;
+  baseN: number;
+  dotElement: DotElement | null;
+  starred: boolean;
+}
+
 export class TimelineManager {
   private scrollContainer: HTMLElement | null = null;
   private conversationContainer: HTMLElement | null = null;
-  private markers: Array<{
-    id: string;
-    element: HTMLElement;
-    summary: string;
-    n: number;
-    baseN: number;
-    dotElement: DotElement | null;
-    starred: boolean;
-  }> = [];
+  private markers: TimelineMarker[] = [];
   private activeTurnId: string | null = null;
   private ui: {
     timelineBar: HTMLElement | null;
@@ -220,6 +223,7 @@ export class TimelineManager {
   private timestampStartupTimer: number | null = null;
   private seenTurnIds: Set<string> = new Set();
   private pendingDraftTimestampSourceConversationId: string | null;
+  private readonly turnIdByIndex = new Map<number, string>();
 
   constructor(private readonly options: TimelineManagerOptions = {}) {
     this.pendingDraftTimestampSourceConversationId = this.computeDraftTimestampSourceConversationId(
@@ -570,8 +574,31 @@ export class TimelineManager {
     return true;
   }
 
+  private buildPreviewMarkers(): ReadonlyArray<{
+    id: string;
+    summary: string;
+    index: number;
+    starred: boolean;
+    starredAt?: number;
+  }> {
+    return this.markers.map((m, i) => ({
+      id: m.id,
+      summary: m.summary,
+      index: i,
+      starred: m.starred,
+      starredAt: m.starred ? this.starredAtMap.get(m.id) : undefined,
+    }));
+  }
+
+  private updatePreviewMarkers(): void {
+    this.previewPanel?.updateMarkers(this.buildPreviewMarkers());
+  }
+
   private applyStarredIdSet(nextSet: Set<string>, persistLocal = true): void {
-    if (this.areStarredSetsEqual(this.starred, nextSet)) return;
+    if (this.areStarredSetsEqual(this.starred, nextSet)) {
+      this.updatePreviewMarkers();
+      return;
+    }
 
     // Clean up starredAtMap for removed entries
     for (const id of this.starred) {
@@ -592,6 +619,7 @@ export class TimelineManager {
         }
       }
     }
+    this.updatePreviewMarkers();
 
     if (this.ui.tooltip?.classList.contains('visible')) {
       const currentDot = this.ui.timelineBar?.querySelector(
@@ -1142,18 +1170,134 @@ export class TimelineManager {
       : 12;
   }
 
-  private ensureTurnId(el: Element, index: number): string {
-    const asEl = el as HTMLElement & { dataset?: DOMStringMap & { turnId?: string } };
-    let id = asEl.dataset?.turnId || '';
-    if (!id) {
-      const basis = this.extractTurnText(asEl) || `user-${index}`;
-      // Append index to ensure unique IDs for identical text content
-      id = `u-${hashString(basis + '|' + index)}`;
-      try {
-        if (asEl.dataset) asEl.dataset.turnId = id;
-      } catch {}
+  private collectExistingTurnIdOwners(elements: HTMLElement[]): Map<string, HTMLElement[]> {
+    const owners = new Map<string, HTMLElement[]>();
+    elements.forEach((el) => {
+      const id = el.dataset?.turnId?.trim() || '';
+      if (!id) return;
+      const existing = owners.get(id);
+      if (existing) {
+        existing.push(el);
+      } else {
+        owners.set(id, [el]);
+      }
+    });
+    return owners;
+  }
+
+  private collectPreviousMarkerElementsById(): Map<string, Set<HTMLElement>> {
+    const elementsById = new Map<string, Set<HTMLElement>>();
+    this.markers.forEach((marker) => {
+      let elements = elementsById.get(marker.id);
+      if (!elements) {
+        elements = new Set<HTMLElement>();
+        elementsById.set(marker.id, elements);
+      }
+      elements.add(marker.element);
+    });
+    return elementsById;
+  }
+
+  private shouldKeepExistingTurnId(
+    id: string,
+    el: HTMLElement,
+    usedIds: Set<string>,
+    existingTurnIdOwners: Map<string, HTMLElement[]>,
+    previousMarkerElementsById: Map<string, Set<HTMLElement>>,
+  ): boolean {
+    if (usedIds.has(id)) return false;
+
+    const owners = existingTurnIdOwners.get(id) ?? [];
+    if (owners.length <= 1) return true;
+
+    const previousOwners = previousMarkerElementsById.get(id);
+    if (!previousOwners || previousOwners.size === 0) return owners[0] === el;
+    if (previousOwners.has(el)) return true;
+
+    return !owners.some((owner) => owner !== el && previousOwners.has(owner));
+  }
+
+  private allocateTurnId(
+    el: HTMLElement,
+    index: number,
+    usedIds: Set<string>,
+    existingTurnIdOwners: Map<string, HTMLElement[]>,
+  ): string {
+    const basis = this.extractTurnText(el) || `user-${index}`;
+    const candidates = [
+      this.turnIdByIndex.get(index) || '',
+      makeStableTurnId(index),
+      `u-${index}-${hashString(basis)}`,
+    ];
+
+    for (const candidate of candidates) {
+      if (!candidate || usedIds.has(candidate)) continue;
+      if (existingTurnIdOwners.has(candidate)) continue;
+      return candidate;
     }
+
+    const base = `u-${index}-${hashString(`${basis}|dedupe`)}`;
+    let suffix = 0;
+    let candidate = base;
+    while (usedIds.has(candidate) || existingTurnIdOwners.has(candidate)) {
+      suffix += 1;
+      candidate = `${base}-${suffix}`;
+    }
+    return candidate;
+  }
+
+  private ensureTurnId(
+    el: Element,
+    index: number,
+    usedIds: Set<string>,
+    existingTurnIdOwners: Map<string, HTMLElement[]>,
+    previousMarkerElementsById: Map<string, Set<HTMLElement>>,
+  ): string {
+    const asEl = el as HTMLElement & { dataset?: DOMStringMap & { turnId?: string } };
+    const existingId = asEl.dataset?.turnId?.trim() || '';
+    if (
+      existingId &&
+      this.shouldKeepExistingTurnId(
+        existingId,
+        asEl,
+        usedIds,
+        existingTurnIdOwners,
+        previousMarkerElementsById,
+      )
+    ) {
+      usedIds.add(existingId);
+      this.turnIdByIndex.set(index, existingId);
+      return existingId;
+    }
+
+    const id = this.allocateTurnId(asEl, index, usedIds, existingTurnIdOwners);
+    try {
+      if (asEl.dataset) asEl.dataset.turnId = id;
+    } catch {}
+    usedIds.add(id);
+    this.turnIdByIndex.set(index, id);
     return id;
+  }
+
+  private getLegacyContentTurnId(el: HTMLElement, index: number): string {
+    const basis = this.extractTurnText(el) || `user-${index}`;
+    return `u-${hashString(basis + '|' + index)}`;
+  }
+
+  private getTimestampForMarker(
+    conversationId: string,
+    marker: TimelineMarker,
+    index: number,
+  ): number | null {
+    if (!this.timestampService) return null;
+
+    const timestamp = this.timestampService.getTimestamp(conversationId, marker.id as TurnId);
+    if (timestamp != null) return timestamp;
+
+    const legacyTurnId = this.getLegacyContentTurnId(marker.element, index);
+    if (legacyTurnId === marker.id) return null;
+
+    return this.timestampService.getTimestamp(conversationId, legacyTurnId as TurnId);
   }
 
   private detectCssVarTopSupport(pad: number, usableC: number): boolean {
@@ -1371,12 +1515,21 @@ export class TimelineManager {
     this.contentSpanPx = contentSpan;
 
     this.markerMap.clear();
+    const usedTurnIds = new Set<string>();
+    const existingTurnIdOwners = this.collectExistingTurnIdOwners(allEls);
+    const previousMarkerElementsById = this.collectPreviousMarkerElementsById();
     this.markers = Array.from(allEls).map((el, idx) => {
       const element = el as HTMLElement;
       const offsetFromStart = element.offsetTop - firstTurnOffset;
       let n = offsetFromStart / contentSpan;
       n = Math.max(0, Math.min(1, n));
-      const id = this.ensureTurnId(element, idx);
+      const id = this.ensureTurnId(
+        element,
+        idx,
+        usedTurnIds,
+        existingTurnIdOwners,
+        previousMarkerElementsById,
+      );
       const m = {
         id,
         element,
@@ -1403,15 +1556,7 @@ export class TimelineManager {
     this.updateVirtualRangeAndRender();
     this.updateActiveDotUI();
     this.scheduleScrollSync();
-    this.previewPanel?.updateMarkers(
-      this.markers.map((m, i) => ({
-        id: m.id,
-        summary: m.summary,
-        index: i,
-        starred: m.starred,
-        starredAt: m.starred ? this.starredAtMap.get(m.id) : undefined,
-      })),
-    );
+    this.updatePreviewMarkers();
     // Inject timestamps after markers are ready
     this.injectMessageTimestamps().catch(() => {});
   };
@@ -1434,12 +1579,24 @@ export class TimelineManager {
         el.remove();
         return;
       }
+
+      if (existingTimestampEls.has(turnId)) {
+        el.remove();
+        return;
+      }
+
       existingTimestampEls.set(turnId, el);
     });
 
     // Use markers instead of querying DOM - markers already have the correct elements
-    this.markers.forEach((marker) => {
+    const renderedTurnIds = new Set<string>();
+    this.markers.forEach((marker, index) => {
       activeTurnIds.add(marker.id);
+      if (renderedTurnIds.has(marker.id)) {
+        return;
+      }
+      renderedTurnIds.add(marker.id);
+
       const msgEl = marker.element;
       const parent = msgEl.parentElement;
       if (!parent) {
@@ -1450,7 +1607,7 @@ export class TimelineManager {
 
       let insertionParent: HTMLElement | null = parent;
       let insertionAnchor: HTMLElement = msgEl;
-      let alignClass = 'gv-timestamp-assistant';
+      const alignClass = 'gv-timestamp-user';
       const existingTimestampEl = existingTimestampEls.get(marker.id) ?? null;
       try {
         // Walk up to find the nearest horizontal row wrapper (avatar + bubble).
@@ -1468,17 +1625,13 @@ export class TimelineManager {
         if (rowWrapper && rowWrapper.parentElement) {
           insertionParent = rowWrapper.parentElement as HTMLElement;
           insertionAnchor = rowWrapper;
-          const rowStyle = getComputedStyle(rowWrapper);
-          if (rowStyle.justifyContent.includes('flex-end')) {
-            alignClass = 'gv-timestamp-user';
-          }
         }
       } catch {}
       if (!insertionParent) {
         return;
       }
 
-      const timestamp = timestampService.getTimestamp(conversationId, marker.id as TurnId);
+      const timestamp = this.getTimestampForMarker(conversationId, marker, index);
       if (timestamp == null) {
         existingTimestampEls.get(marker.id)?.remove();
         existingTimestampEls.delete(marker.id);
@@ -1852,6 +2005,7 @@ export class TimelineManager {
             marker.dotElement.setAttribute('aria-pressed', 'false');
           }
 
+          this.updatePreviewMarkers();
           console.log('[Timeline] Starred removed via EventBus:', turnId);
         }
       }),
@@ -1876,6 +2030,7 @@ export class TimelineManager {
             marker.dotElement.setAttribute('aria-pressed', 'true');
           }
 
+          this.updatePreviewMarkers();
           console.log('[Timeline] Starred added via EventBus:', turnId);
         }
       }),
@@ -2271,7 +2426,11 @@ export class TimelineManager {
     if (id && this.starred.has(id)) fullText = `★ ${fullText}`;
 
     if (this.showMessageTimestampsEnabled && id && this.timestampService && this.conversationId) {
-      const ts = this.timestampService.getTimestamp(this.conversationId, id as TurnId);
+      const markerIndex = this.markers.findIndex((marker) => marker.id === id);
+      const ts =
+        markerIndex >= 0
+          ? this.getTimestampForMarker(this.conversationId, this.markers[markerIndex], markerIndex)
+          : this.timestampService.getTimestamp(this.conversationId, id as TurnId);
       if (typeof ts === 'number') {
         fullText = `${this.timestampService.formatAbsoluteTime(ts)}\n${fullText}`;
       }
@@ -2787,6 +2946,7 @@ export class TimelineManager {
         }
       }
     });
+    this.updatePreviewMarkers();
   }
 
   /**

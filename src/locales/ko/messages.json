@@ -399,6 +399,18 @@
     "message": "크게",
     "description": "Large font size label"
   },
+  "chatLineHeight": {
+    "message": "대화 줄 간격",
+    "description": "Chat message line spacing adjustment label"
+  },
+  "chatLineHeightTight": {
+    "message": "좁게",
+    "description": "Tight chat line spacing label"
+  },
+  "chatLineHeightLoose": {
+    "message": "넓게",
+    "description": "Loose chat line spacing label"
+  },
   "sidebarWidth": {
     "message": "사이드바 너비",
     "description": "Sidebar width adjustment label"
@@ -462,6 +474,30 @@
   "folder_cloud_sync": {
     "message": "클라우드에서 동기화",
     "description": "Cloud sync button tooltip"
+  },
+  "folder_manage_in_library": {
+    "message": "라이브러리에서 관리",
+    "description": "Shortcut button shown in AI Studio sidebar to jump to /library for drag-and-drop conversation management"
+  },
+  "aistudio_hide_archived_nudge_title": {
+    "message": "AI Studio 라이브러리 정리",
+    "description": "Onboarding nudge title inviting the user to hide archived conversations from the AI Studio library table"
+  },
+  "aistudio_hide_archived_nudge_body": {
+    "message": "Voyager는 폴더에 정리한 대화를 라이브러리 목록에서 숨길 수 있어, 미분류 대화만 남길 수 있습니다.",
+    "description": "Onboarding nudge body explaining the hide-archived feature in AI Studio"
+  },
+  "aistudio_hide_archived_nudge_enable": {
+    "message": "활성화",
+    "description": "Primary button on the AI Studio hide-archived nudge"
+  },
+  "aistudio_hide_archived_nudge_dismiss": {
+    "message": "나중에",
+    "description": "Dismiss button on the AI Studio hide-archived nudge"
+  },
+  "aistudio_hide_archived_nudge_footnote": {
+    "message": "AI Studio에만 적용됩니다 — Gemini 설정은 별도로 저장됩니다.",
+    "description": "Footnote on the AI Studio hide-archived nudge noting the setting is scoped per platform"
   },
   "folder_import": {
     "message": "폴더 가져오기",
@@ -579,6 +615,14 @@
     "message": "폴더 기능 활성화",
     "description": "Enable or disable the folder feature"
   },
+  "enableFolderFloatingMode": {
+    "message": "플로팅 폴더 패널 사용",
+    "description": "Popup toggle that renders the folder feature as a floating window instead of injecting into Gemini's sidebar"
+  },
+  "enableFolderFloatingModeHint": {
+    "message": "폴더를 사이드바에 주입하지 않고 드래그 가능한 플로팅 창으로 표시합니다.",
+    "description": "Helper text under the floating folder mode toggle"
+  },
   "hideArchivedConversations": {
     "message": "보관된 대화 숨기기",
     "description": "Hide conversations that are in folders from the main list"
@@ -602,6 +646,42 @@
   "hideArchivedNudgeFootnote": {
     "message": "확장 프로그램 팝업 → 폴더 옵션에서 언제든 변경할 수 있습니다.",
     "description": "Footnote explaining where to toggle the setting later"
+  },
+  "floatingModeNudgeTitle": {
+    "message": "사이드바를 찾을 수 없음 — 폴더를 플로팅 창으로 열까요?",
+    "description": "Title of the floating-mode fallback nudge"
+  },
+  "floatingModeNudgeBody": {
+    "message": "Voyager가 Gemini 사이드바를 찾지 못했습니다. 페이지 레이아웃이 변경되었을 수 있습니다. 플로팅 창에서 폴더를 계속 탐색할 수 있습니다.",
+    "description": "Body copy of the floating-mode fallback nudge"
+  },
+  "floatingModeNudgeEnable": {
+    "message": "플로팅 창 열기",
+    "description": "Primary button that opens the floating folder panel"
+  },
+  "floatingModeNudgeDismiss": {
+    "message": "나중에",
+    "description": "Secondary button that dismisses the floating-mode nudge"
+  },
+  "floatingPanelTitle": {
+    "message": "폴더",
+    "description": "Title shown in the floating folder panel header"
+  },
+  "floatingPanelClose": {
+    "message": "닫기",
+    "description": "Aria label for the floating panel close button"
+  },
+  "floatingPanelEmpty": {
+    "message": "아직 폴더가 없습니다.",
+    "description": "Empty state shown when the user has no folders"
+  },
+  "floatingPanelUntitled": {
+    "message": "제목 없음",
+    "description": "Fallback label for conversations with no title"
+  },
+  "floatingFabLabel": {
+    "message": "플로팅 폴더 열기",
+    "description": "Aria label and tooltip for the persistent floating-mode FAB"
   },
   "conversation_star": {
     "message": "대화 별표 표시",
@@ -975,6 +1055,14 @@
     "message": "다운로드 및 병합",
     "description": "Merge button label"
   },
+  "syncOverwrite": {
+    "message": "덮어쓰기",
+    "description": "Overwrite download button label"
+  },
+  "syncOverwriteConfirm": {
+    "message": "클라우드 사본으로 로컬 데이터를 덮어쓸까요? 업로드하지 않은 로컬 변경사항은 손실됩니다.",
+    "description": "Confirmation before overwriting local sync data"
+  },
   "syncMode": {
     "message": "동기화 모드",
     "description": "Sync mode label"
@@ -1011,13 +1099,21 @@
     "message": "NanoBanana 옵션",
     "description": "NanoBanana options section label"
   },
-  "enableNanobananaWatermarkRemover": {
-    "message": "NanoBanana 워터마크 제거",
-    "description": "Enable automatic watermark removal for NanoBanana images"
+  "nanobananaDownloadLabel": {
+    "message": "다운로드 시 워터마크 제거",
+    "description": "Toggle: strip the Gemini watermark from images saved via the download button (lightweight, recommended)"
   },
-  "nanobananaWatermarkRemoverHint": {
-    "message": "생성된 이미지에서 가시적인 Gemini 워터마크를 자동으로 제거합니다",
-    "description": "Watermark remover feature hint"
+  "nanobananaDownloadHint": {
+    "message": "다운로드 버튼을 누르면 저장되는 파일에서 워터마크가 제거됩니다.",
+    "description": "Hint for the download-time watermark removal toggle"
+  },
+  "nanobananaPreviewLabel": {
+    "message": "미리보기에서 워터마크 제거",
+    "description": "Toggle: also strip the watermark from images shown in the chat (heavier, may flash while processing)"
+  },
+  "nanobananaPreviewHint": {
+    "message": "화면에 표시되는 이미지도 함께 처리합니다. 처리 속도는 더 느려지며, 처리 중 이미지가 잠깐 깜박일 수 있습니다.",
+    "description": "Hint for the preview-time watermark removal toggle"
   },
   "nanobananaDownloadTooltip": {
     "message": "워터마크 없는 이미지 다운로드 (NanoBanana)",
@@ -1118,6 +1214,14 @@
   "ctrlEnterSendHint": {
     "message": "{modifier}+Enter 를 눌러 메시지를 전송하고, Enter 로 줄바꿈을 합니다",
     "description": "Modifier+Enter to send feature hint. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
+  },
+  "aistudioEnterSend": {
+    "message": "AI Studio에서 Enter로 전송",
+    "description": "AI Studio Enter to send toggle label. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
+  },
+  "aistudioEnterSendHint": {
+    "message": "AI Studio에서 Enter로 메시지를 전송하고, {modifier}+Enter로 줄바꿈을 합니다",
+    "description": "AI Studio Enter to send feature hint. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
   },
   "safariEnterFix": {
     "message": "Safari Enter 키 수정",
@@ -1304,7 +1408,7 @@
     "description": "Fully hide sidebar toggle label"
   },
   "sidebarFullHideHint": {
-    "message": "접힌 사이드바를 완전히 숨기고, 왼쪽 가장자리에 마우스를 올려 표시",
+    "message": "접힌 사이드바를 완전히 숨김",
     "description": "Fully hide sidebar feature hint"
   },
   "folderSpacing": {
@@ -1462,10 +1566,6 @@
   "changelog_social_xiaohongshu": {
     "message": "Xiaohongshu",
     "description": "Xiaohongshu platform name for social links"
-  },
-  "changelog_social_zhihu": {
-    "message": "Zhihu",
-    "description": "Zhihu platform name for social links"
   },
   "changelog_docs_hint": {
     "message": "자세한 내용은 문서 참조",
@@ -1682,5 +1782,89 @@
   "canvasExportFailed": {
     "message": "Canvas 콘텐츠를 복사하지 못했습니다",
     "description": "Markdown 클립보드 복사가 실패했을 때의 토스트"
+  },
+  "floatingPanelCreateFolder": {
+    "message": "폴더 만들기",
+    "description": "Floating folder panel create folder action"
+  },
+  "floatingPanelCreateSubfolder": {
+    "message": "하위 폴더 만들기",
+    "description": "Floating folder panel create subfolder action"
+  },
+  "floatingPanelFolderNamePlaceholder": {
+    "message": "폴더 이름",
+    "description": "Floating folder panel folder name input placeholder"
+  },
+  "floatingPanelRenameFolder": {
+    "message": "이름 바꾸기",
+    "description": "Floating folder panel rename folder action"
+  },
+  "floatingPanelDeleteFolder": {
+    "message": "삭제",
+    "description": "Floating folder panel delete folder action"
+  },
+  "floatingPanelDeleteConfirm": {
+    "message": "이 폴더와 모든 내용을 삭제할까요?",
+    "description": "Floating folder panel delete folder confirmation"
+  },
+  "floatingPanelCancel": {
+    "message": "취소",
+    "description": "Floating folder panel cancel action"
+  },
+  "floatingPanelSave": {
+    "message": "저장",
+    "description": "Floating folder panel save action"
+  },
+  "floatingPanelPinFolder": {
+    "message": "고정",
+    "description": "Floating folder panel pin folder action"
+  },
+  "floatingPanelUnpinFolder": {
+    "message": "고정 해제",
+    "description": "Floating folder panel unpin folder action"
+  },
+  "floatingPanelRemoveConversation": {
+    "message": "폴더에서 제거",
+    "description": "Floating folder panel remove conversation action"
+  },
+  "floatingPanelStarConversation": {
+    "message": "별표 표시",
+    "description": "Floating folder panel star conversation action"
+  },
+  "floatingPanelUnstarConversation": {
+    "message": "별표 해제",
+    "description": "Floating folder panel unstar conversation action"
+  },
+  "floatingPanelColor": {
+    "message": "색상",
+    "description": "Floating folder panel color section label"
+  },
+  "floatingPanelExpandFolder": {
+    "message": "펼치기",
+    "description": "Floating folder panel expand folder aria label"
+  },
+  "floatingPanelCollapseFolder": {
+    "message": "접기",
+    "description": "Floating folder panel collapse folder aria label"
+  },
+  "floatingPanelCloudUpload": {
+    "message": "클라우드에 업로드",
+    "description": "Floating folder panel cloud upload button tooltip"
+  },
+  "floatingPanelCloudSync": {
+    "message": "클라우드에서 동기화",
+    "description": "Floating folder panel cloud sync button tooltip"
+  },
+  "floatingPanelMoveHint": {
+    "message": "대화를 추가하려면 대화의 ⋮ 메뉴에서 \"폴더로 이동\"을 선택하세요.",
+    "description": "Floating folder panel hint explaining how to add conversations through the native conversation menu"
+  },
+  "floatingPanelGestureHint": {
+    "message": "더블 클릭으로 이름 변경 · 우클릭으로 고정/색상/삭제.",
+    "description": "Floating folder panel hint explaining folder gestures and context menu actions"
+  },
+  "folder_new_chat_in_folder": {
+    "message": "이 폴더에서 새 채팅",
+    "description": "Folder context menu item to create a new chat and auto-assign it to this folder"
   }
 }

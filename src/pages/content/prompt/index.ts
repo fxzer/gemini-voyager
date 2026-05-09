@@ -44,6 +44,7 @@ import { createFolderStorageAdapter } from '../folder/storage/FolderStorageAdapt
 import { expandInputCollapseIfNeeded } from '../inputCollapse/index';
 import { extractPlainTitle } from './compactTitle';
 import { parsePromptImportPayload } from './importPayload';
+import { loadFolderDataForLocalBackup } from './localBackup';
 import { activatePromptText } from './promptClickAction';
 import { getScrollHintState } from './scrollHint';
 
@@ -1376,8 +1377,18 @@ export async function startPromptManager(): Promise<{ destroy: () => void }> {
       open = true;
       panel.classList.remove('gv-hidden');
       if (locked && savedPos) {
-        panel.style.left = `${Math.round(savedPos.left)}px`;
-        panel.style.top = `${Math.round(savedPos.top)}px`;
+        // Clamp the saved position to the current viewport. Without this, a
+        // panel pinned on a wider screen renders past the edge after the user
+        // narrows the window — and since dragging/the unlock button are gated
+        // on `!locked`, the user gets stuck. See #635.
+        const pad = 8;
+        const rect = panel.getBoundingClientRect();
+        const panelW = rect.width || 320;
+        const panelH = rect.height || 360;
+        const left = Math.max(pad, Math.min(savedPos.left, window.innerWidth - panelW - pad));
+        const top = Math.max(pad, Math.min(savedPos.top, window.innerHeight - panelH - pad));
+        panel.style.left = `${Math.round(left)}px`;
+        panel.style.top = `${Math.round(top)}px`;
       } else {
         // measure after making visible
         const pos = computeAnchoredPosition(trigger, panel);
@@ -1443,7 +1454,19 @@ export async function startPromptManager(): Promise<{ destroy: () => void }> {
 
     function onReposition(): void {
       if (!open) return;
-      if (locked) return;
+      if (locked) {
+        // Don't re-anchor when locked, but do keep the panel inside the viewport
+        // so a window resize can't strand the unlock button off-screen (#635).
+        const pad = 8;
+        const rect = panel.getBoundingClientRect();
+        const left = Math.max(pad, Math.min(rect.left, window.innerWidth - rect.width - pad));
+        const top = Math.max(pad, Math.min(rect.top, window.innerHeight - rect.height - pad));
+        if (left !== rect.left || top !== rect.top) {
+          panel.style.left = `${Math.round(left)}px`;
+          panel.style.top = `${Math.round(top)}px`;
+        }
+        return;
+      }
       const pos = computeAnchoredPosition(trigger, panel);
       panel.style.left = `${pos.left}px`;
       panel.style.top = `${pos.top}px`;
@@ -1859,12 +1882,13 @@ export async function startPromptManager(): Promise<{ destroy: () => void }> {
           items: prompts,
         };
 
-        // Read folders (Safari-compatible: uses storage adapter)
+        // Read folders for the current platform (Safari-compatible: uses storage adapter)
         const folderStorage = createFolderStorageAdapter();
-        const folderData = (await folderStorage.loadData('gvFolderData')) || {
-          folders: [],
-          folderContents: {},
-        };
+        const folderData = await loadFolderDataForLocalBackup(
+          folderStorage,
+          window.location.href,
+          document,
+        );
 
         // Create folder export payload with correct format
         const folderPayload = {

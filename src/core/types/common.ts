@@ -39,6 +39,15 @@ export const StorageKeys = {
   FOLDER_ENABLED: 'geminiFolderEnabled',
   FOLDER_HIDE_ARCHIVED_CONVERSATIONS: 'geminiFolderHideArchivedConversations',
   FOLDER_HIDE_ARCHIVED_NUDGE_SHOWN: 'geminiFolderHideArchivedNudgeShown',
+  FOLDER_FLOATING_MODE_ENABLED: 'geminiFolderFloatingModeEnabled',
+  FOLDER_FLOATING_NUDGE_SHOWN: 'geminiFolderFloatingNudgeShown',
+  FOLDER_FLOATING_POS: 'geminiFolderFloatingPos',
+  FOLDER_FLOATING_FAB_POS: 'geminiFolderFloatingFabPos',
+  FOLDER_FLOATING_SIZE: 'geminiFolderFloatingSize',
+  // AI Studio variants — intentionally separate from the Gemini keys so toggling the
+  // behaviour on one platform does not surprise users on the other.
+  FOLDER_HIDE_ARCHIVED_CONVERSATIONS_AISTUDIO: 'aistudioFolderHideArchivedConversations',
+  FOLDER_HIDE_ARCHIVED_NUDGE_SHOWN_AISTUDIO: 'aistudioFolderHideArchivedNudgeShown',
 
   // Timeline
   TIMELINE_SCROLL_MODE: 'geminiTimelineScrollMode',
@@ -57,6 +66,8 @@ export const StorageKeys = {
   CHAT_WIDTH_ENABLED: 'gvChatWidthEnabled',
   CHAT_FONT_SIZE: 'gvChatFontSize',
   CHAT_FONT_SIZE_ENABLED: 'gvChatFontSizeEnabled',
+  CHAT_LINE_HEIGHT: 'gvChatLineHeight',
+  CHAT_LINE_HEIGHT_ENABLED: 'gvChatLineHeightEnabled',
   EDIT_INPUT_WIDTH: 'geminiEditInputWidth',
   EDIT_INPUT_WIDTH_ENABLED: 'gvEditInputWidthEnabled',
   SIDEBAR_WIDTH: 'geminiSidebarWidth',
@@ -76,7 +87,13 @@ export const StorageKeys = {
   // Global settings
   LANGUAGE: 'language',
   FORMULA_COPY_FORMAT: 'gvFormulaCopyFormat',
+  // Legacy single-toggle key. Kept for migration: when neither
+  // WATERMARK_DOWNLOAD_ENABLED nor WATERMARK_PREVIEW_ENABLED is present, this
+  // value (defaulting to true) is used to derive both flags so existing users
+  // keep their behavior. New writes go to the two split keys below.
   WATERMARK_REMOVER_ENABLED: 'geminiWatermarkRemoverEnabled',
+  WATERMARK_DOWNLOAD_ENABLED: 'gvWatermarkDownloadEnabled',
+  WATERMARK_PREVIEW_ENABLED: 'gvWatermarkPreviewEnabled',
   HIDE_PROMPT_MANAGER: 'gvHidePromptManager',
   TAB_TITLE_UPDATE_ENABLED: 'gvTabTitleUpdateEnabled',
   MERMAID_ENABLED: 'gvMermaidEnabled',
@@ -84,6 +101,7 @@ export const StorageKeys = {
 
   // Input behavior
   CTRL_ENTER_SEND: 'gvCtrlEnterSend',
+  AISTUDIO_ENTER_SEND: 'gvAIStudioEnterSend',
   SAFARI_ENTER_FIX: 'gvSafariEnterFix',
   INPUT_COLLAPSE_ENABLED: 'gvInputCollapseEnabled',
   INPUT_COLLAPSE_WHEN_NOT_EMPTY: 'gvInputCollapseWhenNotEmpty',
@@ -145,6 +163,7 @@ export const StorageKeys = {
 
   // Folder as Project
   FOLDER_PROJECT_ENABLED: 'gvFolderProjectEnabled',
+  FOLDER_PROJECT_PENDING_FOLDER_ID: 'gvFolderProjectPendingFolderId',
 } as const;
 
 export type StorageKey = (typeof StorageKeys)[keyof typeof StorageKeys];

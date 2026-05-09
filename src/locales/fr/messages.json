@@ -399,6 +399,18 @@
     "message": "Grand",
     "description": "Large font size label"
   },
+  "chatLineHeight": {
+    "message": "Interligne du chat",
+    "description": "Chat message line spacing adjustment label"
+  },
+  "chatLineHeightTight": {
+    "message": "Serré",
+    "description": "Tight chat line spacing label"
+  },
+  "chatLineHeightLoose": {
+    "message": "Aéré",
+    "description": "Loose chat line spacing label"
+  },
   "sidebarWidth": {
     "message": "Largeur barre latérale",
     "description": "Sidebar width adjustment label"
@@ -462,6 +474,30 @@
   "folder_cloud_sync": {
     "message": "Synchroniser depuis le cloud",
     "description": "Cloud sync button tooltip"
+  },
+  "folder_manage_in_library": {
+    "message": "Gérer dans la bibliothèque",
+    "description": "Shortcut button shown in AI Studio sidebar to jump to /library for drag-and-drop conversation management"
+  },
+  "aistudio_hide_archived_nudge_title": {
+    "message": "Rangez votre bibliothèque AI Studio",
+    "description": "Onboarding nudge title inviting the user to hide archived conversations from the AI Studio library table"
+  },
+  "aistudio_hide_archived_nudge_body": {
+    "message": "Voyager peut masquer de la bibliothèque les conversations déjà classées dans vos dossiers, pour ne garder que celles non triées.",
+    "description": "Onboarding nudge body explaining the hide-archived feature in AI Studio"
+  },
+  "aistudio_hide_archived_nudge_enable": {
+    "message": "Activer",
+    "description": "Primary button on the AI Studio hide-archived nudge"
+  },
+  "aistudio_hide_archived_nudge_dismiss": {
+    "message": "Pas maintenant",
+    "description": "Dismiss button on the AI Studio hide-archived nudge"
+  },
+  "aistudio_hide_archived_nudge_footnote": {
+    "message": "Concerne uniquement AI Studio — votre préférence Gemini est conservée séparément.",
+    "description": "Footnote on the AI Studio hide-archived nudge noting the setting is scoped per platform"
   },
   "folder_import": {
     "message": "Importer dossiers",
@@ -579,6 +615,14 @@
     "message": "Activer les dossiers",
     "description": "Enable or disable the folder feature"
   },
+  "enableFolderFloatingMode": {
+    "message": "Utiliser un panneau de dossiers flottant",
+    "description": "Popup toggle that renders the folder feature as a floating window instead of injecting into Gemini's sidebar"
+  },
+  "enableFolderFloatingModeHint": {
+    "message": "Affiche les dossiers dans une fenêtre flottante déplaçable au lieu de la barre latérale.",
+    "description": "Helper text under the floating folder mode toggle"
+  },
   "hideArchivedConversations": {
     "message": "Masquer les discussions archivées",
     "description": "Hide conversations that are in folders from the main list"
@@ -602,6 +646,42 @@
   "hideArchivedNudgeFootnote": {
     "message": "Modifiable à tout moment dans la popup de l'extension → Options de dossiers.",
     "description": "Footnote explaining where to toggle the setting later"
+  },
+  "floatingModeNudgeTitle": {
+    "message": "Barre latérale indisponible — ouvrir les dossiers dans une fenêtre flottante ?",
+    "description": "Title of the floating-mode fallback nudge"
+  },
+  "floatingModeNudgeBody": {
+    "message": "Voyager n'a pas trouvé la barre latérale Gemini, sans doute suite à un changement de mise en page. Vous pouvez toujours parcourir vos dossiers dans une fenêtre flottante.",
+    "description": "Body copy of the floating-mode fallback nudge"
+  },
+  "floatingModeNudgeEnable": {
+    "message": "Ouvrir la fenêtre flottante",
+    "description": "Primary button that opens the floating folder panel"
+  },
+  "floatingModeNudgeDismiss": {
+    "message": "Plus tard",
+    "description": "Secondary button that dismisses the floating-mode nudge"
+  },
+  "floatingPanelTitle": {
+    "message": "Dossiers",
+    "description": "Title shown in the floating folder panel header"
+  },
+  "floatingPanelClose": {
+    "message": "Fermer",
+    "description": "Aria label for the floating panel close button"
+  },
+  "floatingPanelEmpty": {
+    "message": "Aucun dossier pour le moment.",
+    "description": "Empty state shown when the user has no folders"
+  },
+  "floatingPanelUntitled": {
+    "message": "Sans titre",
+    "description": "Fallback label for conversations with no title"
+  },
+  "floatingFabLabel": {
+    "message": "Ouvrir les dossiers flottants",
+    "description": "Aria label and tooltip for the persistent floating-mode FAB"
   },
   "conversation_star": {
     "message": "Ajouter aux favoris",
@@ -975,6 +1055,14 @@
     "message": "Récupérer",
     "description": "Merge button label"
   },
+  "syncOverwrite": {
+    "message": "Remplacer",
+    "description": "Overwrite download button label"
+  },
+  "syncOverwriteConfirm": {
+    "message": "Remplacer les données locales par la copie du cloud ? Les modifications locales non téléversées seront perdues.",
+    "description": "Confirmation before overwriting local sync data"
+  },
   "syncMode": {
     "message": "Mode",
     "description": "Sync mode label"
@@ -1011,13 +1099,21 @@
     "message": "Options NanoBanana",
     "description": "NanoBanana options section label"
   },
-  "enableNanobananaWatermarkRemover": {
-    "message": "Retirer le filigrane NanoBanana",
-    "description": "Enable automatic watermark removal for NanoBanana images"
+  "nanobananaDownloadLabel": {
+    "message": "Retirer le filigrane au téléchargement",
+    "description": "Toggle: strip the Gemini watermark from images saved via the download button (lightweight, recommended)"
   },
-  "nanobananaWatermarkRemoverHint": {
-    "message": "Retire automatiquement les filigranes visibles de Gemini sur les images",
-    "description": "Watermark remover feature hint"
+  "nanobananaDownloadHint": {
+    "message": "Quand vous cliquez sur le bouton de téléchargement, le fichier enregistré n'a pas de filigrane.",
+    "description": "Hint for the download-time watermark removal toggle"
+  },
+  "nanobananaPreviewLabel": {
+    "message": "Retirer le filigrane dans l'aperçu",
+    "description": "Toggle: also strip the watermark from images shown in the chat (heavier, may flash while processing)"
+  },
+  "nanobananaPreviewHint": {
+    "message": "Traite aussi les images affichées à l'écran. Plus lent ; l'image peut clignoter brièvement pendant le traitement.",
+    "description": "Hint for the preview-time watermark removal toggle"
   },
   "nanobananaDownloadTooltip": {
     "message": "Télécharger l'image sans filigrane (NanoBanana)",
@@ -1118,6 +1214,14 @@
   "ctrlEnterSendHint": {
     "message": "Appuyez sur {modifier}+Entrée pour envoyer, Entrée pour un saut de ligne",
     "description": "Modifier+Enter to send feature hint. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
+  },
+  "aistudioEnterSend": {
+    "message": "Entrée pour envoyer dans AI Studio",
+    "description": "AI Studio Enter to send toggle label. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
+  },
+  "aistudioEnterSendHint": {
+    "message": "Appuyez sur Entrée pour envoyer, {modifier}+Entrée pour un saut de ligne",
+    "description": "AI Studio Enter to send feature hint. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
   },
   "safariEnterFix": {
     "message": "Corriger la touche Entrée sur Safari",
@@ -1304,7 +1408,7 @@
     "description": "Fully hide sidebar toggle label"
   },
   "sidebarFullHideHint": {
-    "message": "Masquer complètement la barre latérale réduite, survoler le bord gauche pour afficher",
+    "message": "Masquer complètement la barre latérale réduite",
     "description": "Fully hide sidebar feature hint"
   },
   "folderSpacing": {
@@ -1462,10 +1566,6 @@
   "changelog_social_xiaohongshu": {
     "message": "Xiaohongshu",
     "description": "Xiaohongshu platform name for social links"
-  },
-  "changelog_social_zhihu": {
-    "message": "Zhihu",
-    "description": "Zhihu platform name for social links"
   },
   "changelog_docs_hint": {
     "message": "Détails dans les docs",
@@ -1682,5 +1782,89 @@
   "canvasExportFailed": {
     "message": "Impossible de copier le contenu du Canvas",
     "description": "Toast affiché si la copie Markdown dans le presse-papiers échoue"
+  },
+  "floatingPanelCreateFolder": {
+    "message": "Créer un dossier",
+    "description": "Floating folder panel create folder action"
+  },
+  "floatingPanelCreateSubfolder": {
+    "message": "Créer un sous-dossier",
+    "description": "Floating folder panel create subfolder action"
+  },
+  "floatingPanelFolderNamePlaceholder": {
+    "message": "Nom du dossier",
+    "description": "Floating folder panel folder name input placeholder"
+  },
+  "floatingPanelRenameFolder": {
+    "message": "Renommer",
+    "description": "Floating folder panel rename folder action"
+  },
+  "floatingPanelDeleteFolder": {
+    "message": "Supprimer",
+    "description": "Floating folder panel delete folder action"
+  },
+  "floatingPanelDeleteConfirm": {
+    "message": "Supprimer ce dossier et tout son contenu ?",
+    "description": "Floating folder panel delete folder confirmation"
+  },
+  "floatingPanelCancel": {
+    "message": "Annuler",
+    "description": "Floating folder panel cancel action"
+  },
+  "floatingPanelSave": {
+    "message": "Enregistrer",
+    "description": "Floating folder panel save action"
+  },
+  "floatingPanelPinFolder": {
+    "message": "Épingler",
+    "description": "Floating folder panel pin folder action"
+  },
+  "floatingPanelUnpinFolder": {
+    "message": "Désépingler",
+    "description": "Floating folder panel unpin folder action"
+  },
+  "floatingPanelRemoveConversation": {
+    "message": "Retirer du dossier",
+    "description": "Floating folder panel remove conversation action"
+  },
+  "floatingPanelStarConversation": {
+    "message": "Mettre en favori",
+    "description": "Floating folder panel star conversation action"
+  },
+  "floatingPanelUnstarConversation": {
+    "message": "Retirer des favoris",
+    "description": "Floating folder panel unstar conversation action"
+  },
+  "floatingPanelColor": {
+    "message": "Couleur",
+    "description": "Floating folder panel color section label"
+  },
+  "floatingPanelExpandFolder": {
+    "message": "Développer",
+    "description": "Floating folder panel expand folder aria label"
+  },
+  "floatingPanelCollapseFolder": {
+    "message": "Réduire",
+    "description": "Floating folder panel collapse folder aria label"
+  },
+  "floatingPanelCloudUpload": {
+    "message": "Téléverser vers le cloud",
+    "description": "Floating folder panel cloud upload button tooltip"
+  },
+  "floatingPanelCloudSync": {
+    "message": "Synchroniser depuis le cloud",
+    "description": "Floating folder panel cloud sync button tooltip"
+  },
+  "floatingPanelMoveHint": {
+    "message": "Pour ajouter une conversation : menu ⋮ de la conversation → « Déplacer vers un dossier ».",
+    "description": "Floating folder panel hint explaining how to add conversations through the native conversation menu"
+  },
+  "floatingPanelGestureHint": {
+    "message": "Double-clic pour renommer · Clic droit : épingler / couleur / supprimer.",
+    "description": "Floating folder panel hint explaining folder gestures and context menu actions"
+  },
+  "folder_new_chat_in_folder": {
+    "message": "Nouvelle conversation dans ce dossier",
+    "description": "Folder context menu item to create a new chat and auto-assign it to this folder"
   }
 }

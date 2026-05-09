@@ -399,6 +399,18 @@
     "message": "كبير",
     "description": "Large font size label"
   },
+  "chatLineHeight": {
+    "message": "تباعد أسطر الدردشة",
+    "description": "Chat message line spacing adjustment label"
+  },
+  "chatLineHeightTight": {
+    "message": "ضيق",
+    "description": "Tight chat line spacing label"
+  },
+  "chatLineHeightLoose": {
+    "message": "واسع",
+    "description": "Loose chat line spacing label"
+  },
   "sidebarWidth": {
     "message": "عرض الشريط الجانبي",
     "description": "Sidebar width adjustment label"
@@ -462,6 +474,30 @@
   "folder_cloud_sync": {
     "message": "مزامنة من السحابة",
     "description": "Cloud sync button tooltip"
+  },
+  "folder_manage_in_library": {
+    "message": "الإدارة في المكتبة",
+    "description": "Shortcut button shown in AI Studio sidebar to jump to /library for drag-and-drop conversation management"
+  },
+  "aistudio_hide_archived_nudge_title": {
+    "message": "رتّب مكتبة AI Studio",
+    "description": "Onboarding nudge title inviting the user to hide archived conversations from the AI Studio library table"
+  },
+  "aistudio_hide_archived_nudge_body": {
+    "message": "يمكن لـ Voyager إخفاء المحادثات المصنّفة في مجلدات من جدول المكتبة، ليبقى فيه فقط ما لم يُصنّف بعد.",
+    "description": "Onboarding nudge body explaining the hide-archived feature in AI Studio"
+  },
+  "aistudio_hide_archived_nudge_enable": {
+    "message": "تفعيل",
+    "description": "Primary button on the AI Studio hide-archived nudge"
+  },
+  "aistudio_hide_archived_nudge_dismiss": {
+    "message": "ليس الآن",
+    "description": "Dismiss button on the AI Studio hide-archived nudge"
+  },
+  "aistudio_hide_archived_nudge_footnote": {
+    "message": "يُطبَّق على AI Studio فقط — تبقى تفضيلاتك في Gemini محفوظة بشكل منفصل.",
+    "description": "Footnote on the AI Studio hide-archived nudge noting the setting is scoped per platform"
   },
   "folder_import": {
     "message": "استيراد المجلدات",
@@ -579,6 +615,14 @@
     "message": "تمكين ميزة المجلد",
     "description": "Enable or disable the folder feature"
   },
+  "enableFolderFloatingMode": {
+    "message": "استخدام لوحة المجلدات العائمة",
+    "description": "Popup toggle that renders the folder feature as a floating window instead of injecting into Gemini's sidebar"
+  },
+  "enableFolderFloatingModeHint": {
+    "message": "عرض المجلدات في نافذة عائمة قابلة للسحب بدلاً من الشريط الجانبي.",
+    "description": "Helper text under the floating folder mode toggle"
+  },
   "hideArchivedConversations": {
     "message": "إخفاء المحادثات المؤرشفة",
     "description": "Hide conversations that are in folders from the main list"
@@ -602,6 +646,42 @@
   "hideArchivedNudgeFootnote": {
     "message": "يمكنك تغيير ذلك في أي وقت من نافذة الإضافة ← خيارات المجلدات.",
     "description": "Footnote explaining where to toggle the setting later"
+  },
+  "floatingModeNudgeTitle": {
+    "message": "الشريط الجانبي غير متاح — هل تريد فتح المجلدات في نافذة عائمة؟",
+    "description": "Title of the floating-mode fallback nudge"
+  },
+  "floatingModeNudgeBody": {
+    "message": "تعذّر على Voyager العثور على الشريط الجانبي في Gemini، ربما بسبب تغيير في تخطيط الصفحة. لا يزال بإمكانك تصفح مجلداتك في نافذة عائمة.",
+    "description": "Body copy of the floating-mode fallback nudge"
+  },
+  "floatingModeNudgeEnable": {
+    "message": "فتح نافذة عائمة",
+    "description": "Primary button that opens the floating folder panel"
+  },
+  "floatingModeNudgeDismiss": {
+    "message": "ليس الآن",
+    "description": "Secondary button that dismisses the floating-mode nudge"
+  },
+  "floatingPanelTitle": {
+    "message": "المجلدات",
+    "description": "Title shown in the floating folder panel header"
+  },
+  "floatingPanelClose": {
+    "message": "إغلاق",
+    "description": "Aria label for the floating panel close button"
+  },
+  "floatingPanelEmpty": {
+    "message": "لا توجد مجلدات بعد.",
+    "description": "Empty state shown when the user has no folders"
+  },
+  "floatingPanelUntitled": {
+    "message": "بدون عنوان",
+    "description": "Fallback label for conversations with no title"
+  },
+  "floatingFabLabel": {
+    "message": "فتح المجلدات العائمة",
+    "description": "Aria label and tooltip for the persistent floating-mode FAB"
   },
   "conversation_star": {
     "message": "تمييز المحادثة بنجمة",
@@ -975,6 +1055,14 @@
     "message": "دمج",
     "description": "Merge button label"
   },
+  "syncOverwrite": {
+    "message": "استبدال",
+    "description": "Overwrite download button label"
+  },
+  "syncOverwriteConfirm": {
+    "message": "هل تريد استبدال البيانات المحلية بنسخة السحابة؟ ستُفقد التغييرات المحلية التي لم يتم رفعها.",
+    "description": "Confirmation before overwriting local sync data"
+  },
   "syncMode": {
     "message": "وضع المزامنة",
     "description": "Sync mode label"
@@ -1011,13 +1099,21 @@
     "message": "خيارات NanoBanana",
     "description": "NanoBanana options section label"
   },
-  "enableNanobananaWatermarkRemover": {
-    "message": "إزالة علامة NanoBanana المائية",
-    "description": "Enable automatic watermark removal for NanoBanana images"
+  "nanobananaDownloadLabel": {
+    "message": "إزالة العلامة المائية عند التنزيل",
+    "description": "Toggle: strip the Gemini watermark from images saved via the download button (lightweight, recommended)"
   },
-  "nanobananaWatermarkRemoverHint": {
-    "message": "يزيل تلقائيًا علامات Gemini المائية المرئية من الصور التي تم إنشاؤها",
-    "description": "Watermark remover feature hint"
+  "nanobananaDownloadHint": {
+    "message": "عند الضغط على زر التنزيل، يتم حفظ الصورة بدون العلامة المائية.",
+    "description": "Hint for the download-time watermark removal toggle"
+  },
+  "nanobananaPreviewLabel": {
+    "message": "إزالة العلامة المائية في المعاينة",
+    "description": "Toggle: also strip the watermark from images shown in the chat (heavier, may flash while processing)"
+  },
+  "nanobananaPreviewHint": {
+    "message": "تتم معالجة الصور المعروضة على الشاشة أيضًا. أبطأ؛ وقد تومض الصورة للحظة أثناء المعالجة.",
+    "description": "Hint for the preview-time watermark removal toggle"
   },
   "nanobananaDownloadTooltip": {
     "message": "تنزيل الصورة بدون علامة مائية (NanoBanana)",
@@ -1118,6 +1214,14 @@
   "ctrlEnterSendHint": {
     "message": "اضغط {modifier}+Enter لإرسال الرسائل، Enter لإضافة سطر جديد",
     "description": "Modifier+Enter to send feature hint. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
+  },
+  "aistudioEnterSend": {
+    "message": "Enter للإرسال في AI Studio",
+    "description": "AI Studio Enter to send toggle label. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
+  },
+  "aistudioEnterSendHint": {
+    "message": "اضغط Enter لإرسال الرسائل، {modifier}+Enter لإضافة سطر جديد",
+    "description": "AI Studio Enter to send feature hint. {modifier} is replaced with ⌘ on macOS and Ctrl on other platforms"
   },
   "safariEnterFix": {
     "message": "إصلاح مفتاح Enter في Safari",
@@ -1304,7 +1408,7 @@
     "description": "Fully hide sidebar toggle label"
   },
   "sidebarFullHideHint": {
-    "message": "إخفاء الشريط الجانبي المطوي بالكامل، مرر الماوس على الحافة اليسرى لإظهاره",
+    "message": "إخفاء الشريط الجانبي المطوي بالكامل",
     "description": "Fully hide sidebar feature hint"
   },
   "folderSpacing": {
@@ -1462,10 +1566,6 @@
   "changelog_social_xiaohongshu": {
     "message": "Xiaohongshu",
     "description": "Xiaohongshu platform name for social links"
-  },
-  "changelog_social_zhihu": {
-    "message": "Zhihu",
-    "description": "Zhihu platform name for social links"
   },
   "changelog_docs_hint": {
     "message": "التفاصيل في المستندات",
@@ -1682,5 +1782,89 @@
   "canvasExportFailed": {
     "message": "فشل نسخ محتوى Canvas",
     "description": "إشعار عند فشل نسخ Markdown إلى الحافظة"
+  },
+  "floatingPanelCreateFolder": {
+    "message": "إنشاء مجلد",
+    "description": "Floating folder panel create folder action"
+  },
+  "floatingPanelCreateSubfolder": {
+    "message": "إنشاء مجلد فرعي",
+    "description": "Floating folder panel create subfolder action"
+  },
+  "floatingPanelFolderNamePlaceholder": {
+    "message": "اسم المجلد",
+    "description": "Floating folder panel folder name input placeholder"
+  },
+  "floatingPanelRenameFolder": {
+    "message": "إعادة التسمية",
+    "description": "Floating folder panel rename folder action"
+  },
+  "floatingPanelDeleteFolder": {
+    "message": "حذف",
+    "description": "Floating folder panel delete folder action"
+  },
+  "floatingPanelDeleteConfirm": {
+    "message": "هل تريد حذف هذا المجلد وكل محتوياته؟",
+    "description": "Floating folder panel delete folder confirmation"
+  },
+  "floatingPanelCancel": {
+    "message": "إلغاء",
+    "description": "Floating folder panel cancel action"
+  },
+  "floatingPanelSave": {
+    "message": "حفظ",
+    "description": "Floating folder panel save action"
+  },
+  "floatingPanelPinFolder": {
+    "message": "تثبيت",
+    "description": "Floating folder panel pin folder action"
+  },
+  "floatingPanelUnpinFolder": {
+    "message": "إلغاء التثبيت",
+    "description": "Floating folder panel unpin folder action"
+  },
+  "floatingPanelRemoveConversation": {
+    "message": "إزالة من المجلد",
+    "description": "Floating folder panel remove conversation action"
+  },
+  "floatingPanelStarConversation": {
+    "message": "تمييز بنجمة",
+    "description": "Floating folder panel star conversation action"
+  },
+  "floatingPanelUnstarConversation": {
+    "message": "إزالة النجمة",
+    "description": "Floating folder panel unstar conversation action"
+  },
+  "floatingPanelColor": {
+    "message": "اللون",
+    "description": "Floating folder panel color section label"
+  },
+  "floatingPanelExpandFolder": {
+    "message": "توسيع",
+    "description": "Floating folder panel expand folder aria label"
+  },
+  "floatingPanelCollapseFolder": {
+    "message": "طي",
+    "description": "Floating folder panel collapse folder aria label"
+  },
+  "floatingPanelCloudUpload": {
+    "message": "رفع إلى السحابة",
+    "description": "Floating folder panel cloud upload button tooltip"
+  },
+  "floatingPanelCloudSync": {
+    "message": "مزامنة من السحابة",
+    "description": "Floating folder panel cloud sync button tooltip"
+  },
+  "floatingPanelMoveHint": {
+    "message": "لإضافة محادثة: افتح قائمة ⋮ للمحادثة ← \"نقل إلى مجلد\".",
+    "description": "Floating folder panel hint explaining how to add conversations through the native conversation menu"
+  },
+  "floatingPanelGestureHint": {
+    "message": "نقر مزدوج لإعادة التسمية · زر الفأرة الأيمن للتثبيت واللون والحذف.",
+    "description": "Floating folder panel hint explaining folder gestures and context menu actions"
+  },
+  "folder_new_chat_in_folder": {
+    "message": "محادثة جديدة في هذا المجلد",
+    "description": "Folder context menu item to create a new chat and auto-assign it to this folder"
   }
 }

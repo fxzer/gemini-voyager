@@ -17,6 +17,7 @@ import {
 } from '@/core/utils/browser';
 import { shouldShowUpdateReminderForCurrentVersion } from '@/core/utils/updateReminder';
 import { compareVersions } from '@/core/utils/version';
+import { resolveWatermarkSettings } from '@/core/utils/watermarkSettings';
 import {
   extractDmgDownloadUrl,
   extractLatestReleaseVersion,
@@ -62,6 +63,7 @@ const POPUP_SECTION_IDS = [
   'folderTreeIndent',
   'chatWidth',
   'chatFontSize',
+  'chatLineHeight',
   'editInputWidth',
   'sidebarWidth',
   'sidebarBehavior',
@@ -265,6 +267,7 @@ const FOLDER_SPACING = { min: 0, max: 16, defaultValue: 2 };
 const FOLDER_TREE_INDENT = { min: -8, max: 32, defaultValue: -8 };
 const CHAT_PERCENT = { min: 30, max: 100, defaultValue: 70, legacyBaselinePx: LEGACY_BASELINE_PX };
 const CHAT_FONT_SIZE = { min: 80, max: 150, defaultValue: 100 };
+const CHAT_LINE_HEIGHT = { min: 120, max: 220, defaultValue: 160 };
 const EDIT_PERCENT = { min: 30, max: 100, defaultValue: 60, legacyBaselinePx: LEGACY_BASELINE_PX };
 const SIDEBAR_PERCENT = {
   min: 15,
@@ -319,9 +322,11 @@ interface SettingsUpdate {
   markerLevelEnabled?: boolean;
   resetPosition?: boolean;
   folderEnabled?: boolean;
+  floatingModeEnabled?: boolean;
   hideArchivedConversations?: boolean;
   customWebsites?: string[];
-  watermarkRemoverEnabled?: boolean;
+  watermarkDownloadEnabled?: boolean;
+  watermarkPreviewEnabled?: boolean;
   hidePromptManager?: boolean;
   promptInsertOnClickEnabled?: boolean;
   inputCollapseEnabled?: boolean;
@@ -331,6 +336,7 @@ interface SettingsUpdate {
   mermaidEnabled?: boolean;
   quoteReplyEnabled?: boolean;
   ctrlEnterSendEnabled?: boolean;
+  aiStudioEnterSendEnabled?: boolean;
   safariEnterFixEnabled?: boolean;
   draftAutoSaveEnabled?: boolean;
   sidebarAutoHideEnabled?: boolean;
@@ -422,6 +428,7 @@ export default function Popup() {
   const [timelinePreviewPinned, setTimelinePreviewPinned] = useState<boolean>(false);
   const [markerLevelEnabled, setMarkerLevelEnabled] = useState<boolean>(false);
   const [folderEnabled, setFolderEnabled] = useState<boolean>(true);
+  const [floatingModeEnabled, setFloatingModeEnabled] = useState<boolean>(false);
   const [hideArchivedConversations, setHideArchivedConversations] = useState<boolean>(false);
   const [customWebsites, setCustomWebsites] = useState<string[]>([]);
   const [newWebsiteInput, setNewWebsiteInput] = useState<string>('');
@@ -433,7 +440,8 @@ export default function Popup() {
   const [extVersion, setExtVersion] = useState<string | null>(null);
   const [latestVersion, setLatestVersion] = useState<string | null>(null);
   const [safariDmgUrl, setSafariDmgUrl] = useState<string | null>(null);
-  const [watermarkRemoverEnabled, setWatermarkRemoverEnabled] = useState<boolean>(true);
+  const [watermarkDownloadEnabled, setWatermarkDownloadEnabled] = useState<boolean>(true);
+  const [watermarkPreviewEnabled, setWatermarkPreviewEnabled] = useState<boolean>(true);
   const [hidePromptManager, setHidePromptManager] = useState<boolean>(false);
   const [promptInsertOnClickEnabled, setPromptInsertOnClickEnabled] = useState<boolean>(false);
   const [inputCollapseEnabled, setInputCollapseEnabled] = useState<boolean>(false);
@@ -445,6 +453,7 @@ export default function Popup() {
   const [quoteReplyEnabled, setQuoteReplyEnabled] = useState<boolean>(true);
   const [folderProjectEnabled, setFolderProjectEnabled] = useState<boolean>(false);
   const [ctrlEnterSendEnabled, setCtrlEnterSendEnabled] = useState<boolean>(false);
+  const [aiStudioEnterSendEnabled, setAiStudioEnterSendEnabled] = useState<boolean>(false);
   const [safariEnterFixEnabled, setSafariEnterFixEnabled] = useState<boolean>(false);
   const [draftAutoSaveEnabled, setDraftAutoSaveEnabled] = useState<boolean>(false);
   const [sidebarAutoHideEnabled, setSidebarAutoHideEnabled] = useState<boolean>(false);
@@ -454,6 +463,7 @@ export default function Popup() {
   const [forkEnabled, setForkEnabled] = useState<boolean>(false);
   const [chatWidthEnabled, setChatWidthEnabled] = useState<boolean>(false);
   const [chatFontSizeEnabled, setChatFontSizeEnabled] = useState<boolean>(false);
+  const [chatLineHeightEnabled, setChatLineHeightEnabled] = useState<boolean>(false);
   const [editInputWidthEnabled, setEditInputWidthEnabled] = useState<boolean>(false);
   const [sidebarWidthEnabled, setSidebarWidthEnabled] = useState<boolean>(false);
   const [accountIsolationEnabledGemini, setAccountIsolationEnabledGemini] =
@@ -468,7 +478,7 @@ export default function Popup() {
   const [sectionOrder, setSectionOrder] = useState<PopupSectionId[]>([...DEFAULT_SECTION_ORDER]);
 
   const isAIStudio = activeAccountPlatform === 'aistudio';
-  const currentIsolationPlatformLabel = isAIStudio ? t('platformAIStudio') : t('platformGemini');
+  const currentPlatformLabel = isAIStudio ? t('platformAIStudio') : t('platformGemini');
 
   useEffect(() => {
     browser.tabs
@@ -522,12 +532,22 @@ export default function Popup() {
         payload.geminiTimelineMarkerLevel = settings.markerLevelEnabled;
       if (typeof settings.folderEnabled === 'boolean')
         payload.geminiFolderEnabled = settings.folderEnabled;
+      if (typeof settings.floatingModeEnabled === 'boolean')
+        payload[StorageKeys.FOLDER_FLOATING_MODE_ENABLED] = settings.floatingModeEnabled;
       if (typeof settings.hideArchivedConversations === 'boolean')
         payload.geminiFolderHideArchivedConversations = settings.hideArchivedConversations;
       if (settings.resetPosition) payload.geminiTimelinePosition = null;
       if (settings.customWebsites) payload.gvPromptCustomWebsites = settings.customWebsites;
-      if (typeof settings.watermarkRemoverEnabled === 'boolean')
-        payload.geminiWatermarkRemoverEnabled = settings.watermarkRemoverEnabled;
+      if (typeof settings.watermarkDownloadEnabled === 'boolean') {
+        payload[StorageKeys.WATERMARK_DOWNLOAD_ENABLED] = settings.watermarkDownloadEnabled;
+        // Clear the legacy single-toggle key once the user touches either new
+        // switch so it can never override the split flags on a future read.
+        payload[StorageKeys.WATERMARK_REMOVER_ENABLED] = null;
+      }
+      if (typeof settings.watermarkPreviewEnabled === 'boolean') {
+        payload[StorageKeys.WATERMARK_PREVIEW_ENABLED] = settings.watermarkPreviewEnabled;
+        payload[StorageKeys.WATERMARK_REMOVER_ENABLED] = null;
+      }
       if (typeof settings.hidePromptManager === 'boolean')
         payload.gvHidePromptManager = settings.hidePromptManager;
       if (typeof settings.promptInsertOnClickEnabled === 'boolean')
@@ -548,6 +568,8 @@ export default function Popup() {
         payload[StorageKeys.FOLDER_PROJECT_ENABLED] = settings.folderProjectEnabled;
       if (typeof settings.ctrlEnterSendEnabled === 'boolean')
         payload.gvCtrlEnterSend = settings.ctrlEnterSendEnabled;
+      if (typeof settings.aiStudioEnterSendEnabled === 'boolean')
+        payload[StorageKeys.AISTUDIO_ENTER_SEND] = settings.aiStudioEnterSendEnabled;
       if (typeof settings.safariEnterFixEnabled === 'boolean')
         payload[StorageKeys.SAFARI_ENTER_FIX] = settings.safariEnterFixEnabled;
       if (typeof settings.draftAutoSaveEnabled === 'boolean')
@@ -649,6 +671,19 @@ export default function Popup() {
       const clamped = clampNumber(value, CHAT_FONT_SIZE.min, CHAT_FONT_SIZE.max);
       try {
         chrome.storage?.sync?.set({ [StorageKeys.CHAT_FONT_SIZE]: clamped });
+      } catch {}
+    }, []),
+  });
+
+  // Line height adjuster for chat messages
+  const chatLineHeightAdjuster = useWidthAdjuster({
+    storageKey: StorageKeys.CHAT_LINE_HEIGHT,
+    defaultValue: CHAT_LINE_HEIGHT.defaultValue,
+    normalize: (v) => clampNumber(v, CHAT_LINE_HEIGHT.min, CHAT_LINE_HEIGHT.max),
+    onApply: useCallback((value: number) => {
+      const clamped = clampNumber(value, CHAT_LINE_HEIGHT.min, CHAT_LINE_HEIGHT.max);
+      try {
+        chrome.storage?.sync?.set({ [StorageKeys.CHAT_LINE_HEIGHT]: clamped });
       } catch {}
     }, []),
   });
@@ -873,10 +908,13 @@ export default function Popup() {
           [StorageKeys.TIMELINE_PREVIEW_PINNED]: false,
           geminiTimelineMarkerLevel: false,
           geminiFolderEnabled: true,
+          [StorageKeys.FOLDER_FLOATING_MODE_ENABLED]: false,
           geminiFolderHideArchivedConversations: false,
           gvPromptCustomWebsites: [],
           gvFormulaCopyFormat: 'latex',
-          geminiWatermarkRemoverEnabled: true,
+          [StorageKeys.WATERMARK_REMOVER_ENABLED]: null,
+          [StorageKeys.WATERMARK_DOWNLOAD_ENABLED]: null,
+          [StorageKeys.WATERMARK_PREVIEW_ENABLED]: null,
           gvHidePromptManager: false,
           [StorageKeys.PROMPT_INSERT_ON_CLICK]: false,
           gvInputCollapseEnabled: false,
@@ -887,6 +925,7 @@ export default function Popup() {
           gvQuoteReplyEnabled: true,
           [StorageKeys.FOLDER_PROJECT_ENABLED]: false,
           gvCtrlEnterSend: false,
+          [StorageKeys.AISTUDIO_ENTER_SEND]: false,
           [StorageKeys.SAFARI_ENTER_FIX]: false,
           [StorageKeys.DRAFT_AUTO_SAVE]: false,
           gvSidebarAutoHide: false,
@@ -900,8 +939,10 @@ export default function Popup() {
           [StorageKeys.GV_ACCOUNT_ISOLATION_ENABLED_AISTUDIO]: null,
           [StorageKeys.GV_AISTUDIO_ENABLED]: true,
           gvChatWidthEnabled: false,
-          gvChatFontSizeEnabled: false,
+          [StorageKeys.CHAT_FONT_SIZE_ENABLED]: false,
           [StorageKeys.CHAT_FONT_SIZE]: CHAT_FONT_SIZE.defaultValue,
+          [StorageKeys.CHAT_LINE_HEIGHT_ENABLED]: false,
+          [StorageKeys.CHAT_LINE_HEIGHT]: CHAT_LINE_HEIGHT.defaultValue,
           gvEditInputWidthEnabled: false,
           gvSidebarWidthEnabled: false,
           geminiChatWidth: CHAT_PERCENT.defaultValue,
@@ -929,12 +970,17 @@ export default function Popup() {
           setTimelinePreviewPinned(res?.[StorageKeys.TIMELINE_PREVIEW_PINNED] === true);
           setMarkerLevelEnabled(!!res?.geminiTimelineMarkerLevel);
           setFolderEnabled(res?.geminiFolderEnabled !== false);
+          setFloatingModeEnabled(res?.[StorageKeys.FOLDER_FLOATING_MODE_ENABLED] === true);
           setHideArchivedConversations(!!res?.geminiFolderHideArchivedConversations);
           const loadedCustomWebsites = Array.isArray(res?.gvPromptCustomWebsites)
             ? res.gvPromptCustomWebsites.filter((w: unknown) => typeof w === 'string')
             : [];
           setCustomWebsites(loadedCustomWebsites);
-          setWatermarkRemoverEnabled(res?.geminiWatermarkRemoverEnabled !== false);
+          {
+            const watermarkSettings = resolveWatermarkSettings(res);
+            setWatermarkDownloadEnabled(watermarkSettings.download);
+            setWatermarkPreviewEnabled(watermarkSettings.preview);
+          }
           setHidePromptManager(!!res?.gvHidePromptManager);
           setPromptInsertOnClickEnabled(res?.[StorageKeys.PROMPT_INSERT_ON_CLICK] === true);
           setInputCollapseEnabled(res?.gvInputCollapseEnabled !== false);
@@ -945,6 +991,7 @@ export default function Popup() {
           setQuoteReplyEnabled(res?.gvQuoteReplyEnabled !== false);
           setFolderProjectEnabled(res?.[StorageKeys.FOLDER_PROJECT_ENABLED] === true);
           setCtrlEnterSendEnabled(res?.gvCtrlEnterSend === true);
+          setAiStudioEnterSendEnabled(res?.[StorageKeys.AISTUDIO_ENTER_SEND] === true);
           setSafariEnterFixEnabled(res?.[StorageKeys.SAFARI_ENTER_FIX] === true);
           setDraftAutoSaveEnabled(res?.[StorageKeys.DRAFT_AUTO_SAVE] === true);
           setSidebarAutoHideEnabled(res?.gvSidebarAutoHide === true);
@@ -973,7 +1020,8 @@ export default function Popup() {
                 typeof res?.geminiChatWidth === 'number' &&
                 res.geminiChatWidth !== CHAT_PERCENT.defaultValue),
           );
-          setChatFontSizeEnabled(res?.gvChatFontSizeEnabled === true);
+          setChatFontSizeEnabled(res?.[StorageKeys.CHAT_FONT_SIZE_ENABLED] === true);
+          setChatLineHeightEnabled(res?.[StorageKeys.CHAT_LINE_HEIGHT_ENABLED] === true);
           setEditInputWidthEnabled(
             res?.gvEditInputWidthEnabled === true ||
               (res?.gvEditInputWidthEnabled === false &&
@@ -1655,6 +1703,34 @@ export default function Popup() {
                   }}
                 />
               </div>
+              <div className="group flex items-center justify-between gap-3">
+                <div className="min-w-0 flex-1">
+                  <Label
+                    htmlFor="floating-mode"
+                    className="group-hover:text-primary flex cursor-pointer items-center gap-1 text-sm font-medium transition-colors"
+                  >
+                    {t('enableFolderFloatingMode')}
+                    <span
+                      className="material-symbols-outlined cursor-help text-[16px] leading-none opacity-50 transition-opacity hover:opacity-100"
+                      title={t('experimentalLabel')}
+                      style={{ fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20" }}
+                    >
+                      experiment
+                    </span>
+                  </Label>
+                  <p className="text-muted-foreground mt-1 text-xs">
+                    {t('enableFolderFloatingModeHint')}
+                  </p>
+                </div>
+                <Switch
+                  id="floating-mode"
+                  checked={floatingModeEnabled}
+                  onChange={(e) => {
+                    setFloatingModeEnabled(e.target.checked);
+                    apply({ floatingModeEnabled: e.target.checked });
+                  }}
+                />
+              </div>
               <div className="group flex items-center justify-between">
                 <Label
                   htmlFor="hide-archived"
@@ -1720,7 +1796,7 @@ export default function Popup() {
                   <div className="mt-1 flex items-center gap-2 text-xs">
                     <span className="text-muted-foreground">{t('currentPlatform')}:</span>
                     <span className="bg-secondary text-foreground rounded px-1.5 py-0.5 font-medium">
-                      {currentIsolationPlatformLabel}
+                      {currentPlatformLabel}
                     </span>
                   </div>
                 </div>
@@ -1872,7 +1948,29 @@ export default function Popup() {
             onToggle={(v) => {
               setChatFontSizeEnabled(v);
               try {
-                chrome.storage?.sync?.set({ gvChatFontSizeEnabled: v });
+                chrome.storage?.sync?.set({ [StorageKeys.CHAT_FONT_SIZE_ENABLED]: v });
+              } catch {}
+            }}
+          />,
+        )}
+        {/* Chat Line Height */}
+        {wrapSection(
+          'chatLineHeight',
+          <WidthSlider
+            label={t('chatLineHeight')}
+            value={chatLineHeightAdjuster.width}
+            min={CHAT_LINE_HEIGHT.min}
+            max={CHAT_LINE_HEIGHT.max}
+            step={5}
+            narrowLabel={t('chatLineHeightTight')}
+            wideLabel={t('chatLineHeightLoose')}
+            onChange={chatLineHeightAdjuster.handleChange}
+            onChangeComplete={chatLineHeightAdjuster.handleChangeComplete}
+            enabled={chatLineHeightEnabled}
+            onToggle={(v) => {
+              setChatLineHeightEnabled(v);
+              try {
+                chrome.storage?.sync?.set({ [StorageKeys.CHAT_LINE_HEIGHT_ENABLED]: v });
               } catch {}
             }}
           />,
@@ -2237,21 +2335,37 @@ export default function Popup() {
               <div className="group flex items-center justify-between">
                 <div className="flex-1">
                   <Label
-                    htmlFor="ctrl-enter-send"
+                    htmlFor={isAIStudio ? 'aistudio-enter-send' : 'ctrl-enter-send'}
                     className="group-hover:text-primary cursor-pointer text-sm font-medium transition-colors"
                   >
-                    {t('ctrlEnterSend').replace('{modifier}', getModifierKey())}
+                    {isAIStudio
+                      ? t('aistudioEnterSend').replace('{modifier}', getModifierKey())
+                      : t('ctrlEnterSend').replace('{modifier}', getModifierKey())}
                   </Label>
                   <p className="text-muted-foreground mt-1 text-xs">
-                    {t('ctrlEnterSendHint').replace('{modifier}', getModifierKey())}
+                    {(isAIStudio ? t('aistudioEnterSendHint') : t('ctrlEnterSendHint')).replace(
+                      '{modifier}',
+                      getModifierKey(),
+                    )}
                   </p>
+                  <div className="mt-1 flex items-center gap-2 text-xs">
+                    <span className="text-muted-foreground">{t('currentPlatform')}:</span>
+                    <span className="bg-secondary text-foreground rounded px-1.5 py-0.5 font-medium">
+                      {currentPlatformLabel}
+                    </span>
+                  </div>
                 </div>
                 <Switch
-                  id="ctrl-enter-send"
-                  checked={ctrlEnterSendEnabled}
+                  id={isAIStudio ? 'aistudio-enter-send' : 'ctrl-enter-send'}
+                  checked={isAIStudio ? aiStudioEnterSendEnabled : ctrlEnterSendEnabled}
                   onChange={(e) => {
-                    setCtrlEnterSendEnabled(e.target.checked);
-                    apply({ ctrlEnterSendEnabled: e.target.checked });
+                    if (isAIStudio) {
+                      setAiStudioEnterSendEnabled(e.target.checked);
+                      apply({ aiStudioEnterSendEnabled: e.target.checked });
+                    } else {
+                      setCtrlEnterSendEnabled(e.target.checked);
+                      apply({ ctrlEnterSendEnabled: e.target.checked });
+                    }
                   }}
                 />
               </div>
@@ -2551,21 +2665,42 @@ export default function Popup() {
                 <div className="group flex items-center justify-between">
                   <div className="flex-1">
                     <Label
-                      htmlFor="watermark-remover"
+                      htmlFor="watermark-download"
                       className="group-hover:text-primary cursor-pointer text-sm font-medium transition-colors"
                     >
-                      {t('enableNanobananaWatermarkRemover')}
+                      {t('nanobananaDownloadLabel')}
                     </Label>
                     <p className="text-muted-foreground mt-1 text-xs">
-                      {t('nanobananaWatermarkRemoverHint')}
+                      {t('nanobananaDownloadHint')}
                     </p>
                   </div>
                   <Switch
-                    id="watermark-remover"
-                    checked={watermarkRemoverEnabled}
+                    id="watermark-download"
+                    checked={watermarkDownloadEnabled}
                     onChange={(e) => {
-                      setWatermarkRemoverEnabled(e.target.checked);
-                      apply({ watermarkRemoverEnabled: e.target.checked });
+                      setWatermarkDownloadEnabled(e.target.checked);
+                      apply({ watermarkDownloadEnabled: e.target.checked });
+                    }}
+                  />
+                </div>
+                <div className="group flex items-center justify-between">
+                  <div className="flex-1">
+                    <Label
+                      htmlFor="watermark-preview"
+                      className="group-hover:text-primary cursor-pointer text-sm font-medium transition-colors"
+                    >
+                      {t('nanobananaPreviewLabel')}
+                    </Label>
+                    <p className="text-muted-foreground mt-1 text-xs">
+                      {t('nanobananaPreviewHint')}
+                    </p>
+                  </div>
+                  <Switch
+                    id="watermark-preview"
+                    checked={watermarkPreviewEnabled}
+                    onChange={(e) => {
+                      setWatermarkPreviewEnabled(e.target.checked);
+                      apply({ watermarkPreviewEnabled: e.target.checked });
                     }}
                   />
                 </div>
