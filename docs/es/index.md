@@ -7,7 +7,7 @@ hero:
   text: 'Finalmente, está completo.'
   tagline: 'Pensamiento tangible, todo en su lugar.'
   image:
-    src: /logo.png
+    src: /logo.svg
     alt: Logo de Voyager
   actions:
     - theme: brand

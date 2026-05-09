@@ -7,7 +7,7 @@ hero:
   text: 'نظام التشغيل المفقود لـ Gemini.'
   tagline: 'نحن نحب Gemini. أردنا فقط أن يكون مثالياً.'
   image:
-    src: /logo.png
+    src: /logo.svg
     alt: شعار Voyager
   actions:
     - theme: brand

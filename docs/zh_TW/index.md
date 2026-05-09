@@ -7,7 +7,7 @@ hero:
   text: '終於，它完整了。'
   tagline: '思維有形，萬物歸位。'
   image:
-    src: /logo.png
+    src: /logo.svg
     alt: Voyager Logo
   actions:
     - theme: brand

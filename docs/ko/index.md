@@ -7,7 +7,7 @@ hero:
   text: 'Gemini를 위한 완벽한 운영체제.'
   tagline: '우리는 Gemini를 사랑합니다. 단지 그것이 완벽해지기를 원했습니다.'
   image:
-    src: /logo.png
+    src: /logo.svg
     alt: Voyager 로고
   actions:
     - theme: brand

@@ -7,7 +7,7 @@ hero:
   text: 'Недостающая ОС для Gemini.'
   tagline: 'Мы любим Gemini. Мы просто хотели, чтобы он был идеальным.'
   image:
-    src: /logo.png
+    src: /logo.svg
     alt: Логотип Voyager
   actions:
     - theme: brand

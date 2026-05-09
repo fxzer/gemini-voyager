@@ -7,7 +7,7 @@ hero:
   text: 'ついに、完成。'
   tagline: '思考を形に、すべてをあるべき場所へ。'
   image:
-    src: /logo.png
+    src: /logo.svg
     alt: Voyager Logo
   actions:
     - theme: brand

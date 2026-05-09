@@ -7,7 +7,7 @@ hero:
   text: 'O sistema operativo que faltava ao Gemini.'
   tagline: 'Adoramos o Gemini. Só queríamos que fosse perfeito.'
   image:
-    src: /logo.png
+    src: /logo.svg
     alt: Logótipo do Voyager
   actions:
     - theme: brand
